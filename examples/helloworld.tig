@@ -1,6 +1,6 @@
 /* Hello-world with function */
 let 
-    function hello() = print("Hello, World!\n")
+    function hello() = print("Hello, World!")
 in 
     hello() 
 end
