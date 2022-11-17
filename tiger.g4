@@ -1,4 +1,4 @@
-grammar expr;
+grammar tiger;
 
 @header{
 package parser;
