@@ -6,7 +6,7 @@ parser grammar TigerParser;
 
 options { tokenVocab= TigerLexer; }
 
-progam : exp EOF;
+program : exp EOF;
 
 dec 
     : tyDec 
