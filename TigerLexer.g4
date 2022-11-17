@@ -58,11 +58,23 @@ INTLIT : ('0'..'9')+;
 STRINGLIT : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'!'|'#'|'$'|'%'|'&'|'('|')'|'*'|'+'|','|'-'|'.'|'/'|':'|';'|'<'|'='|'>'|'?'|'@'|'['|']'|'^'|'_'|'`'|'{'|'|'|'}'|'~')* '"';
 COMMENT : '/*' .*? '*/' -> skip;
 
+//fonction
+
+PRINT: 'print';
+FLUSH: 'flush';
+GETCHAR: 'getchar';
+ORD: 'ord';
+CHR: 'chr';
+SIZE: 'size';
+SUBSTR: 'substr';
+CONCAT: 'concat';
+NOT: 'not';
+EXIT: 'exit';
+
 //types
 
 INT: 'int';
 STRING: 'string';
-        
 
 //espace
 WS : (' '|'\t'|'\r'|'\n') -> skip;
