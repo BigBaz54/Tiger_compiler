@@ -67,16 +67,9 @@ exp2
     | ;
 
 infixOp
-    : TIMES
-    | DIVIDE
-    | PLUS
-    | MINUS
-    | EQ
-    | NEQ
-    | LT
-    | LE
-    | GT
-    | GE
+    : (TIMES | DIVIDE)
+    | (PLUS | MINUS)
+    | (EQ | NEQ | LT | LE | GT | GE)
     | AND
     | OR;
 

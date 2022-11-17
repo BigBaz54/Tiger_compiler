@@ -1,8 +1,5 @@
 lexer grammar TigerLexer;
 
-@header {
-    package parser;
-}
 
 //ponctuation
 
