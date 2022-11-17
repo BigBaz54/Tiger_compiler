@@ -13,30 +13,30 @@ dec
     | varDec 
     | funDec;
 
-tyDec : TYPE TYID EQ ty ;
+tyDec : TYPE ID EQ ty ;
 
 ty 
-    : TYID 
+    : ID 
     | arrTy 
     | recTy;
 
-arrTy : ARRAY OF TYID;
+arrTy : ARRAY OF ID;
 
 recTy : LBRACE (fieldDec (COMMA fieldDec)*)? RBRACE ;
 
-fieldDec : ID COLON TYID ;
+fieldDec : ID COLON ID ;
 
 funDec : FUNCTION ID LPAREN (fieldDec (COMMA fieldDec)*)? RPAREN funDec2;
 
 funDec2 
     : EQ exp
-    | COLON TYID EQ exp;
+    | COLON ID EQ exp;
 
 varDec : VAR ID varDec2;
 
 varDec2 
     : ASSIGN exp
-    | COLON TYID ASSIGN exp;
+    | COLON ID ASSIGN exp;
 
 lValue : ID lValue2;
 
@@ -79,9 +79,9 @@ negation : MINUS exp;
 
 callExp : ID LPAREN (exp (COMMA exp)*)? RPAREN;
 
-arrCreate : TYID LBRACK exp RBRACK OF exp;
+arrCreate : ID LBRACK exp RBRACK OF exp;
 
-recCreate : TYID LBRACE (fieldCreate (COMMA fieldCreate)*)? RBRACE ;
+recCreate : ID LBRACE (fieldCreate (COMMA fieldCreate)*)? RBRACE ;
 
 fieldCreate : ID EQ exp;
 
