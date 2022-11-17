@@ -12,7 +12,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 
 import parser.*;
-import parser.exprParser.ProgramContext;
+import parser.TigerLexer;
+import parser.TigerParser.*;
+import parser.TigerParser.ProgramContext;
 
 public class Main {
 
@@ -29,9 +31,9 @@ public class Main {
 
             //chargement du fichier et construction du parser
             CharStream input = CharStreams.fromFileName(testFile);
-            exprLexer lexer = new exprLexer(input); 
+            TigerLexer lexer = new TigerLexer(input); 
             CommonTokenStream stream = new CommonTokenStream(lexer);
-            exprParser parser = new exprParser(stream);
+            TigerParser parser = new TigerParser(stream);
 
             ProgramContext program = parser.program();
 
