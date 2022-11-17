@@ -1,8 +1,5 @@
 lexer grammar TigerLexer;
 
-@header {
-    package parser;
-}
 
 //ponctuation
 
@@ -57,6 +54,14 @@ TYID: ('A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9')*;
 INTLIT : ('0'..'9')+;
 STRINGLIT : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'!'|'#'|'$'|'%'|'&'|'('|')'|'*'|'+'|','|'-'|'.'|'/'|':'|';'|'<'|'='|'>'|'?'|'@'|'['|']'|'^'|'_'|'`'|'{'|'|'|'}'|'~')* '"';
 COMMENT : '/*' .*? '*/';
+
+//types
+
+INT: 'int';
+STRING: 'string';
+        
+
+//espace
 WS : (' '|'\t'|'\r'|'\n'|COMMENT) -> skip;
 
 
