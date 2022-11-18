@@ -5,10 +5,10 @@ let
   var F: noeud := noeud {nom= "F", filsGauche= nil, filsDroit= nil}
   var G: noeud := noeud {nom= "G", filsGauche= nil, filsDroit= nil}
   var D: noeud := noeud {nom= "D", filsGauche= nil, filsDroit= nil}
-  var E:noeud := noeud {nom= "E", filsGauche= F, filsDroit= G}
-  var B: noeud :=noeud {nom= "B", filsGauche= C, filsDroit= D}
-  var C: noeud :=noeud {nom= "C", filsGauche= nil, filsDroit= nil}
-  var A: noeud := noeud {nom = "A", filsGauche = B, filsDroit = E}
+  var C: noeud := noeud {nom= "C", filsGauche= nil, filsDroit= nil}
+  var B: noeud := noeud {nom= "B", filsGauche= C, filsDroit= D}
+  var E: noeud := noeud {nom= "E", filsGauche= F, filsDroit= G}
+  var A: noeud := noeud {nom= "A", filsGauche= B, filsDroit= E}
   var root: arbre := arbre{racine= A}
   in
   end

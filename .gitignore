@@ -3,9 +3,15 @@
 .idea
 .vscode
 .antlr
+.tokens
+.interp
 bin
+src/parser
 
 ./.idea
 ./.vscode
-./bin 
+./bin
+./src/parser
+./.tokens
+./.interp
 ./.antlr
