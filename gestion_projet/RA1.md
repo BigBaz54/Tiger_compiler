@@ -8,11 +8,13 @@ Nous avons supprimé la récursivité à gauche en réécrivant les règles qui 
 En effet ANTLR4 indique lors de la création du parser si la grammaire utilisée est LL(1) et cela nous permet savoir si l’on doit modifier la grammaire sans avoir à faire la preuve formelle. Pour l’instant notre grammaire n’est pas LL(1) à cause du dédoublement d’une règle qui a eu lieu à l’étape de dérécursivation donc nous explorons différentes pistes qui permettraient de régler cette anomalie.
 
 Nous avons créé des exemples de programmes en Tiger répartis en 4 catégories afin de tester notre grammaire aux différentes étapes de sa conception : 
-- les programmes corrects
-- ceux avec des erreurs lexicales
-- ceux avec des erreurs syntaxiques
-- ceux avec des erreurs sémantiques
+- les programmes corrects (un exemple [ici](../examples/good/facto.tig))
+- ceux avec des erreurs lexicales (un exemple [ici](../examples/bad_lex/wrong_id.tig))
+- ceux avec des erreurs syntaxiques (un exemple [ici](../examples/bad_syn/missing_quote.tig))
+- ceux avec des erreurs sémantiques (un exemple [ici](../examples/bad_sem/dict.tig))
+
 Les tests sur les programmes corrects nous ont ainsi permis de corriger notre grammaire, qui ne reconnaissait pas les entiers par exemple.
 
-Notre [lexique]()
-Notre [grammaire]()
+Notre [lexique](../TigerLexer.g4)
+
+Notre [grammaire](../TigerParser.g4)
