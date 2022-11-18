@@ -1,0 +1,8 @@
+let
+	type dict = {key:int, value:string}
+	var d1:dict := dict {key=0, value="zre}
+in
+	d1.value := "zero";
+	d1.key;
+    d1.value
+end

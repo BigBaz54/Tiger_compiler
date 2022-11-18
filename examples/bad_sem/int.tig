@@ -1,5 +1,5 @@
 let
-  var a := "feur"
+  var a := feir
   in
     a
   end
