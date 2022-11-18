@@ -1,0 +1,13 @@
+let 
+    function plusOne(n: int) =
+        let var c := n 
+        in 
+            while c>0 | 2>3
+                do (
+                    print("+1");
+                    c := c-1
+                )
+        end
+in
+    plusOne(7)
+end

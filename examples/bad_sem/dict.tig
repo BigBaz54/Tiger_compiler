@@ -1,0 +1,7 @@
+let
+	type dict = {key:int, value:string}
+	var d1:dict := dict {key=0, value="zreo"}
+in
+	d1.wrongField := "zero";
+	d1.wrongField;
+end

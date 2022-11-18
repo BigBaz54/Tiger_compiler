@@ -1,0 +1,6 @@
+let
+    var a:int := 58008
+in
+    a
+end
+

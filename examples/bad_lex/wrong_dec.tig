@@ -1,0 +1,3 @@
+let vare a := 2*3
+in a
+end

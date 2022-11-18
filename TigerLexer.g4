@@ -53,11 +53,11 @@ WHILE: 'while';
 //identificateur
 
 ID: ('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-INTLIT : ('0'..'9')+;
+INTLIT : '0'..'9'+;
 STRINGLIT : '"' ('a'..'z'|'A'..'Z'|'0'..'9'|' '|'!'|'#'|'$'|'%'|'&'|'('|')'|'*'|'+'|','|'-'|'.'|'/'|':'|';'|'<'|'='|'>'|'?'|'@'|'['|']'|'^'|'_'|'`'|'{'|'|'|'}'|'~')* '"';
 COMMENT : '/*' .*? '*/' -> skip;
 
-//fonction
+//fonction standard library
 
 PRINT: 'print';
 FLUSH: 'flush';
