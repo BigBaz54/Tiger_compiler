@@ -1,0 +1,25 @@
+let 
+    type array_t1 = array of int
+    type dict1 = {name:string, address:string, id: int , age: int}
+    type array_t2 = array of dict1
+    type dict2 = {name : string, dates: array_t1}
+    
+    type array_t3 = array of string
+    
+    var tab1 := array_t1 [10] of 0
+    var tab2  := array_t2 [5] of dict1 {name="onename", address="somewhere", id=0, age=0}
+    var tab3:array_t3 := array_t3 [100] of ""
+    
+    var rec1 := dict1 {name="Kapoios", address="Kapou", id=02432, age=44}
+    var rec2 := dict2 {name="Allos", dates= array_t1 [3] of 1900}  
+in
+    tab1[0] := 1; 
+    tab1[9] := 3;
+    tab2[3].name := "kati";
+    tab2[1].age := 23;
+    tab3[34] := "sfd";
+
+    rec1.name := "sdf";
+    rec2.dates[0] := 2323;
+    rec2.dates[2] := 2323
+end

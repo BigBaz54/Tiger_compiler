@@ -1,0 +1,11 @@
+let
+    function noCalc(n: int):int = (
+        let 
+            var res := (((n+4)*10)/5)-4*4/2
+        in 
+            res
+        end
+    )
+in
+    noCalc(12/(4+2))
+end
