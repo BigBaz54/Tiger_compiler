@@ -22,7 +22,7 @@ Les tests sur les programmes corrects nous ont ainsi permis de corriger notre gr
 
 
 ## MakeFile
-Les commandes "make parser", "make compile" et "make run" permettent une utilisation plus ergonomique (cf. README)
+Les commandes "make parser", "make compile" et "make run" permettent une utilisation plus ergonomique. (cf. README)
 
 ## Lexique et grammaire
 Notre [lexique](../TigerLexer.g4)
