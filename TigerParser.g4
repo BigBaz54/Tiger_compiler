@@ -18,17 +18,15 @@ tyDec : TYPE ID EQ ty ;
 ty 
     : ID 
     | ARRAY OF ID // arrayType
-    | LBRACE (fieldDec (COMMA fieldDec)*)? RBRACE ; // recordType
+    | LBRACE (ID COLON ID (COMMA ID COLON ID)*)? RBRACE ; // recordType
 
-fieldDec : ID COLON ID ;
-
-funDec : FUNCTION ID LPAREN (fieldDec (COMMA fieldDec)*)? RPAREN (EQ exp | COLON ID EQ exp);
+funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN (EQ exp | COLON ID EQ exp);
 
 varDec : VAR ID (ASSIGN exp | COLON ID ASSIGN exp);
 
-lValue : ID (DOT ID | LBRACK exp RBRACK)*;
+lValue : (DOT ID | LBRACK exp RBRACK)+;
 
-exp : (lValue ASSIGN)? orExp;
+exp : (ID lValue? ASSIGN)? orExp;
 
 orExp : andExp (OR andExp)*;
 
@@ -43,10 +41,7 @@ timesExp : exp1 ((TIMES|DIVIDE) exp1)*;
 exp1 
     : seqExp   
     | negation
-    | lValue  
-    | callExp  
-    | arrCreate  
-    | recCreate  
+    | idExp
     | ifThenElse  
     | whileExp  
     | forExp  
@@ -60,13 +55,15 @@ seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;
 
 negation : MINUS exp1;
 
-callExp : ID LPAREN (exp (COMMA exp)*)? RPAREN;
+idExp 
+    : ID (
+        LPAREN (exp (COMMA exp)*)? RPAREN // callExp
+        | LBRACK exp RBRACK (OF exp1 |(LBRACK exp RBRACK|DOT ID)*) //arrayCreate + Lvalue begin []
+        | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE // reccordCreate
+        | DOT ID (DOT ID | LBRACK exp RBRACK)* // LValue begin .id
+)?;
 
-arrCreate : ID LBRACK exp RBRACK OF exp;
 
-recCreate : ID LBRACE (fieldCreate (COMMA fieldCreate)*)? RBRACE ;
-
-fieldCreate : ID EQ exp;
 
 ifThenElse : IF exp THEN exp (ELSE exp)? ;
 
@@ -76,6 +73,8 @@ forExp : FOR ID ASSIGN exp TO exp DO exp;
 
 letExp : LET declaration+ IN (exp (SEMI exp)*)? END;
 
+
+/*
 print : PRINT LPAREN (STRINGLIT|callExp) RPAREN SEMI;
 
 flush : FLUSH LPAREN RPAREN SEMI;
