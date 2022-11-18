@@ -3,11 +3,22 @@
 .idea
 .vscode
 .antlr
+.tokens
+.interp
 bin
+src/parser
 
 ./.idea
 ./.vscode
+<<<<<<< HEAD
 ./bin 
 ./.antlr
 ./src/parser
 
+=======
+./bin
+./src/parser
+./.tokens
+./.interp
+./.antlr
+>>>>>>> fd8b98041cd76f08edf01cd8ed627e12b63a6eb4
