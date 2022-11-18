@@ -2,4 +2,5 @@ let
     var a := 5*2+3 
     var b := 5*(2+3) 
 in
+    c
 end

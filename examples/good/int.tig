@@ -1,6 +1,6 @@
 let
-    var a := 58008
+    var a:int := 58008
 in
-    feur
+    a
 end
 

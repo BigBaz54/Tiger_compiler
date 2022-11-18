@@ -1,0 +1,6 @@
+let var   /* aaaaaaaaaaaaah */ a := "bouh !"   /* aaaaaaaaaaaaah */
+/* aaaaaaaaaaaaah */
+in
+  a
+  end
+  /* aaaaaaaaaaaaah */
