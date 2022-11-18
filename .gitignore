@@ -9,3 +9,5 @@ bin
 ./.vscode
 ./bin 
 ./.antlr
+./src/parser
+
