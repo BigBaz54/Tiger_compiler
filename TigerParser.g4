@@ -28,37 +28,37 @@ varDec : VAR ID (ASSIGN exp | COLON ID ASSIGN exp);
 
 lValue : ID (DOT ID | LBRACK exp RBRACK)*;
 
-exp 
-    : seqExp exp2 
-    | negation exp2 
-    | lValue exp2 
-    | callExp exp2 
-    | arrCreate exp2 
-    | recCreate exp2 
-    | assignment exp2 
-    | ifThenElse exp2 
-    | whileExp exp2 
-    | forExp exp2 
-    | letExp exp2 
-    | NIL exp2 
-    | INTLIT exp2 
-    | STRINGLIT exp2 
-    | BREAK exp2 ; 
+exp : (lValue ASSIGN)? orExp;
 
-exp2 
-    : infixOp exp exp2
-    | ;
+orExp : andExp (OR andExp)*;
 
-infixOp
-    : (TIMES | DIVIDE)
-    | (PLUS | MINUS)
-    | (EQ | NEQ | LT | LE | GT | GE)
-    | AND
-    | OR;
+andExp : compExp (AND compExp)* ;
+
+compExp : plusExp ((EQ|NEQ|GE|GT|LE|LT) plusExp)? ;
+
+plusExp: timesExp ((PLUS|MINUS) timesExp)*;
+
+timesExp : exp1 ((TIMES|DIVIDE) exp1)*;
+
+exp1 
+    : seqExp   
+    | negation
+    | lValue  
+    | callExp  
+    | arrCreate  
+    | recCreate  
+    | ifThenElse  
+    | whileExp  
+    | forExp  
+    | letExp  
+    | NIL  
+    | INTLIT  
+    | STRINGLIT 
+    | BREAK ;
 
 seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;
 
-negation : MINUS exp;
+negation : MINUS exp1;
 
 callExp : ID LPAREN (exp (COMMA exp)*)? RPAREN;
 
@@ -67,8 +67,6 @@ arrCreate : ID LBRACK exp RBRACK OF exp;
 recCreate : ID LBRACE (fieldCreate (COMMA fieldCreate)*)? RBRACE ;
 
 fieldCreate : ID EQ exp;
-
-assignment : lValue ASSIGN exp;
 
 ifThenElse : IF exp THEN exp (ELSE exp)? ;
 
