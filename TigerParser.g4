@@ -8,7 +8,7 @@ options { tokenVocab= TigerLexer; }
 
 program : exp EOF;
 
-dec 
+declaration 
     : tyDec 
     | varDec 
     | funDec;
@@ -17,41 +17,21 @@ tyDec : TYPE ID EQ ty ;
 
 ty 
     : ID 
-    | arrTy 
-    | recTy;
-
-arrTy : ARRAY OF ID;
-
-recTy : LBRACE (fieldDec (COMMA fieldDec)*)? RBRACE ;
+    | ARRAY OF ID // arrayType
+    | LBRACE (fieldDec (COMMA fieldDec)*)? RBRACE ; // recordType
 
 fieldDec : ID COLON ID ;
 
-funDec : FUNCTION ID LPAREN (fieldDec (COMMA fieldDec)*)? RPAREN funDec2;
+funDec : FUNCTION ID LPAREN (fieldDec (COMMA fieldDec)*)? RPAREN (EQ exp | COLON ID EQ exp);
 
-funDec2 
-    : EQ exp
-    | COLON ID EQ exp;
+varDec : VAR ID (ASSIGN exp | COLON ID ASSIGN exp);
 
-varDec : VAR ID varDec2;
-
-varDec2 
-    : ASSIGN exp
-    | COLON ID ASSIGN exp;
-
-lValue : ID lValue2;
-
-lValue2
-    : LBRACK exp RBRACK lValue2
-    | DOT ID lValue2
-    | ;
+lValue : ID (DOT ID | LBRACK exp RBRACK)*;
 
 exp 
-    : lValue exp2 
-    | NIL exp2 
-    | INTLIT exp2 
-    | STRINGLIT exp2 
-    | seqExp exp2 
+    : seqExp exp2 
     | negation exp2 
+    | lValue exp2 
     | callExp exp2 
     | arrCreate exp2 
     | recCreate exp2 
@@ -59,8 +39,11 @@ exp
     | ifThenElse exp2 
     | whileExp exp2 
     | forExp exp2 
-    | BREAK exp2 
-    | letExp exp2 ; 
+    | letExp exp2 
+    | NIL exp2 
+    | INTLIT exp2 
+    | STRINGLIT exp2 
+    | BREAK exp2 ; 
 
 exp2 
     : infixOp exp exp2
@@ -93,7 +76,7 @@ whileExp : WHILE exp DO exp;
 
 forExp : FOR ID ASSIGN exp TO exp DO exp;
 
-letExp : LET dec+ IN (exp (SEMI exp)*)? END;
+letExp : LET declaration+ IN (exp (SEMI exp)*)? END;
 
 print : PRINT LPAREN (STRINGLIT|callExp) RPAREN SEMI;
 
