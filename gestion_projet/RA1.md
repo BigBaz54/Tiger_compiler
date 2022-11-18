@@ -20,6 +20,10 @@ Nous avons créé des exemples de programmes en Tiger répartis en 4 catégories
 
 Les tests sur les programmes corrects nous ont ainsi permis de corriger notre grammaire, qui ne reconnaissait pas correctement les entiers par exemple. Chaque aspect de la grammaire et chaque règle a été utilisée dans les tests : celles qui concernent les opérateurs de calcul et les priorités entre eux ainsi que les opérateurs booléens, celles qui concernent les déclarations de variables, de fonctions, de nouveaux types, de block "for" et "while", celles qui concernent les affectations, les appels de fonctions.
 
+
+## MakeFile
+Les commandes "make parser", "make compile" et "make run" permettent une utilisation plus ergonomique. (cf. README)
+
 ## Lexique et grammaire
 Notre [lexique](../TigerLexer.g4)
 
