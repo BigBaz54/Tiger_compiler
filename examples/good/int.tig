@@ -1,5 +1,5 @@
 let
-    var a := INTLIT
+    var a := 58008
 in
     feur
 end
