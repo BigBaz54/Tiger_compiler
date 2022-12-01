@@ -24,20 +24,20 @@ timesExp : exp1 ((TIMES|DIVIDE) exp1)*;
 
 exp1 
     : seqExp   
-    | negation
     | idExp
-    | ifThenElse  
-    | whileExp  
-    | forExp  
-    | letExp  
-    | NIL  
-    | INTLIT  
-    | STRINGLIT 
-    | BREAK ;
+    | ifThenElse
+    | whileExp
+    | forExp
+    | letExp
+    | NIL
+    | INTLIT
+    | STRINGLIT
+    | BREAK
+    | negation ;
 
 seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;
 
-negation : MINUS exp;
+negation : MINUS exp1;
 
 idExp 
     : ID (
@@ -62,12 +62,12 @@ declaration
     | varDec 
     | funDec;
 
-tyDec : TYPE ID EQ ty ;
+tyDec : TYPE ID EQ
+                (ID
+                | ARRAY OF ID //arrayType
+                | LBRACE (ID (COMMA ID)*)? RBRACE //recordType
+                );
 
-ty 
-    : ID 
-    | ARRAY OF ID // arrayType
-    | LBRACE (ID COLON ID (COMMA ID COLON ID)*)? RBRACE ; // recordType
 
 funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN (EQ exp | COLON ID EQ exp);
 
