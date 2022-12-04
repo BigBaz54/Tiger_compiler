@@ -42,7 +42,7 @@ public class Main {
             JPanel panel = new JPanel();
             TreeViewer viewer = new TreeViewer(Arrays.asList(
                     parser.getRuleNames()),program);
-            viewer.setScale(1); // Scale a little
+            viewer.setScale(.7); // Scale a little
             panel.add(viewer);
             frame.add(panel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

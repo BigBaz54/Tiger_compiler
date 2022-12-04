@@ -8,7 +8,12 @@ options { tokenVocab= TigerLexer; }
 
 program : exp EOF;
 
-lValue : (DOT ID | LBRACK exp RBRACK)+;
+lValue : lValue1+;
+
+lValue1 : 
+    DOT ID                  #LValueDot
+    | LBRACK exp RBRACK     #LValueBrack
+    ;
 
 exp : (ID lValue? ASSIGN)? orExp;
 
@@ -29,11 +34,15 @@ exp1
     | whileExp
     | forExp
     | letExp
-    | NIL
+    | exp1Lit
+    | negation ;
+
+exp1Lit :
+    NIL
     | INTLIT
     | STRINGLIT
     | BREAK
-    | negation ;
+    ;
 
 seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;
 
@@ -42,15 +51,11 @@ negation : MINUS exp1;
 idExp : ID idExp1?;
 
 idExp1 :
-        LPAREN (exp (COMMA exp)*)? RPAREN // callExp
-        | LBRACK exp RBRACK (OF exp1 | (LBRACK exp RBRACK | DOT ID)*) //arrayCreate + Lvalue begin []
-        | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE // reccordCreate
-        | DOT ID (DOT ID | LBRACK exp RBRACK)* // LValue begin .id
-;
-
-// lValue with id only
-
-
+    callExp                                             #IdExp1CallExp // callExp
+    | lValue                                            #IdExp1LValue // Lvalue
+    | LBRACK exp RBRACK OF exp1                         #IdExp1ArrayCreate //arrayCreate
+    | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE     #IdExp1ReccordCreate // reccordCreate
+    ;
 
 ifThenElse : IF exp THEN exp (ELSE exp)? ;
 
@@ -60,48 +65,66 @@ forExp : FOR ID ASSIGN exp TO exp DO exp;
 
 letExp : LET declaration+ IN (exp (SEMI exp)*)? END;
 
-declaration 
-    : tyDec 
+declaration : 
+    tyDec 
     | varDec 
     | funDec;
 
 tyDec : TYPE ID EQ tyDec1;
 
 tyDec1 :
-        ID  #TyDec1Id
-        | ARRAY OF ID   #TyDec1Array   //arrayType
-        | LBRACE (ID COLON ID (COMMA ID COLON ID)*)? RBRACE   #TyDec1Record       //recordType
-        ;
+    ID                                                      #TyDec1Id
+    | ARRAY OF ID                                           #TyDec1Array //arrayType
+    | LBRACE (ID COLON ID (COMMA ID COLON ID)*)? RBRACE     #TyDec1Record //recordType
+    ;
 
-funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN (EQ exp | COLON ID EQ exp);
+funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN funDec1;
 
-varDec : VAR ID (ASSIGN exp | COLON ID ASSIGN exp);
+funDec1 : 
+    EQ exp              #FunDec1NoType
+    | COLON ID EQ exp   #FunDec1Type
+    ;
 
+varDec : VAR ID varDec1;
 
-// functions
+varDec1 :
+    ASSIGN exp              #VarDec1NoType
+    | COLON ID ASSIGN exp   #VarDec1Type
+    ;
 
 callExp : LPAREN (exp (COMMA exp)*)? RPAREN ;
 
+// functions
 
-print : PRINT LPAREN (STRINGLIT|ID callExp) RPAREN SEMI;
+intArg :
+    INTLIT      #IntArgLit
+    | idExp     #IntArgExp
+    ;
+
+stringArg :
+    STRINGLIT   #StringArgLit
+    | idExp     #StringArgExp
+    ;
+
+print : PRINT LPAREN (stringArg) RPAREN SEMI;
 
 flush : FLUSH LPAREN RPAREN SEMI;
 
 getchar : GETCHAR LPAREN RPAREN SEMI;
 
-ord : ORD LPAREN (STRINGLIT|ID callExp) RPAREN SEMI;
+ord : ORD LPAREN (stringArg) RPAREN SEMI;
 
-chr : CHR LPAREN (INTLIT|ID callExp) RPAREN SEMI;
+chr : CHR LPAREN (intArg) RPAREN SEMI;
 
-size : SIZE LPAREN (STRINGLIT|ID callExp) RPAREN SEMI;
+size : SIZE LPAREN (stringArg) RPAREN SEMI;
 
-substring : SUBSTR LPAREN (STRINGLIT|ID callExp) COMMA (INTLIT|callExp) COMMA (INTLIT|callExp) RPAREN SEMI;
+substring : SUBSTR LPAREN (stringArg) COMMA (intArg) COMMA (intArg) RPAREN SEMI;
 
-concat : CONCAT LPAREN (STRINGLIT|ID callExp) COMMA (STRINGLIT|callExp) RPAREN SEMI;
+concat : CONCAT LPAREN (stringArg) COMMA (stringArg) RPAREN SEMI;
 
-not : NOT LPAREN (INTLIT|ID callExp) RPAREN SEMI;
+not : NOT LPAREN (intArg) RPAREN SEMI;
 
-exit : EXIT LPAREN (INTLIT|ID callExp) RPAREN SEMI;
+exit : EXIT LPAREN (intArg) RPAREN SEMI;
 
 
 
