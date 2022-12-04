@@ -65,12 +65,12 @@ declaration
     | varDec 
     | funDec;
 
-tyDec : TYPE ID EQ tyDec1 (SEMI ID EQ);
+tyDec : TYPE ID EQ tyDec1;
 
 tyDec1 :
         ID  #TyDec1Id
         | ARRAY OF ID   #TyDec1Array   //arrayType
-        | LBRACE (ID (COMMA ID)*)? RBRACE   #TyDec1Record       //recordType
+        | LBRACE (ID COLON ID (COMMA ID COLON ID)*)? RBRACE   #TyDec1Record       //recordType
         ;
 
 funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN (EQ exp | COLON ID EQ exp);
