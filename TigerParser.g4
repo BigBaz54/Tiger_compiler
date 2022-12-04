@@ -16,7 +16,7 @@ orExp : andExp (OR andExp)*;
 
 andExp : compExp (AND compExp)* ;
 
-compExp : plusExp ((EQ|NEQ|GE|GT|LE|LT) plusExp)? ;
+compExp : plusExp ((EQ|NEQ|GE|GT|LE|LT) plusExp)?   ;
 
 plusExp: timesExp ((PLUS|MINUS) timesExp)*;
 
@@ -39,13 +39,16 @@ seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;
 
 negation : MINUS exp1;
 
-idExp 
-    : ID (
+idExp : ID idExp1?;
+
+idExp1 :
         LPAREN (exp (COMMA exp)*)? RPAREN // callExp
         | LBRACK exp RBRACK (OF exp1 | (LBRACK exp RBRACK | DOT ID)*) //arrayCreate + Lvalue begin []
         | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE // reccordCreate
         | DOT ID (DOT ID | LBRACK exp RBRACK)* // LValue begin .id
-)?; // lValue with id only
+;
+
+// lValue with id only
 
 
 
@@ -62,12 +65,13 @@ declaration
     | varDec 
     | funDec;
 
-tyDec : TYPE ID EQ
-                (ID
-                | ARRAY OF ID //arrayType
-                | LBRACE (ID (COMMA ID)*)? RBRACE //recordType
-                );
+tyDec : TYPE ID EQ tyDec1 (SEMI ID EQ);
 
+tyDec1 :
+        ID  #TyDec1Id
+        | ARRAY OF ID   #TyDec1Array   //arrayType
+        | LBRACE (ID (COMMA ID)*)? RBRACE   #TyDec1Record       //recordType
+        ;
 
 funDec : FUNCTION ID LPAREN (ID COLON ID (COMMA ID COLON ID)*)? RPAREN (EQ exp | COLON ID EQ exp);
 
