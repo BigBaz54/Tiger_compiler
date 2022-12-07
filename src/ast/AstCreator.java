@@ -66,6 +66,16 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return noeudTemporaire;
     }
 
+    public Ast visitCompExp(TigerParser.CompExpContext ctx) {
+        int childCount = ctx.getChildCount();
+        Ast plusExp = ctx.getChild(0).accept(this);
+        CompExp compExp = new CompExp(plusExp);
+        for (int i = 1; i < childCount; i++) {
+            compExp.addplusExp(ctx.getChild(i).accept(this));
+        }
+        return compExp;
+    }
+
 
 
 
