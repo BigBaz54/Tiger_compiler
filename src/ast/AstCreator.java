@@ -33,7 +33,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             case 1 -> {
                 Ast Exp = ctx.getChild(0).accept(this);
                 return new Exp(Exp);
-            }
+            
             case 4 -> {
                 Ast id = ctx.getChild(0).accept(this);
                 Ast lvalue = ctx.getChild(1).accept(this);
@@ -56,6 +56,10 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
+    @Override
+    public Ast visitFlush(TigerParser.FlushContext ctx) {
+        return new Flush();
+    }
     @Override
     public Ast visitGetchar(TigerParser.GetcharContext ctx) {
         return new GetChar();
