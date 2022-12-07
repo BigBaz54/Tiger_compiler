@@ -38,10 +38,10 @@ exp1
     | negation ;
 
 exp1Lit :
-    NIL
-    | INTLIT
-    | STRINGLIT
-    | BREAK
+    NIL           #Nilexp
+    | INTLIT      #IntLitexp
+    | STRINGLIT  #StringLitexp
+    | BREAK      #Breakexp
     ;
 
 seqExp : LPAREN (exp (SEMI exp)*)? RPAREN ;

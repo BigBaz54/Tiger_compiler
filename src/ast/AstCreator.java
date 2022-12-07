@@ -107,6 +107,27 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return ctx.getChild(0).accept(this);
     }
 
+    public Ast visitNilexp(TigerParser.NilexpContext ctx) {
+        String nil = ctx.getChild(0).getText();
+        return new Nill(nil);
+    }
+
+    public Ast visitIntLitexp(TigerParser.IntLitexpContext ctx) {
+        int intLit = Integer.parseInt(ctx.getChild(0).getText());
+        return new IntLit(intLit);
+    }
+
+    public Ast visitStringLitexp(TigerParser.StringLitexpContext ctx) {
+        String stringLit = ctx.getChild(0).getText();
+        return new StringLit(stringLit);
+    }
+
+    public Ast visitBreakexp(TigerParser.BreakexpContext ctx) {
+        String breakk = ctx.getChild(0).getText();
+        return new Break(breakk);
+    }
+
+
 
 
 
