@@ -9,4 +9,10 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast child = ctx.getChild(0).accept(this);
         return new Program(child);
     }
+
+
+    public Ast visitExit(TigerParser.ExitContext ctx) {
+        Ast intArg = ctx.getChild(2).accept(this);
+        return new Exit(intArg);
+    }
 }
