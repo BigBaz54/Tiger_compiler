@@ -11,7 +11,7 @@ public interface AstVisitor<T> {
 
 
 
-
+    public T visit(GetChar getChar);
     public T visit(Ord ord);
     public T visit(Chr chr);
     public T visit(Size size);
