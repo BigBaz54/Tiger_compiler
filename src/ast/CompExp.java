@@ -8,16 +8,19 @@ public class CompExp implements Ast {
         return visitor.visit(this);
     }
 
-    public Ast plusExp;
-    public ArrayList<Ast> plusExp1;
+    public Ast plusExpL;
+    public Ast plusExpR;
 
-    public CompExp(Ast plusExp) {
-        this.plusExp = plusExp;
-        this.plusExp1 = new ArrayList<Ast>();
+    public String op;
+
+    public CompExp(Ast compExp) {
+        this.plusExpL = compExp;
+    }
+    public CompExp(Ast compExp, Ast compExp1, String op) {
+        this.plusExpL = compExp;
+        this.plusExpR = compExp1;
+        this.op = op;
     }
 
-    public void addCompExp(Ast plusExp) {
-        this.plusExp1.add(plusExp);
-    }
 }
 

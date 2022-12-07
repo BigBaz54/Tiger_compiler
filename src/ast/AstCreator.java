@@ -68,19 +68,27 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
     public Ast visitCompExp(TigerParser.CompExpContext ctx) {
         int childCount = ctx.getChildCount();
-        Ast plusExp = ctx.getChild(0).accept(this);
-        CompExp compExp = new CompExp(plusExp);
-        for (int i = 1; i < childCount; i++) {
-            compExp.addCompExp(ctx.getChild(i).accept(this));
+        switch (childCount) {
+            case 1 -> {
+                Ast compExp = ctx.getChild(0).accept(this);
+                return new CompExp(compExp);
+            }
+            case 3 -> {
+                Ast compExp1 = ctx.getChild(0).accept(this);
+                Ast compExp2 = ctx.getChild(2).accept(this);
+                String op = ctx.getChild(1).getText();
+                return new CompExp(compExp1, compExp2, op);
+            }
         }
-        return compExp;
+        return null;
     }
 
     public Ast visitPlusExp(TigerParser.PlusExpContext ctx) {
         Ast noeuTemporaire = ctx.getChild(0).accept(this);
         for(int i=0;2*i<ctx.getChildCount()-1;i++){
             Ast right = ctx.getChild(2*i+1).accept(this);
-            noeuTemporaire = new PlusExp(noeuTemporaire,right);
+            String op = ctx.getChild(2*i).getText();
+            noeuTemporaire = new PlusExp(noeuTemporaire,right,op);
         }
         return noeuTemporaire;
     }
@@ -89,7 +97,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast noeuTemporaire = ctx.getChild(0).accept(this);
         for(int i=0;2*i<ctx.getChildCount()-1;i++){
             Ast right = ctx.getChild(2*i+1).accept(this);
-            noeuTemporaire = new TimesExp(noeuTemporaire,right);
+            String op = ctx.getChild(2*i).getText();
+            noeuTemporaire = new TimesExp(noeuTemporaire,right,op);
         }
         return noeuTemporaire;
     }
@@ -97,6 +106,27 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitExp1(TigerParser.Exp1Context ctx) {
         return ctx.getChild(0).accept(this);
     }
+
+    public Ast visitNilexp(TigerParser.NilexpContext ctx) {
+        String nil = ctx.getChild(0).getText();
+        return new Nill(nil);
+    }
+
+    public Ast visitIntLitexp(TigerParser.IntLitexpContext ctx) {
+        int intLit = Integer.parseInt(ctx.getChild(0).getText());
+        return new IntLit(intLit);
+    }
+
+    public Ast visitStringLitexp(TigerParser.StringLitexpContext ctx) {
+        String stringLit = ctx.getChild(0).getText();
+        return new StringLit(stringLit);
+    }
+
+    public Ast visitBreakexp(TigerParser.BreakexpContext ctx) {
+        String breakk = ctx.getChild(0).getText();
+        return new Break(breakk);
+    }
+
 
 
 
