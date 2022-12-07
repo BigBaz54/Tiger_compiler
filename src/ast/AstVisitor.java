@@ -13,8 +13,10 @@ public interface AstVisitor<T> {
 
 
 
-    
 
+    public T visit(Ord ord);
+    public T visit(Chr chr);
+    public T visit(Size size);
     public T visit(Substring substring);
     public T visit(Concat concat);
     public T visit(Not not);
