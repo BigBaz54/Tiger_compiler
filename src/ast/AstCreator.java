@@ -32,4 +32,12 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast intArg = ctx.getChild(2).accept(this);
         return new Exit(intArg);
     }
+    public Ast visitLValue(TigerParser.LValueContext ctx) {
+        int childCount = ctx.getChildCount();
+        LValue lValue = new LValue();
+        for (int i = 0; i < childCount; i++) {
+            lValue.addlvalue(ctx.getChild(i).accept(this));
+        }
+        return new LValue();
+    }
 }
