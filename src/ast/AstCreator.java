@@ -24,6 +24,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
+    public Ast visitChr(TigerParser.ChrContext ctx) {
+        Ast intArg = ctx.getChild(2).accept(this);
+        return new Chr(intArg);
+    }
+
     public Ast visitSize(TigerParser.SizeContext ctx) {
         Ast stringArg = ctx.getChild(2).accept(this);
         return new Size(stringArg);
@@ -50,5 +55,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitExit(TigerParser.ExitContext ctx) {
         Ast intArg = ctx.getChild(2).accept(this);
         return new Exit(intArg);
+    }
+    public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
+        Ast id = ctx.getChild(1).accept(this);
+        return new LValueDot(id);
     }
 }

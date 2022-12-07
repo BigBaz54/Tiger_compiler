@@ -12,6 +12,7 @@ public interface AstVisitor<T> {
 
 
 
+    public T visit(Chr chr);
     public T visit(Size size);
     public T visit(Substring substring);
     public T visit(Concat concat);
