@@ -16,6 +16,8 @@ public interface AstVisitor<T> {
 
 
 
+    public T visit(Print print);
+    public T visit(Flush flush);
     public T visit(GetChar getChar);
     public T visit(Ord ord);
     public T visit(Chr chr);
