@@ -7,6 +7,7 @@ public interface AstVisitor<T> {
     public T visit(LValueBrack lValueBrack) ;
     public T visit(Exp exp) ;
     public T visit(OrExp orExp) ;
+    public T visit(AndExp andExp) ;
 
 
 
