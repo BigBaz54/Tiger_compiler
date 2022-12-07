@@ -13,5 +13,6 @@ public class TimesExp implements Ast {
     public TimesExp(Ast gauche, Ast droite, String op) {
         this.gauche = gauche;
         this.droite = droite;
+        this.op = op;
     }
 }
