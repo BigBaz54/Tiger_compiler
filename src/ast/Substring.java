@@ -9,6 +9,7 @@ public class Substring implements Ast {
         public Ast stringArg;
         public Ast intArg1;
         public Ast intArg2;
+        public String functName = "substring";
     
         public Substring(Ast stringArg, Ast intArg1, Ast intArg2) {
             this.stringArg = stringArg;

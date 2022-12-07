@@ -6,6 +6,7 @@ public class Flush implements Ast {
         return visitor.visit(this);
     }
 
+    public String functName = "flush";
     public Flush() {
     }
     

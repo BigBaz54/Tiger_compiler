@@ -6,6 +6,7 @@ public class GetChar implements Ast{
         return visitor.visit(this);
     }
 
+    public String functName = "getchar";
     public GetChar() {
     }
     
