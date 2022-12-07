@@ -10,6 +10,7 @@ public interface AstVisitor<T> {
     public T visit(AndExp andExp) ;
     public T visit(CompExp compExp) ;
     public T visit(PlusExp plusExp) ;
+    public T visit(TimesExp timesExp) ;
 
 
 

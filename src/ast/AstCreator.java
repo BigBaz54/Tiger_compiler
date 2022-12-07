@@ -85,6 +85,15 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return noeuTemporaire;
     }
 
+    public Ast visitTimesExp(TigerParser.TimesExpContext ctx) {
+        Ast noeuTemporaire = ctx.getChild(0).accept(this);
+        for(int i=0;2*i<ctx.getChildCount()-1;i++){
+            Ast right = ctx.getChild(2*i+1).accept(this);
+            noeuTemporaire = new TimesExp(noeuTemporaire,right);
+        }
+        return noeuTemporaire;
+    }
+
 
 
 
