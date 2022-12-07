@@ -151,6 +151,16 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
     @Override
+    public Ast visitCallExp(TigerParser.CallExpContext ctx) {
+        int n = ctx.getChildCount();
+        CallExp callExp = new CallExp();
+        for (int i = 0; 2*i < n-2; i++) {
+            callExp.addexp(ctx.getChild(2*i+1).accept(this));
+        }
+        return callExp;
+        
+    }
+    @Override
     public Ast visitIntArgLit(TigerParser.IntArgLitContext ctx) {
         return new IntLit(Integer.parseInt(ctx.getChild(0).toString()));
     }
