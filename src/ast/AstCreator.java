@@ -57,6 +57,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
     @Override
+    public Ast visitPrint(TigerParser.PrintContext ctx) {
+        Ast stringArg = ctx.getChild(2).accept(this);
+        return new Print(stringArg);
+    }
+    @Override
     public Ast visitFlush(TigerParser.FlushContext ctx) {
         return new Flush();
     }
