@@ -6,5 +6,10 @@ public class Program implements Ast {
         return visitor.visit(this);
     }
 
+    public Ast child;
+
+    public Program(Ast child) {
+        this.child = child;
+    }
 
 }

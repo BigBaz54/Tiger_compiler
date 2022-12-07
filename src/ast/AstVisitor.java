@@ -1,4 +1,5 @@
 package ast;
 
-public class AstVisitor {
+public interface AstVisitor<T> {
+    public <T> T visit(Program program) ;
 }
