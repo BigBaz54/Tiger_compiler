@@ -94,6 +94,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return noeuTemporaire;
     }
 
+    public Ast visitExp1(TigerParser.Exp1Context ctx) {
+        Ast child = ctx.getChild(0).accept(this);
+        return new Exp1(child);
+    }
+
 
 
 
