@@ -18,7 +18,7 @@ public interface AstVisitor<T> {
 
 
 
-
+ 
     public T visit(Print print);
     public T visit(Flush flush);
     public T visit(GetChar getChar);
