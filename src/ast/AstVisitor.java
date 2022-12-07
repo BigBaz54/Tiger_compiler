@@ -11,7 +11,6 @@ public interface AstVisitor<T> {
     public T visit(CompExp compExp) ;
     public T visit(PlusExp plusExp) ;
     public T visit(TimesExp timesExp) ;
-    public T visit(Exp1 exp1) ;
 
 
 
