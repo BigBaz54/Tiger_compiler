@@ -21,10 +21,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
-    
 
 
 
+    public Ast visitSize(TigerParser.SizeContext ctx) {
+        Ast stringArg = ctx.getChild(2).accept(this);
+        return new Size(stringArg);
+    }
 
     public Ast visitSubstring(TigerParser.SubstringContext ctx) {
         Ast stringArg = ctx.getChild(2).accept(this);
