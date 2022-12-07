@@ -1,9 +1,9 @@
 package ast;
 
 public interface AstVisitor<T> {
-    public <T> T visit(Program program) ;
+    public T visit(Program program) ;
 
 
-
-    public <T> T visit(Exit exit);
+    public T visit(Not not);
+    public T visit(Exit exit);
 }
