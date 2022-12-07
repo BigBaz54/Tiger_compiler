@@ -24,6 +24,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
+    public Ast visitOrd(TigerParser.OrdContext ctx) {
+        Ast stringArg = ctx.getChild(2).accept(this);
+        return new Ord(stringArg);
+    }
+
     public Ast visitChr(TigerParser.ChrContext ctx) {
         Ast intArg = ctx.getChild(2).accept(this);
         return new Chr(intArg);
