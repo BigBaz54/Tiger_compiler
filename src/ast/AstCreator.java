@@ -33,4 +33,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         }
         return new LValue();
     }
+    public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
+        Ast id = ctx.getChild(1).accept(this);
+        return new LValueDot(id);
+    }
 }
