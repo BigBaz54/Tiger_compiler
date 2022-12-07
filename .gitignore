@@ -4,15 +4,4 @@
 .tokens
 .interp
 bin
-src/parser
-
-./.idea
-./.vscode
-./bin
-./src/parser
-./.tokens
-./.interp
-./.antlr
-
-parser/*.tokens
-parser/*.interp
+src/parser/*
