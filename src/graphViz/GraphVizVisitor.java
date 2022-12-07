@@ -52,18 +52,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeIdentifier = this.nextState();
 
-        String instructionsState =program.instructions.accept(this);
+        String instructionsState =program.child.accept(this);
 
         this.addNode(nodeIdentifier, "Program");
         this.addTransition(nodeIdentifier, instructionsState);
 
         return nodeIdentifier;
 
-    }
-
-    @Override
-    public String visit(Program program) {
-        return null;
     }
 
     @Override
@@ -108,6 +103,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(TimesExp timesExp) {
+        return null;
+    }
+
+    @Override
+    public String visit(StringLit str) {
         return null;
     }
 
