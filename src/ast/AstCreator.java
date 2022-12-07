@@ -10,6 +10,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return new Program(child);
     }
 
+    public Ast visitSubstring(TigerParser.SubstringContext ctx) {
+        Ast stringArg = ctx.getChild(2).accept(this);
+        Ast intArg1 = ctx.getChild(4).accept(this);
+        Ast intArg2 = ctx.getChild(6).accept(this);
+        return new Substring(stringArg, intArg1, intArg2);
+    }
+
     public Ast visitConcat(TigerParser.ConcatContext ctx) {
         Ast left = ctx.getChild(2).accept(this);
         Ast right = ctx.getChild(4).accept(this);
