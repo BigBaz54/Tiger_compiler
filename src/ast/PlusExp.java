@@ -8,9 +8,10 @@ public class PlusExp implements Ast {
 
     public Ast gauche;
     public Ast droite;
-
-    public PlusExp(Ast gauche, Ast droite) {
+    public String op;
+    public PlusExp(Ast gauche, Ast droite, String op) {
         this.gauche = gauche;
         this.droite = droite;
+        this.op = op;
     }
 }
