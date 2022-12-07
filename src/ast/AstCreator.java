@@ -17,6 +17,39 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         }
         return new LValue();
     }
+    public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
+        Ast id = ctx.getChild(1).accept(this);
+        return new LValueDot(id);
+    }
+
+    public Ast visitLValueBrack(TigerParser.LValueBrackContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        return new LValueBrack(exp);
+    }
+
+    public Ast visitExp(TigerParser.ExpContext ctx) {
+        int childCount = ctx.getChildCount();
+        switch (childCount) {
+            case 1 -> {
+                Ast Exp = ctx.getChild(0).accept(this);
+                return new Exp(Exp);
+            }
+            case 4 -> {
+                Ast id = ctx.getChild(0).accept(this);
+                Ast lvalue = ctx.getChild(1).accept(this);
+                Ast orExp = ctx.getChild(3).accept(this);
+                return new Exp(id, lvalue, orExp);
+            }
+            case 3 -> {
+                Ast id1 = ctx.getChild(0).accept(this);
+                Ast orExp1 = ctx.getChild(2).accept(this);
+                return new Exp(id1, orExp1);
+            }
+        }
+        return null;
+    }
+
+
 
 
 
@@ -48,8 +81,5 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast intArg = ctx.getChild(2).accept(this);
         return new Exit(intArg);
     }
-    public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Ast id = ctx.getChild(1).accept(this);
-        return new LValueDot(id);
-    }
+
 }
