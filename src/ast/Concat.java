@@ -8,6 +8,7 @@ public class Concat implements Ast{
     
         public Ast left;
         public Ast right;
+        public String funcName = "concat";
     
         public Concat(Ast left, Ast right) {
             this.left = left;

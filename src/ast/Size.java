@@ -8,6 +8,7 @@ public class Size implements Ast{
     }
 
     public Ast stringArg;
+    public String functName = "size";
 
     public Size(Ast stringArg) {
         this.stringArg = stringArg;

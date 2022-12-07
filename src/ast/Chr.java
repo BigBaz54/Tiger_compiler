@@ -7,6 +7,7 @@ public class Chr implements Ast {
     }
 
     public Ast intArg;
+    public String functName = "chr";
 
     public Chr(Ast intArg) {
         this.intArg = intArg;

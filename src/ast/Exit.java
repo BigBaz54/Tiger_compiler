@@ -7,6 +7,7 @@ public class Exit implements Ast{
     }
 
     public Ast intArg;
+    public String functName = "exit";
 
     public Exit(Ast intArg) {
         this.intArg = intArg;

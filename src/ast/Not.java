@@ -7,6 +7,7 @@ public class Not implements Ast{
     }
 
     public Ast intArg;
+    public String functName = "not";
 
     public Not(Ast intArg) {
         this.intArg = intArg;
