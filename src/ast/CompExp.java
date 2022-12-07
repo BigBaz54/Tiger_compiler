@@ -13,12 +13,12 @@ public class CompExp implements Ast {
 
     public String op;
 
-    public CompExp(Ast plusExp) {
-        this.plusExpL = plusExp;
+    public CompExp(Ast compExp) {
+        this.plusExpL = compExp;
     }
-    public CompExp(Ast plusExp, Ast plusExp1, String op) {
-        this.plusExpL = plusExp;
-        this.plusExpR = plusExp1;
+    public CompExp(Ast compExp, Ast compExp1, String op) {
+        this.plusExpL = compExp;
+        this.plusExpR = compExp1;
         this.op = op;
     }
 
