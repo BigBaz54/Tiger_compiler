@@ -106,6 +106,14 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
     @Override
+    public Ast visitStringArgLit(TigerParser.StringArgLitContext ctx) {
+        return new StringLit(ctx.getChild(0).toString());
+    }
+    @Override
+    public Ast visitStringArgExp(TigerParser.StringArgExpContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+    @Override
     public Ast visitPrint(TigerParser.PrintContext ctx) {
         Ast stringArg = ctx.getChild(2).accept(this);
         return new Print(stringArg);
