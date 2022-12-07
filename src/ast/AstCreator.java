@@ -33,7 +33,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             case 1 -> {
                 Ast Exp = ctx.getChild(0).accept(this);
                 return new Exp(Exp);
-            
+            }
             case 4 -> {
                 Ast id = ctx.getChild(0).accept(this);
                 Ast lvalue = ctx.getChild(1).accept(this);
@@ -71,12 +71,19 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast plusExp = ctx.getChild(0).accept(this);
         CompExp compExp = new CompExp(plusExp);
         for (int i = 1; i < childCount; i++) {
-            compExp.addplusExp(ctx.getChild(i).accept(this));
+            compExp.addCompExp(ctx.getChild(i).accept(this));
         }
         return compExp;
     }
 
-
+    public Ast visitPlusExp(TigerParser.PlusExpContext ctx) {
+        Ast noeuTemporaire = ctx.getChild(0).accept(this);
+        for(int i=0;2*i<ctx.getChildCount()-1;i++){
+            Ast right = ctx.getChild(2*i+1).accept(this);
+            noeuTemporaire = new PlusExp(noeuTemporaire,right);
+        }
+        return noeuTemporaire;
+    }
 
 
 

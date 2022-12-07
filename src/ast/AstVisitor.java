@@ -9,6 +9,8 @@ public interface AstVisitor<T> {
     public T visit(OrExp orExp) ;
     public T visit(AndExp andExp) ;
     public T visit(CompExp compExp) ;
+    public T visit(PlusExp plusExp) ;
+
 
 
 

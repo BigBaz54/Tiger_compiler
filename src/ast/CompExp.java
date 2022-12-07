@@ -16,7 +16,7 @@ public class CompExp implements Ast {
         this.plusExp1 = new ArrayList<Ast>();
     }
 
-    public void addplusExp(Ast plusExp) {
+    public void addCompExp(Ast plusExp) {
         this.plusExp1.add(plusExp);
     }
 }
