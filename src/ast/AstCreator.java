@@ -10,6 +10,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     public Ast visitLValue(TigerParser.LValueContext ctx) {
         int childCount = ctx.getChildCount();
+        if (childCount == 1) {
+            return ctx.getChild(0).accept(this);
+        }
         LValue lValue = new LValue();
         for (int i = 0; i < childCount; i++) {
             lValue.addlvalue(ctx.getChild(i).accept(this));
@@ -18,7 +21,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
-        return new LValueDot(id);
+        return id;
     }
 
     public Ast visitLValueBrack(TigerParser.LValueBrackContext ctx) {
