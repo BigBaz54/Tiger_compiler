@@ -49,8 +49,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     public Ast visitOrExp(TigerParser.OrExpContext ctx) {
         Ast noeudTemporaire = ctx.getChild(0).accept(this);
-        for(int i=0;2*i<ctx.getChildCount()-1;i++){
-            Ast right = ctx.getChild(2*i+1).accept(this);
+        for(int i=1;2*i<ctx.getChildCount();i++){
+            Ast right = ctx.getChild(2*i).accept(this);
             noeudTemporaire = new OrExp(noeudTemporaire,right);
         }
         return noeudTemporaire;
@@ -58,8 +58,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
     public Ast visitAndExp(TigerParser.AndExpContext ctx) {
         Ast noeudTemporaire = ctx.getChild(0).accept(this);
-        for(int i=0;2*i<ctx.getChildCount()-1;i++){
-            Ast right = ctx.getChild(2*i+1).accept(this);
+        for(int i=1;2*i<ctx.getChildCount();i++){
+            Ast right = ctx.getChild(2*i).accept(this);
             noeudTemporaire = new AndExp(noeudTemporaire,right);
         }
         return noeudTemporaire;
