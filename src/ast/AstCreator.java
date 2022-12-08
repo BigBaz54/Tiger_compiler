@@ -288,7 +288,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitFunDec1NoType(TigerParser.FunDec1NoTypeContext ctx) {
         Ast exp = ctx.getChild(1).accept(this);
-        return new FunDecNoType(exp);
+        return exp;
     }
     @Override
     public Ast visitFunDec1Type(TigerParser.FunDec1TypeContext ctx) {
