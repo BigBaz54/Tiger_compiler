@@ -162,6 +162,14 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return null;
     }
 
+    public Ast visitIdExp1CallExp(TigerParser.IdExp1CallExpContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
+    public Ast visitIdExp1LValue(TigerParser.IdExp1LValueContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
 
 
 
