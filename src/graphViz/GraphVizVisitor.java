@@ -115,14 +115,14 @@ public class GraphVizVisitor implements AstVisitor<String> {
         } else {
             this.addNode(nodeId, ":=");
             
-            if (exp.lvalue != null) {
-                String lvalueState = exp.lvalue.accept(this);
-                this.addTransition(nodeId, lvalueState);
-            }
-
             if (exp.id != null) {
                 String idState = exp.id.accept(this);
                 this.addTransition(nodeId, idState);
+            }
+
+            if (exp.lvalue != null) {
+                String lvalueState = exp.lvalue.accept(this);
+                this.addTransition(nodeId, lvalueState);
             }
         }
 
