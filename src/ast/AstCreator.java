@@ -131,7 +131,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             return new SeqExp();
         } else {
             Ast exp1 = ctx.getChild(1).accept(this);
-            SeqExp seqExp = new SeqExp(exp1);
+            SeqExp seqExp = new SeqExp();
+            seqExp.addseqExp(exp1);
             for (int i = 2; i < childCount - 1; i++) {
                 Ast exp2 = ctx.getChild(i).accept(this);
                 seqExp.addseqExp(exp2);
@@ -140,8 +141,40 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         }
     }
 
+    public Ast visitNegation(TigerParser.NegationContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        return new Negation(exp);
+    }
 
+    public Ast visitIdExp(TigerParser.IdExpContext ctx) {
+        int childCount = ctx.getChildCount();
+        switch (childCount) {
+            case 1 -> {
+                Ast id =new Id (ctx.getChild(0).accept(this).toString());
+                return new IdExp(id);
+            }
+            case 2 -> {
+                Ast id =new Id (ctx.getChild(0).accept(this).toString());
+                Ast lvalue = ctx.getChild(1).accept(this);
+                return new IdExp(id, lvalue);
+            }
+        }
+        return null;
+    }
 
+    public Ast visitIdExp1CallExp(TigerParser.IdExp1CallExpContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
+    public Ast visitIdExp1LValue(TigerParser.IdExp1LValueContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
+
+    public Ast visitIdExp1ArrayCreate(TigerParser.IdExp1ArrayCreateContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        Ast exp1 = ctx.getChild(4).accept(this);
+        return new IdExp1ArrayCreate(exp,exp1);
+    }
 
 
 
