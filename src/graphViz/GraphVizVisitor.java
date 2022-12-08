@@ -107,8 +107,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId = this.nextState();
 
-        String orExpState = exp.orExp.accept(this);
-        this.addTransition(nodeId, orExpState);
+
 
             this.addNode(nodeId, ":=");
             
