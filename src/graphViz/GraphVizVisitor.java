@@ -109,9 +109,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         if (exp.lvalue == null && exp.id == null) {
             this.addNode(nodeId, "Exp");
-
-            String orExpState = exp.orExp.accept(this);
-            this.addTransition(nodeId, orExpState);
         } else {
             this.addNode(nodeId, ":=");
             
