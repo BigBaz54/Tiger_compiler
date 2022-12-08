@@ -201,6 +201,20 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         }
         return new IfThenElse(cond,exp1);
     }
+    @Override
+    public Ast visitWhileExp(TigerParser.WhileExpContext ctx) {
+        Ast cond = ctx.getChild(1).accept(this);
+        Ast exp = ctx.getChild(3).accept(this);
+        return new While(cond,exp);
+    }
+    @Override
+    public Ast visitForExp(TigerParser.ForExpContext ctx) {
+        Ast id = new Id(ctx.getChild(1).toString());
+        Ast init = ctx.getChild(3).accept(this);
+        Ast cond = ctx.getChild(5).accept(this);
+        Ast body = ctx.getChild(7).accept(this);
+        return new For(id,init,cond,body);
+    }
 
 
     @Override
