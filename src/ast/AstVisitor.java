@@ -27,6 +27,8 @@ public interface AstVisitor<T> {
 
  
 
+    public T visit(TyDecRecord tyDecRecord);
+    public T visit(TyDec tyDec);
     public T visit(FunDec funDec);
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);
