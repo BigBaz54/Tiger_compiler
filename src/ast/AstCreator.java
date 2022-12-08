@@ -128,6 +128,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         int childCount = ctx.getChildCount();
         if (childCount == 2) {
             return new SeqExp();
+        } else if (childCount==3) {
+            return ctx.getChild(1).accept(this);
         } else {
             Ast exp1 = ctx.getChild(1).accept(this);
             SeqExp seqExp = new SeqExp();
@@ -303,7 +305,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitVarDec1NoType(TigerParser.VarDec1NoTypeContext ctx) {
         Ast exp = ctx.getChild(1).accept(this);
-        return new VarDecNoType(exp);
+        return exp;
     }
     @Override
     public Ast visitVarDec1Type(TigerParser.VarDec1TypeContext ctx) {
