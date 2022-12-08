@@ -504,6 +504,21 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
+    public String visit(IdExp1RecordCreate idExp1RecordCreate) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "IdExp1RecordCreate");
+
+        for (Ast ast:idExp1RecordCreate.feur) {
+            String astState = ast.accept(this);
+            this.addTransition(nodeId, astState);
+        }
+        
+        return nodeId;
+    }
+
+    @Override
     public String visit(Exit exit) {
 
         String nodeId= this.nextState();
@@ -512,6 +527,59 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String intArgState = exit.intArg.accept(this);
         this.addTransition(nodeId, intArgState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(FunDecNoType funDecNoType) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "FunDecNoType");
+
+        String expState = funDecNoType.exp.accept(this);
+        this.addTransition(nodeId, expState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(FunDecType funDecType) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "FunDecType");
+
+        String typeState = funDecType.type.accept(this);
+        String rightState = funDecType.right.accept(this);
+
+        this.addTransition(nodeId, typeState);
+        this.addTransition(nodeId, rightState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(FunDec funDec) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "FunDec");
+
+        String idState = funDec.id.accept(this);
+        String rightState = funDec.right.accept(this);
+
+        this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, rightState);
+
+        for (Param param:funDec.params) {
+            String idState1 = param.id.accept(this);
+            String typeState = param.type.accept(this);
+
+            this.addTransition(nodeId, idState1);
+            this.addTransition(nodeId, typeState);
+        }
         
         return nodeId;
     }
