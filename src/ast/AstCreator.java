@@ -108,8 +108,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitNilexp(TigerParser.NilexpContext ctx) {
-        String nil = ctx.getChild(0).getText();
-        return new Nill(nil);
+        return new Nill();
     }
 
     public Ast visitIntLitexp(TigerParser.IntLitexpContext ctx) {
@@ -123,8 +122,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitBreakexp(TigerParser.BreakexpContext ctx) {
-        String breakk = ctx.getChild(0).getText();
-        return new Break(breakk);
+        return new Break();
     }
 
     public Ast visitSeqExp(TigerParser.SeqExpContext ctx) {
