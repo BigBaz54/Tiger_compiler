@@ -24,6 +24,7 @@ public interface AstVisitor<T> {
 
  
 
+    public T visit(FunDec funDec);
     public T visit(VarDec varDec);
     public T visit(VarDecType varDecType);
     public T visit(VarDecNoType varDecNoType);

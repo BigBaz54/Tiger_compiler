@@ -149,6 +149,19 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
     @Override
+    public Ast visitFunDec(TigerParser.FunDecContext ctx) {
+        int n = ctx.getChildCount();
+        Ast id = new Id(ctx.getChild(1).toString());
+        Ast right = ctx.getChild(n-1).accept(this);
+        FunDec funDec = new FunDec(id, right);
+        for (int i = 0; 4*i < n - 2; i++) {
+            Ast paramId = new Id(ctx.getChild(4*i+4).toString());
+            Ast paramType = new Id(ctx.getChild(4*i+6).toString());
+            funDec.addParam(paramId, paramType);
+        }
+        return funDec;
+    }
+    @Override
     public Ast visitVarDec(TigerParser.VarDecContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(2).accept(this);
