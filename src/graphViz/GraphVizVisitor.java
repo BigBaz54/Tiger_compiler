@@ -3,8 +3,6 @@ package graphViz;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.w3c.dom.css.RGBColor;
-
 import ast.*;
 
 public class GraphVizVisitor implements AstVisitor<String> {
@@ -574,6 +572,40 @@ public class GraphVizVisitor implements AstVisitor<String> {
         this.addTransition(nodeId, rightState);
 
         for (Param param:funDec.params) {
+            String idState1 = param.id.accept(this);
+            String typeState = param.type.accept(this);
+
+            this.addTransition(nodeId, idState1);
+            this.addTransition(nodeId, typeState);
+        }
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(TyDec tyDec) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "TyDec");
+
+        String idState = tyDec.id.accept(this);
+        String tyState = tyDec.ty.accept(this);
+
+        this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, tyState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(TyDecRecord tyDecRecord) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "TyDecRecord");
+
+        for (Param param:tyDecRecord.fields) {
             String idState1 = param.id.accept(this);
             String typeState = param.type.accept(this);
 
