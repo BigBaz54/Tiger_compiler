@@ -141,8 +141,26 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         }
     }
 
+    public Ast visitNegation(TigerParser.NegationContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        return new Negation(exp);
+    }
 
-
+    public Ast visitIdExp(TigerParser.IdExpContext ctx) {
+        int childCount = ctx.getChildCount();
+        switch (childCount) {
+            case 1 -> {
+                Ast id = ctx.getChild(0).accept(this);
+                return new IdExp(id);
+            }
+            case 2 -> {
+                Ast id1 = ctx.getChild(0).accept(this);
+                Ast lvalue = ctx.getChild(1).accept(this);
+                return new IdExp(id1, lvalue);
+            }
+        }
+        return null;
+    }
 
 
 
