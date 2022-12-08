@@ -3,8 +3,6 @@ package graphViz;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.w3c.dom.css.RGBColor;
-
 import ast.*;
 
 public class GraphVizVisitor implements AstVisitor<String> {
