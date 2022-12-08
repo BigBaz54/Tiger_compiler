@@ -317,6 +317,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitCallExp(TigerParser.CallExpContext ctx) {
         int n = ctx.getChildCount();
         CallExp callExp = new CallExp();
+        if (n == 3) {
+            return ctx.getChild(1).accept(this);
+        }
         for (int i = 0; 2*i < n-2; i++) {
             callExp.addexp(ctx.getChild(2*i+1).accept(this));
         }
