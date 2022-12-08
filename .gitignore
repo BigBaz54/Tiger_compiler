@@ -3,5 +3,6 @@
 .antlr
 .tokens
 .interp
+out/*.svg
 bin
 src/parser/*
