@@ -170,6 +170,12 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return ctx.getChild(0).accept(this);
     }
 
+    public Ast visitIdExp1ArrayCreate(TigerParser.IdExp1ArrayCreateContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        Ast exp1 = ctx.getChild(4).accept(this);
+        return new IdExp1ArrayCreate(exp,exp1);
+    }
+
 
 
 
