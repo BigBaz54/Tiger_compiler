@@ -176,6 +176,19 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return new IdExp1ArrayCreate(exp,exp1);
     }
 
+    public Ast visitIdExp1ReccordCreate(TigerParser.IdExp1ReccordCreateContext ctx) {
+        int childCount = ctx.getChildCount();
+        if (childCount == 1) {
+            return new IdExp1ReccordCreate();
+        } else {
+            IdExp1ReccordCreate idExp1ReccordCreate = new IdExp1ReccordCreate();
+            for (int i = 3; i < childCount ; i=i+5) {
+                Ast fieldExp = ctx.getChild(i).accept(this);
+                idExp1ReccordCreate.addfeur(fieldExp);
+            }
+            return idExp1ReccordCreate;
+        }
+    }
 
 
 
