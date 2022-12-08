@@ -6,10 +6,9 @@ public class Nill implements Ast {
         return visitor.visit(this);
     }
 
-    public String value;
+    public String name = "nill";
 
-    public Nill(String value) {
-        this.value = value;
+    public Nill() {
     }
 
 }

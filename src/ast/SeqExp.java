@@ -11,11 +11,10 @@ public class SeqExp implements Ast {
     public Ast exp;
     public ArrayList<Ast> seqExp1;
 
-    public SeqExp(Ast exp) {
-        this.exp = exp;
+    public SeqExp() {
         this.seqExp1 = new ArrayList<Ast>();
     }
-    public SeqExp(){}
+    
     public void addseqExp(Ast seqExp1) {
         this.seqExp1.add(seqExp1);
     }

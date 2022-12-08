@@ -108,8 +108,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitNilexp(TigerParser.NilexpContext ctx) {
-        String nil = ctx.getChild(0).getText();
-        return new Nill(nil);
+        return new Nill();
     }
 
     public Ast visitIntLitexp(TigerParser.IntLitexpContext ctx) {
@@ -123,8 +122,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitBreakexp(TigerParser.BreakexpContext ctx) {
-        String breakk = ctx.getChild(0).getText();
-        return new Break(breakk);
+        return new Break();
     }
 
     public Ast visitSeqExp(TigerParser.SeqExpContext ctx) {
@@ -168,6 +166,23 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
+    @Override
+    public Ast visitVarDec(TigerParser.VarDecContext ctx) {
+        Ast id = new Id(ctx.getChild(1).toString());
+        Ast right = ctx.getChild(2).accept(this);
+        return new VarDec(id, right);
+    }
+    @Override
+    public Ast visitVarDec1NoType(TigerParser.VarDec1NoTypeContext ctx) {
+        Ast exp = ctx.getChild(1).accept(this);
+        return new VarDecNoType(exp);
+    }
+    @Override
+    public Ast visitVarDec1Type(TigerParser.VarDec1TypeContext ctx) {
+        Ast type = new Id(ctx.getChild(1).toString());
+        Ast exp = ctx.getChild(3).accept(this);
+        return new VarDecType(type, exp);
+    }
     @Override
     public Ast visitCallExp(TigerParser.CallExpContext ctx) {
         int n = ctx.getChildCount();
