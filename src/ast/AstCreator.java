@@ -112,12 +112,12 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitIntLitexp(TigerParser.IntLitexpContext ctx) {
-        int intLit = Integer.parseInt(ctx.getChild(0).getText());
+        int intLit = Integer.parseInt(ctx.getChild(0).toString());
         return new IntLit(intLit);
     }
 
     public Ast visitStringLitexp(TigerParser.StringLitexpContext ctx) {
-        String stringLit = ctx.getChild(0).getText();
+        String stringLit = ctx.getChild(0).toString();
         return new StringLit(stringLit);
     }
 
@@ -217,12 +217,15 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitTyDec1Record(TigerParser.TyDec1RecordContext ctx) {
         TyDecRecord tyDecRecord = new TyDecRecord();
         int n = ctx.getChildCount();
+        if (n == 2) {
+            return tyDecRecord;
+        }
         for (int i = 0; 3*i < n - 1; i++) {
             Ast id = new Id(ctx.getChild(3*i+1).toString());
             Ast type = new Id(ctx.getChild(3*i+3).toString());
             tyDecRecord.addField(id, type);
         }
-        return new TyDecRecord();
+        return tyDecRecord;
     }
     @Override
     public Ast visitFunDec(TigerParser.FunDecContext ctx) {
