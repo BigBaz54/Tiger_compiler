@@ -194,6 +194,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
 
 
+
+    @Override
+    public Ast visitDeclaration(TigerParser.DeclarationContext ctx) {
+        return ctx.getChild(0).accept(this);
+    }
     @Override
     public Ast visitTyDec(TigerParser.TyDecContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
