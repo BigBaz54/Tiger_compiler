@@ -84,9 +84,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
     public Ast visitPlusExp(TigerParser.PlusExpContext ctx) {
         Ast noeuTemporaire = ctx.getChild(0).accept(this);
-        for(int i=0;2*i<ctx.getChildCount()-1;i++){
-            Ast right = ctx.getChild(2*i+1).accept(this);
-            String op = ctx.getChild(2*i).getText();
+        for(int i=0;2*i+1<ctx.getChildCount();i++){
+            Ast right = ctx.getChild(2*i+2).accept(this);
+            String op = ctx.getChild(2*i+1).getText();
             noeuTemporaire = new PlusExp(noeuTemporaire,right,op);
         }
         return noeuTemporaire;
