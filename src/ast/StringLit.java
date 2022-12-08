@@ -9,7 +9,8 @@ public class StringLit implements Ast {
     public String value;
 
     public StringLit(String value) {
-        this.value = value;
+        String[] temp = value.split("\"");
+        this.value = temp.length < 1 ? "" : temp[1];
     }
 }
 
