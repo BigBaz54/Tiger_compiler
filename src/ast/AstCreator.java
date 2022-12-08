@@ -150,11 +150,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         int childCount = ctx.getChildCount();
         switch (childCount) {
             case 1 -> {
-                Ast id =new Id (ctx.getChild(0).accept(this).toString());
+                Ast id =new Id (ctx.getChild(0).toString());
                 return new IdExp(id);
             }
             case 2 -> {
-                Ast id =new Id (ctx.getChild(0).accept(this).toString());
+                Ast id =new Id (ctx.getChild(0).toString());
                 Ast lvalue = ctx.getChild(1).accept(this);
                 return new IdExp(id, lvalue);
             }
@@ -216,6 +216,25 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return new For(id,init,cond,body);
     }
 
+    @Override
+    public Ast visitLetExp(TigerParser.LetExpContext ctx) {
+        Let let = new Let();
+        int childCount = ctx.getChildCount();
+        int i=1;
+        while(!ctx.getChild(i).toString().equals("in")){
+            Ast dec = ctx.getChild(i).accept(this);
+            let.addDec(dec);
+            i++;
+        }
+        i++;
+        while(i<childCount-1){
+            Ast exp = ctx.getChild(i).accept(this);
+            let.addBody(exp);
+            i++;
+            i++;
+        }
+        return let;
+    }
 
     @Override
     public Ast visitDeclaration(TigerParser.DeclarationContext ctx) {

@@ -20,14 +20,10 @@ public interface AstVisitor<T> {
     public T visit(IdExp idExp) ;
     public T visit(IdExp1ArrayCreate idExp1ArrayCreate) ;
     public T visit(IdExp1RecordCreate idExp1RecordCreate) ;
-
-
-
-
-
-
- 
-
+    public T visit(IfThenElse ifThenElse);
+    public T visit(While while1);
+    public T visit(For for1);
+    public T visit(Let let);
     public T visit(TyDecRecord tyDecRecord);
     public T visit(TyDec tyDec);
     public T visit(FunDec funDec);
