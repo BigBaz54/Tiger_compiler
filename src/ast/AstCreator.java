@@ -34,13 +34,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 return new Exp(Exp);
             }
             case 4 -> {
-                Ast id = ctx.getChild(0).accept(this);
+                Ast id = new Id(ctx.getChild(0).toString());
                 Ast lvalue = ctx.getChild(1).accept(this);
                 Ast orExp = ctx.getChild(3).accept(this);
                 return new Exp(id, lvalue, orExp);
             }
             case 3 -> {
-                Ast id1 = ctx.getChild(0).accept(this);
+                Ast id1 = new Id(ctx.getChild(0).toString());
                 Ast orExp1 = ctx.getChild(2).accept(this);
                 return new Exp(id1, orExp1);
             }
