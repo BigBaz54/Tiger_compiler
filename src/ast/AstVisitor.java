@@ -19,6 +19,7 @@ public interface AstVisitor<T> {
     public T visit(Negation negation) ;
     public T visit(IdExp idExp) ;
     public T visit(IdExp1ArrayCreate idExp1ArrayCreate) ;
+    public T visit(IdExp1ReccordCreate idExp1ReccordCreate) ;
 
 
 
