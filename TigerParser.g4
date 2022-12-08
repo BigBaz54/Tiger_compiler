@@ -54,7 +54,7 @@ idExp1 :
     callExp                                             #IdExp1CallExp // callExp
     | lValue                                            #IdExp1LValue // Lvalue
     | LBRACK exp RBRACK OF exp1                         #IdExp1ArrayCreate //arrayCreate
-    | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE     #IdExp1ReccordCreate // reccordCreate
+    | LBRACE (ID EQ exp (COMMA ID EQ exp)*)? RBRACE     #IdExp1RecordCreate // reccordCreate
     ;
 
 ifThenElse : IF exp THEN exp (ELSE exp)? ;
