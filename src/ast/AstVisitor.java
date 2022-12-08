@@ -1,7 +1,5 @@
 package ast;
 
-import parser.TigerParser.VarDec1NoTypeContext;
-
 public interface AstVisitor<T> {
     public T visit(Program program) ;
     public T visit(LValue lValue) ;

@@ -2,7 +2,6 @@ package ast;
 
 import parser.TigerParser;
 import parser.TigerParserBaseVisitor;
-import parser.TigerParserVisitor;
 
 public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitProgram(TigerParser.ProgramContext ctx) {

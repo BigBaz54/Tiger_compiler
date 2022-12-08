@@ -1,7 +1,5 @@
 package ast;
 
-import java.util.ArrayList;
-
 public class CompExp implements Ast {
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
