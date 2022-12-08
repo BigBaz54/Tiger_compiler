@@ -131,7 +131,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             return new SeqExp();
         } else {
             Ast exp1 = ctx.getChild(1).accept(this);
-            SeqExp seqExp = new SeqExp(exp1);
+            SeqExp seqExp = new SeqExp();
+            seqExp.addseqExp(exp1);
             for (int i = 2; i < childCount - 1; i++) {
                 Ast exp2 = ctx.getChild(i).accept(this);
                 seqExp.addseqExp(exp2);
