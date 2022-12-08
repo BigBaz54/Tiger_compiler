@@ -3,28 +3,20 @@ digraph "ast"{
 	nodesep=1;
 	ranksep=1;
 
-	N2 [label="Let", shape="box"];
-	N3 [label="VarDec", shape="box"];
-	N4 [label="a", shape="box"];
-	N5 [label="VarDecType", shape="box"];
-	N6 [label="int", shape="box"];
-	N8 [label="58008", shape="box"];
-	N7 [label="Exp", shape="box"];
-	N10 [label="IdExp", shape="box"];
-	N11 [label="a", shape="box"];
-	N9 [label="Exp", shape="box"];
-	N1 [label="Exp", shape="box"];
+	N1 [label="Let", shape="box"];
+	N2 [label="VarDec", shape="box"];
+	N3 [label="a", shape="box"];
+	N4 [label="VarDecType", shape="box"];
+	N5 [label="int", shape="box"];
+	N6 [label="58008", shape="box"];
+	N7 [label="a", shape="box"];
 	N0 [label="Program", shape="box"];
 
-	N7 -> N8; 
-	N5 -> N6; 
-	N5 -> N7; 
-	N3 -> N4; 
-	N3 -> N5; 
+	N4 -> N5; 
+	N4 -> N6; 
 	N2 -> N3; 
-	N10 -> N11; 
-	N9 -> N10; 
-	N2 -> N9; 
+	N2 -> N4; 
 	N1 -> N2; 
+	N1 -> N7; 
 	N0 -> N1; 
 }
