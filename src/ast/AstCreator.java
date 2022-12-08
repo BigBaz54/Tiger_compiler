@@ -191,8 +191,16 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
 
-
-
+    @Override
+    public Ast visitIfThenElse(TigerParser.IfThenElseContext ctx) {
+        Ast cond = ctx.getChild(1).accept(this);
+        Ast exp1 = ctx.getChild(3).accept(this);
+        if (ctx.getChildCount() == 6) {
+            Ast exp2 = ctx.getChild(5).accept(this);
+            return new IfThenElse(cond,exp1,exp2);
+        }
+        return new IfThenElse(cond,exp1);
+    }
 
 
     @Override
