@@ -14,10 +14,10 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         for (int i = 0; i < childCount; i++) {
             lValue.addlvalue(ctx.getChild(i).accept(this));
         }
-        return new LValue();
+        return lValue;
     }
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Ast id = ctx.getChild(1).accept(this);
+        Ast id = new Id(ctx.getChild(1).toString());
         return new LValueDot(id);
     }
 
