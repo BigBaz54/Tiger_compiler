@@ -3,6 +3,8 @@ package graphViz;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.w3c.dom.css.RGBColor;
+
 import ast.*;
 
 public class GraphVizVisitor implements AstVisitor<String> {
@@ -350,14 +352,137 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(Exit exit) {
+    public String visit(CallExp callExp) {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, exit.functName);
+        this.addNode(nodeId, "CallExp");
 
-        String intArgState = exit.intArg.accept(this);
-        this.addTransition(nodeId, intArgState);
+        for (Ast ast:callExp.expList) {
+            String astState = ast.accept(this);
+            this.addTransition(nodeId, astState);
+        }
+
+        return nodeId;
+    }
+
+    @Override
+    public String visit(Break caca) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, caca.name);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(Nill nill) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, nill.name);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(SeqExp seqExp) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "SeqExp");
+
+        for (Ast ast:seqExp.seqExp1) {
+            String astState = ast.accept(this);
+            this.addTransition(nodeId, astState);
+        }
+
+        return nodeId;
+    }
+
+    @Override
+    public String visit(Id id) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, id.name);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(VarDecNoType varDecNoType) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "VarDecNoType");
+
+        String expState = varDecNoType.exp.accept(this);
+        this.addTransition(nodeId, expState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(VarDecType varDecType) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "VarDecType");
+
+        String typeState = varDecType.type.accept(this);
+        String expState = varDecType.exp.accept(this);
+
+        this.addTransition(nodeId, typeState);
+        this.addTransition(nodeId, expState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(VarDec varDec) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "VarDec");
+
+        String idState = varDec.id.accept(this);
+        String rightState = varDec.right.accept(this);
+
+        this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, rightState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(IdExp idExp) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "IdExp");
+
+        String idState = idExp.id.accept(this);
+        this.addTransition(nodeId, idState);
+
+        if (idExp.exp != null) {
+            String expState = idExp.exp.accept(this);
+            this.addTransition(nodeId, expState);
+        }
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(Negation negation) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "NOT");
+
+        String expState = negation.exp.accept(this);
+        this.addTransition(nodeId, expState);
         
         return nodeId;
     }
