@@ -486,4 +486,33 @@ public class GraphVizVisitor implements AstVisitor<String> {
         
         return nodeId;
     }
+
+    @Override
+    public String visit(IdExp1ArrayCreate idExp1ArrayCreate) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "IdExp1ArrayCreate");
+
+        String expState = idExp1ArrayCreate.exp.accept(this);
+        String exp1State = idExp1ArrayCreate.exp1.accept(this);
+
+        this.addTransition(nodeId, expState);
+        this.addTransition(nodeId, exp1State);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(Exit exit) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, exit.functName);
+
+        String intArgState = exit.intArg.accept(this);
+        this.addTransition(nodeId, intArgState);
+        
+        return nodeId;
+    }
 }
