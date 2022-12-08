@@ -16,6 +16,10 @@ import parser.TigerLexer;
 import parser.TigerParser.*;
 import parser.TigerParser.ProgramContext;
 
+import ast.*;
+import graphViz.GraphVizVisitor;
+
+
 public class Main {
 
     public static void main(String[] args){
@@ -38,18 +42,26 @@ public class Main {
             ProgramContext program = parser.program();
 
             // code d'affichage de l'arbre syntaxique
-            JFrame frame = new JFrame("Antlr AST");
-            JPanel panel = new JPanel();
-            TreeViewer viewer = new TreeViewer(Arrays.asList(
-                    parser.getRuleNames()),program);
-            viewer.setScale(.7); // Scale a little
-            panel.add(viewer);
-            frame.add(panel);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.pack();
-            frame.setVisible(true);
+            // JFrame frame = new JFrame("Antlr AST");
+            // JPanel panel = new JPanel();
+            // TreeViewer viewer = new TreeViewer(Arrays.asList(
+            //         parser.getRuleNames()),program);
+            // viewer.setScale(.7); // Scale a little
+            // panel.add(viewer);
+            // frame.add(panel);
+            // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // frame.pack();
+            // frame.setVisible(true);
 
+            // Visiteur de création de l'AST + création de l'AST
+            AstCreator creator = new AstCreator();
+            Ast ast = program.accept(creator);
 
+            // Visiteur de représentation graphique + appel
+            GraphVizVisitor graphViz = new GraphVizVisitor();
+            ast.accept(graphViz);
+        
+            graphViz.dumpGraph("./out/tree.dot");
         } 
         catch (IOException e) {
             e.printStackTrace();
