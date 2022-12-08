@@ -177,11 +177,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
     public Ast visitIdExp1RecordCreate(TigerParser.IdExp1RecordCreateContext ctx) {
         int childCount = ctx.getChildCount();
-        if (childCount == 1) {
+        if (childCount == 2) {
             return new IdExp1RecordCreate();
         } else {
             IdExp1RecordCreate idExp1RecordCreate = new IdExp1RecordCreate();
-            for (int i = 3; i < childCount ; i=i+5) {
+            for (int i = 3; i < childCount ; i=i+4) {
                 Ast fieldExp = ctx.getChild(i).accept(this);
                 idExp1RecordCreate.addfeur(fieldExp);
             }
