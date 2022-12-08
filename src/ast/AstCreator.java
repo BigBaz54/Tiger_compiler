@@ -263,7 +263,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast type = new Id(ctx.getChild(3).toString());
         tyDecRecord.addField(id, type);
-        for (int i = 1; 4*i+3 < n; i++) {
+        for (int i = 1; 4*i+3 < n - 1; i++) {
             Ast id1 = new Id(ctx.getChild(4*i+1).toString());
             Ast type1 = new Id(ctx.getChild(4*i+3).toString());
             tyDecRecord.addField(id1, type1);
@@ -276,9 +276,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(n-1).accept(this);
         FunDec funDec = new FunDec(id, right);
-        for (int i = 0; 4*i < n - 2; i++) {
-            Ast paramId = new Id(ctx.getChild(4*i+4).toString());
-            Ast paramType = new Id(ctx.getChild(4*i+6).toString());
+        for (int i = 0; 4*i+5 < n - 2; i++) {
+            Ast paramId = new Id(ctx.getChild(4*i+3).toString());
+            Ast paramType = new Id(ctx.getChild(4*i+5).toString());
             funDec.addParam(paramId, paramType);
         }
         return funDec;
