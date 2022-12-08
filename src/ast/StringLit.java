@@ -9,7 +9,7 @@ public class StringLit implements Ast {
     public String value;
 
     public StringLit(String value) {
-        this.value = value;
+        this.value=value.split("\"")[1]; // remove the quotes
     }
     
 }

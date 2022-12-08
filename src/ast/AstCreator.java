@@ -96,7 +96,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast noeuTemporaire = ctx.getChild(0).accept(this);
         for(int i=0;2*i<ctx.getChildCount()-1;i++){
             Ast right = ctx.getChild(2*i+1).accept(this);
-            String op = ctx.getChild(2*i).toString();
+            String op = ctx.getChild(2*i).getText();
             noeuTemporaire = new TimesExp(noeuTemporaire,right,op);
         }
         return noeuTemporaire;
@@ -177,11 +177,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
 
     public Ast visitIdExp1RecordCreate(TigerParser.IdExp1RecordCreateContext ctx) {
         int childCount = ctx.getChildCount();
-        if (childCount == 1) {
+        if (childCount == 2) {
             return new IdExp1RecordCreate();
         } else {
             IdExp1RecordCreate idExp1RecordCreate = new IdExp1RecordCreate();
-            for (int i = 3; i < childCount ; i=i+5) {
+            for (int i = 3; i < childCount ; i=i+4) {
                 Ast fieldExp = ctx.getChild(i).accept(this);
                 idExp1RecordCreate.addfeur(fieldExp);
             }
