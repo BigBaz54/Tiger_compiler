@@ -107,8 +107,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId = this.nextState();
 
-
-
             this.addNode(nodeId, ":=");
             
             if (exp.id != null) {
@@ -120,6 +118,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 String lvalueState = exp.lvalue.accept(this);
                 this.addTransition(nodeId, lvalueState);
             }
+
+            String expState = exp.orExp.accept(this);
+            this.addTransition(nodeId, expState);
         
         return nodeId;
     }
@@ -426,7 +427,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, "VarDecType");
+        this.addNode(nodeId, ":=");
 
         String typeState = varDecType.type.accept(this);
         String expState = varDecType.exp.accept(this);
