@@ -15,7 +15,7 @@ public class Let implements Ast {
         this.body = new ArrayList<Ast>();
     }
     public void addDec(Ast dec) {
-        decs.add(dec);
+        this.decs.add(dec);
     }
     public void addBody(Ast body) {
         this.body.add(body);

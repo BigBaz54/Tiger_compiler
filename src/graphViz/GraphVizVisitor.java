@@ -615,4 +615,88 @@ public class GraphVizVisitor implements AstVisitor<String> {
         
         return nodeId;
     }
+
+    @Override
+    public String visit(Let let) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "Let");
+
+        for (Ast ast:let.decs) {
+            String astState = ast.accept(this);
+            this.addTransition(nodeId, astState);
+        }
+        
+        for (Ast ast:let.body) {
+            String astState = ast.accept(this);
+            this.addTransition(nodeId, astState);
+        }
+
+        return nodeId;
+    }
+
+    @Override
+    public String visit(For for1) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "For");
+
+        String idState = for1.id.accept(this);
+        String initState = for1.init.accept(this);
+        String condState = for1.cond.accept(this);
+        String bodyState = for1.body.accept(this);
+
+        this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, initState);
+        this.addTransition(nodeId, condState);
+        this.addTransition(nodeId, bodyState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(While while1) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "While");
+
+        String condState = while1.cond.accept(this);
+        String bodyState = while1.body.accept(this);
+
+        this.addTransition(nodeId, condState);
+        this.addTransition(nodeId, bodyState);
+        
+        return nodeId;
+    }
+
+    @Override
+    public String visit(IfThenElse ifThenElse) {
+
+        String nodeId= this.nextState();
+
+        if (ifThenElse.elseBlock != null) {
+            this.addNode(nodeId, "IfThenElse");
+
+            String conditionState = ifThenElse.condition.accept(this);
+            String thenBlockState = ifThenElse.thenBlock.accept(this);
+            String elseBlockState = ifThenElse.elseBlock.accept(this);
+
+            this.addTransition(nodeId, conditionState);
+            this.addTransition(nodeId, thenBlockState);
+            this.addTransition(nodeId, elseBlockState);
+        } else {
+            this.addNode(nodeId, "IfThen");
+
+            String conditionState = ifThenElse.condition.accept(this);
+            String thenBlockState = ifThenElse.thenBlock.accept(this);
+
+            this.addTransition(nodeId, conditionState);
+            this.addTransition(nodeId, thenBlockState);
+        }
+
+        return nodeId;
+    }
 }

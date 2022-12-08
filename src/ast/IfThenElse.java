@@ -17,7 +17,6 @@ public class IfThenElse implements Ast {
     public IfThenElse(Ast condition, Ast thenBlock) {
         this.condition = condition;
         this.thenBlock = thenBlock;
-        this.elseBlock = null;
     }
     
 }
