@@ -96,7 +96,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast noeuTemporaire = ctx.getChild(0).accept(this);
         for(int i=0;2*i<ctx.getChildCount()-1;i++){
             Ast right = ctx.getChild(2*i+1).accept(this);
-            String op = ctx.getChild(2*i).getText();
+            String op = ctx.getChild(2*i).toString();
             noeuTemporaire = new TimesExp(noeuTemporaire,right,op);
         }
         return noeuTemporaire;
