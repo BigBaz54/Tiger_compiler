@@ -6,7 +6,7 @@ public class Break implements Ast {
         return visitor.visit(this);
     }
 
-    public String functName = "break";
+    public String name = "break";
 
     public Break() {
     }
