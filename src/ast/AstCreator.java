@@ -149,13 +149,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         int childCount = ctx.getChildCount();
         switch (childCount) {
             case 1 -> {
-                Ast id = ctx.getChild(0).accept(this);
+                Ast id =new Id (ctx.getChild(0).accept(this).toString());
                 return new IdExp(id);
             }
             case 2 -> {
-                Ast id1 = ctx.getChild(0).accept(this);
+                Ast id =new Id (ctx.getChild(0).accept(this).toString());
                 Ast lvalue = ctx.getChild(1).accept(this);
-                return new IdExp(id1, lvalue);
+                return new IdExp(id, lvalue);
             }
         }
         return null;
