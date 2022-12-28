@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import SymboleTable.SymboleTable;
 import ast.*;
+import ast.Record;
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
@@ -589,10 +590,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, "TyDec");
+        this.addNode(nodeId, tyDec.getName());
 
         String idState = tyDec.id.accept(this);
-        String tyState = tyDec.ty.accept(this);
+        String tyState = tyDec.right.accept(this);
 
         this.addTransition(nodeId, idState);
         this.addTransition(nodeId, tyState);
@@ -605,14 +606,16 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, "TyDecRecord");
+        this.addNode(nodeId,tyDecRecord.name);
 
-        for (Param param:tyDecRecord.fields) {
+        for (Record param:tyDecRecord.fields) {
             String idState1 = param.id.accept(this);
             String typeState = param.type.accept(this);
-
-            this.addTransition(nodeId, idState1);
-            this.addTransition(nodeId, typeState);
+            String nodeIdRec = this.nextState();
+            this.addNode(nodeIdRec, "field");
+            this.addTransition(nodeIdRec, idState1);
+            this.addTransition(nodeIdRec, typeState);
+            this.addTransition(nodeId, nodeIdRec);
         }
         
         return nodeId;

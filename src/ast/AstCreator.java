@@ -1,5 +1,7 @@
 package ast;
 
+import org.stringtemplate.v4.compiler.STParser.namedArg_return;
+
 import parser.TigerParser;
 import parser.TigerParserBaseVisitor;
 
@@ -248,7 +250,20 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitTyDec(TigerParser.TyDecContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(3).accept(this);
-        return new TyDec(id, right);
+        String name="";
+        System.out.println(right.getClass().getName());
+        switch (right.getClass().getName()){
+            case "ast.Id" -> {
+                name="Id";
+            }
+            case "ast.TyDecRecord" -> {
+                name="Record";
+            }
+            case "ast.IdExp1ArrayCreate" -> {
+                name="Array";
+            }
+        }
+        return new TyDec(name,id,right);
     }
     @Override
     public Ast visitTyDec1Id(TigerParser.TyDec1IdContext ctx) {
