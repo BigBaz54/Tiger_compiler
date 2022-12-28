@@ -317,11 +317,15 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(n-1).accept(this);
         FunDec funDec = new FunDec(id, right);
+        FieldList fields = new FieldList();
         for (int i = 0; 4*i+5 < n - 2; i++) {
             Ast paramId = new Id(ctx.getChild(4*i+3).toString());
             Ast paramType = new Id(ctx.getChild(4*i+5).toString());
-            funDec.addParam(paramId, paramType);
+            Field field = new Param(paramId, paramType);
+            fields.addField(field);
+            System.out.println("paramId: " + paramId + " paramType: " + paramType);
         }
+        funDec.astList = fields;
         return funDec;
     }
     @Override
