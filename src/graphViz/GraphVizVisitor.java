@@ -574,21 +574,20 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(FieldList fieldList) {
+    public String visit(List l) {
         String nodeId= this.nextState();
 
-        this.addNode(nodeId,fieldList.name);
-        for (Field f:fieldList.fields) {
-            System.out.println("feu");
-            String idState1 = f.value1.accept(this);
-            String typeState = f.value2.accept(this);
+        this.addNode(nodeId,l.name);
+        for (Binary element:l.list) {
+            String idState1 = element.value1.accept(this);
+            String typeState = element.value2.accept(this);
             String nodeIdRec = this.nextState();
-            this.addNode(nodeIdRec, "field");
+            this.addNode(nodeIdRec, element.name);
             this.addTransition(nodeIdRec, idState1);
             this.addTransition(nodeIdRec, typeState);
             this.addTransition(nodeId, nodeIdRec);
         }
-        System.out.println(fieldList.fields);
+        System.out.println(l.list);
         return nodeId;
     }
     

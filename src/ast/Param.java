@@ -1,13 +1,10 @@
 package ast;
 
-public class Param {
-
-    public Ast id;
-    public Ast type;
+public class Param extends Binary{
 
     public Param(Ast id, Ast type) {
-        this.id = id;
-        this.type = type;
+        super(id, type);
+        name = "Param";
     }
     
 }

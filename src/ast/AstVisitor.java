@@ -22,7 +22,7 @@ public interface AstVisitor<T> {
     public T visit(For for1);
     public T visit(Let let);
     public T visit(TyDec tyDec);
-    public T visit(FieldList fields);
+    public T visit(List l);
     public T visit(FunDec funDec);
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);
