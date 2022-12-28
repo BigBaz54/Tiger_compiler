@@ -16,14 +16,13 @@ public interface AstVisitor<T> {
     public T visit(SeqExp seqExp) ;
     public T visit(Negation negation) ;
     public T visit(IdExp idExp) ;
-    public T visit(IdExp1ArrayCreate idExp1ArrayCreate) ;
-    public T visit(IdExp1RecordCreate idExp1RecordCreate) ;
+    public T visit(ArrayCreate ArrayCreate) ;
     public T visit(IfThenElse ifThenElse);
     public T visit(While while1);
     public T visit(For for1);
     public T visit(Let let);
     public T visit(TyDec tyDec);
-    public T visit(Fields fields);
+    public T visit(FieldList fields);
     public T visit(FunDec funDec);
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);

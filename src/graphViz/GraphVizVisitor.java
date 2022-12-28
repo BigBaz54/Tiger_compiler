@@ -4,7 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import SymboleTable.SymboleTable;
 import ast.*;
-import ast.Record;
+import ast.RecordType;
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
@@ -444,11 +444,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeId, ":");
 
-        String typeState = varType.type.accept(this);
         String idState = varType.id.accept(this);
+        String typeState = varType.type.accept(this);
 
-        this.addTransition(nodeId, typeState);
         this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, typeState);
         
         return nodeId;
     }
@@ -458,14 +458,16 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, "IdExp");
+        this.addNode(nodeId, idExp.name);
 
         String idState = idExp.id.accept(this);
         this.addTransition(nodeId, idState);
 
-        if (idExp.exp != null) {
-            String expState = idExp.exp.accept(this);
-            this.addTransition(nodeId, expState);
+        if (idExp.expList != null) {
+            for (Ast exp:idExp.expList) {
+                String expState = exp.accept(this);
+                this.addTransition(nodeId, expState);
+            }
         }
         
         return nodeId;
@@ -485,35 +487,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(IdExp1ArrayCreate idExp1ArrayCreate) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "IdExp1ArrayCreate");
-
-        String expState = idExp1ArrayCreate.exp.accept(this);
-        String exp1State = idExp1ArrayCreate.exp1.accept(this);
-
-        this.addTransition(nodeId, expState);
-        this.addTransition(nodeId, exp1State);
-        
+    public String visit(ArrayCreate ArrayCreate) {
+        // Jamais utilisée
+        String nodeId= this.nextState();        
         return nodeId;
     }
 
-    @Override
-    public String visit(IdExp1RecordCreate idExp1RecordCreate) {
 
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "IdExp1RecordCreate");
-
-        for (Ast ast:idExp1RecordCreate.feur) {
-            String astState = ast.accept(this);
-            this.addTransition(nodeId, astState);
-        }
-        
-        return nodeId;
-    }
 
     @Override
     public String visit(Exit exit) {
@@ -598,15 +578,15 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(Fields fields) {
+    public String visit(FieldList fieldList) {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId,fields.name);
+        this.addNode(nodeId,fieldList.name);
 
-        for (Record param:fields.fields) {
-            String idState1 = param.id.accept(this);
-            String typeState = param.type.accept(this);
+        for (Field f:fieldList.fields) {
+            String idState1 = f.value1.accept(this);
+            String typeState = f.value2.accept(this);
             String nodeIdRec = this.nextState();
             this.addNode(nodeIdRec, "field");
             this.addTransition(nodeIdRec, idState1);

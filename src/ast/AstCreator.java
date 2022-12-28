@@ -162,8 +162,22 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             }
             case 2 -> {
                 Ast id =new Id (ctx.getChild(0).toString());
-                Ast lvalue = ctx.getChild(1).accept(this);
-                return new IdExp(id, lvalue);
+                Ast right = ctx.getChild(1).accept(this);
+                switch (right.getClass().getSimpleName()) {
+                    case "ArrayCreate" -> {
+                        return new ArrayExp(id, ((ArrayCreate) right).integer, ((ArrayCreate) right).exp);
+                    }
+                    case "FieldList" -> {
+                        return new RecordExp(id, right);
+                    }
+                    case "IdExp1CallExp" -> {
+                        return new IdExp(id, right);
+                    }
+                    case "LValueDot" -> {
+                        return new IdExp(id, right);
+                    }
+                }
+                return new IdExp(id, right);
             }
         }
         return null;
@@ -178,22 +192,24 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
 
     public Ast visitIdExp1ArrayCreate(TigerParser.IdExp1ArrayCreateContext ctx) {
-        Ast exp = ctx.getChild(1).accept(this);
-        Ast exp1 = ctx.getChild(4).accept(this);
-        return new IdExp1ArrayCreate(exp,exp1);
+        Ast integer = ctx.getChild(1).accept(this);
+        Ast exp = ctx.getChild(4).accept(this);
+        return new ArrayCreate(integer, exp);
     }
 
     public Ast visitIdExp1RecordCreate(TigerParser.IdExp1RecordCreateContext ctx) {
         int childCount = ctx.getChildCount();
         if (childCount == 2) {
-            return new IdExp1RecordCreate();
+            return new FieldList();
         } else {
-            IdExp1RecordCreate idExp1RecordCreate = new IdExp1RecordCreate();
+            FieldList records = new FieldList();
             for (int i = 3; i < childCount ; i=i+4) {
+                Ast id = new Id(ctx.getChild(i-2).toString());
                 Ast fieldExp = ctx.getChild(i).accept(this);
-                idExp1RecordCreate.addfeur(fieldExp);
+                RecordValue recordValue = new RecordValue(id,fieldExp);
+                records.addField(recordValue);
             }
-            return idExp1RecordCreate;
+            return records;
         }
     }
 
@@ -258,7 +274,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             else
                 return new TyDecId(id,right);
         }
-        else if (right instanceof Fields){
+        else if (right instanceof FieldList){
             return new TyDecRecord(id,right);
         }
         return null;
@@ -273,18 +289,20 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     @Override
     public Ast visitTyDec1Record(TigerParser.TyDec1RecordContext ctx) {
-        Fields listFields = new Fields();
+        FieldList listFields = new FieldList();
         int n = ctx.getChildCount();
         if (n == 2) {
             return listFields;
         }
         Ast id = new Id(ctx.getChild(1).toString());
         Ast type = new Id(ctx.getChild(3).toString());
-        listFields.addField(id, type);
+        RecordType recordType = new RecordType(id, type);
+        listFields.addField(recordType);
         for (int i = 1; 4*i+3 < n - 1; i++) {
             Ast id1 = new Id(ctx.getChild(4*i+1).toString());
             Ast type1 = new Id(ctx.getChild(4*i+3).toString());
-            listFields.addField(id1, type1);
+            RecordType recordType1 = new RecordType(id1, type1);
+            listFields.addField(recordType1);
         }
         return listFields;
     }
@@ -318,7 +336,6 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast right = ctx.getChild(2).accept(this);
         Ast left;
         if(right instanceof VarDecType){
-            System.out.println("vardec");
             left = new VarType(id, ((VarDecType) right).type);
             right = ((VarDecType) right).exp;
         }else{
