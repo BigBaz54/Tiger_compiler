@@ -1,16 +1,15 @@
 package ast;
 
-public class VarDecType implements Ast {
-
+public class VarType implements Ast {
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
-    
+    public Ast id;
     public Ast type;
-    public Ast exp;
     
-    public VarDecType(Ast type, Ast exp) {
-        this.exp = exp;
+    public VarType(Ast id,Ast type) {
+        this.id = id;
         this.type = type;
     }
+    
 }

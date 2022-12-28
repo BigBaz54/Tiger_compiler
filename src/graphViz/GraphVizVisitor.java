@@ -416,31 +416,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(VarDecNoType varDecNoType) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "VarDecNoType");
-
-        String expState = varDecNoType.exp.accept(this);
-        this.addTransition(nodeId, expState);
-        
-        return nodeId;
-    }
-
-    @Override
     public String visit(VarDecType varDecType) {
-
+        // jamais utilisée
         String nodeId= this.nextState();
-
-        this.addNode(nodeId, ":=");
-
-        String typeState = varDecType.type.accept(this);
-        String expState = varDecType.exp.accept(this);
-
-        this.addTransition(nodeId, typeState);
-        this.addTransition(nodeId, expState);
-        
         return nodeId;
     }
 
@@ -451,11 +429,26 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeId, "VarDec");
 
-        String idState = varDec.id.accept(this);
+        String leftState = varDec.left.accept(this);
         String rightState = varDec.right.accept(this);
 
-        this.addTransition(nodeId, idState);
+        this.addTransition(nodeId, leftState);
         this.addTransition(nodeId, rightState);
+        
+        return nodeId;
+    }
+    @Override
+    public String visit(VarType varType) {
+
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, ":");
+
+        String typeState = varType.type.accept(this);
+        String idState = varType.id.accept(this);
+
+        this.addTransition(nodeId, typeState);
+        this.addTransition(nodeId, idState);
         
         return nodeId;
     }

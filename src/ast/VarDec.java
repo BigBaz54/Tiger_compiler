@@ -6,11 +6,11 @@ public class VarDec implements Ast {
         return visitor.visit(this);
     }
 
-    public Ast id;
+    public Ast left;
     public Ast right;
 
-    public VarDec(Ast id, Ast right) {
-        this.id = id;
+    public VarDec(Ast left, Ast right) {
+        this.left = left;
         this.right = right;
     }
     

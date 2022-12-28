@@ -28,8 +28,8 @@ public interface AstVisitor<T> {
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);
     public T visit(VarDec varDec);
-    public T visit(VarDecType varDecType);
-    public T visit(VarDecNoType varDecNoType);
+    public T visit(VarDecType varDecNoType);
+    public T visit(VarType varType);
     public T visit(Id id);
     public T visit(CallExp callExp);
     public T visit(IntLit intLit);

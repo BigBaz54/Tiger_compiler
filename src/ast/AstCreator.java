@@ -316,7 +316,15 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitVarDec(TigerParser.VarDecContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(2).accept(this);
-        return new VarDec(id, right);
+        Ast left;
+        if(right instanceof VarDecType){
+            System.out.println("vardec");
+            left = new VarType(id, ((VarDecType) right).type);
+            right = ((VarDecType) right).exp;
+        }else{
+            left = id;
+        }
+        return new VarDec(left, right);
     }
     @Override
     public Ast visitVarDec1NoType(TigerParser.VarDec1NoTypeContext ctx) {
