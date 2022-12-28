@@ -356,15 +356,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(CallExp callExp) {
+    public String visit(AstList astList) {
 
         String nodeId= this.nextState();
+        this.addNode(nodeId,astList.name);
 
-        this.addNode(nodeId, "CallExp");
-
-        for (Ast ast:callExp.expList) {
+        for (Ast ast:astList.list) {
             String astState = ast.accept(this);
-            this.addTransition(nodeId, astState);
+            String nodeIdAst = this.nextState();
+            this.addNode(nodeIdAst, "Param");
+            this.addTransition(nodeIdAst, astState);
+            this.addTransition(nodeId, nodeIdAst);
         }
 
         return nodeId;

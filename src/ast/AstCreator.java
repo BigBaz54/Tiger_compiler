@@ -163,6 +163,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             case 2 -> {
                 Ast id =new Id (ctx.getChild(0).toString());
                 Ast right = ctx.getChild(1).accept(this);
+                System.out.println(right.getClass().getSimpleName());
                 switch (right.getClass().getSimpleName()) {
                     case "ArrayCreate" -> {
                         return new ArrayExp(id, ((ArrayCreate) right).integer, ((ArrayCreate) right).exp);
@@ -170,14 +171,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                     case "FieldList" -> {
                         return new RecordExp(id, right);
                     }
-                    case "IdExp1CallExp" -> {
-                        return new IdExp(id, right);
-                    }
                     case "LValueDot" -> {
                         return new IdExp(id, right);
                     }
+                    default -> {
+                        return new CallExp(id, right);
+                    }
                 }
-                return new IdExp(id, right);
             }
         }
         return null;
@@ -357,14 +357,15 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitCallExp(TigerParser.CallExpContext ctx) {
         int n = ctx.getChildCount();
-        CallExp callExp = new CallExp();
+        AstList params = new AstList();
         if (n == 3) {
             return ctx.getChild(1).accept(this);
         }
         for (int i = 0; 2*i < n-2; i++) {
-            callExp.addexp(ctx.getChild(2*i+1).accept(this));
+            Ast param = ctx.getChild(2*i+1).accept(this);
+            params.addParam(param);
         }
-        return callExp;
+        return params;
         
     }
     @Override

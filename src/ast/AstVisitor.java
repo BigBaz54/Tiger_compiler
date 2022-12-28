@@ -26,11 +26,11 @@ public interface AstVisitor<T> {
     public T visit(FunDec funDec);
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);
+    public T visit(AstList params);
     public T visit(VarDec varDec);
     public T visit(VarDecType varDecNoType);
     public T visit(VarType varType);
     public T visit(Id id);
-    public T visit(CallExp callExp);
     public T visit(IntLit intLit);
     public T visit(StringLit str);
     public T visit(Print print);
