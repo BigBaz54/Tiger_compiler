@@ -179,7 +179,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
             return nodeId;
         } else {
             String plusExpLState = compExp.plusExpL.accept(this);
-
+            System.out.println("a");
             return plusExpLState;
         }
     }
@@ -357,7 +357,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(AstList astList) {
-
+        System.out.println("AstList");
         String nodeId= this.nextState();
         this.addNode(nodeId,astList.name);
 

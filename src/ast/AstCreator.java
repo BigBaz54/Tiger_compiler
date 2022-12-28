@@ -174,7 +174,12 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                     case "LValueDot" -> {
                         return new IdExp(id, right);
                     }
+                    case "AstList" -> {
+                        System.out.println("assssst");
+                        return new CallExp(id, right);
+                    }
                     default -> {
+                        System.out.println("CallExp");
                         return new CallExp(id, right);
                     }
                 }
@@ -357,10 +362,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitCallExp(TigerParser.CallExpContext ctx) {
         int n = ctx.getChildCount();
+        System.out.println(n);
         AstList params = new AstList();
-        if (n == 3) {
-            return ctx.getChild(1).accept(this);
-        }
         for (int i = 0; 2*i < n-2; i++) {
             Ast param = ctx.getChild(2*i+1).accept(this);
             params.addParam(param);

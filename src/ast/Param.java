@@ -1,9 +1,13 @@
 package ast;
 
-public class Param extends Field{
+public class Param {
+
+    public Ast id;
+    public Ast type;
 
     public Param(Ast id, Ast type) {
-        super(id, type);
+        this.id = id;
+        this.type = type;
     }
     
 }
