@@ -20,9 +20,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         return lValue;
     }
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Ast acces = new Id(ctx.getChild(0).toString());
+        Ast access = new Id(ctx.getChild(0).toString());
         Ast field = new Id(ctx.getChild(1).toString());
-        return new LValueDot(acces, field);
+        return new LValueDot(access, field);
     }
 
     public Ast visitLValueBrack(TigerParser.LValueBrackContext ctx) {
