@@ -593,7 +593,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, tyDec.getName());
+        this.addNode(nodeId, tyDec.name);
 
         String idState = tyDec.id.accept(this);
         String tyState = tyDec.right.accept(this);
@@ -605,13 +605,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(TyDecRecord tyDecRecord) {
+    public String visit(Fields fields) {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId,tyDecRecord.name);
+        this.addNode(nodeId,fields.name);
 
-        for (Record param:tyDecRecord.fields) {
+        for (Record param:fields.fields) {
             String idState1 = param.id.accept(this);
             String typeState = param.type.accept(this);
             String nodeIdRec = this.nextState();
@@ -623,6 +623,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         
         return nodeId;
     }
+    
 
     @Override
     public String visit(Let let) {

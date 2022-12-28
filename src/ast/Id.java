@@ -7,9 +7,16 @@ public class Id implements Ast {
     }
     
     public String name;
+    public boolean isArrayId;
     
     public Id(String name) {
         this.name = name;
+        this.isArrayId = false;
+    }
+
+    public Id(String name, boolean isArrayId) {
+        this.name = name;
+        this.isArrayId = isArrayId;
     }
         
 }

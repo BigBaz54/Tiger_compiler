@@ -251,20 +251,17 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitTyDec(TigerParser.TyDecContext ctx) {
         Ast id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(3).accept(this);
-        String name="";
-        System.out.println(right.getClass().getName());
-        switch (right.getClass().getName()){
-            case "ast.Id" -> {
-                name="Id";
-            }
-            case "ast.TyDecRecord" -> {
-                name="Record";
-            }
-            case "ast.IdExp1ArrayCreate" -> {
-                name="Array";
-            }
+        if(right instanceof Id){
+            boolean isArray = ((Id) right).isArrayId;
+            if (isArray)
+                return new TyDecArray(id,right);
+            else
+                return new TyDecId(id,right);
         }
-        return new TyDec(name,id,right);
+        else if (right instanceof Fields){
+            return new TyDecRecord(id,right);
+        }
+        return null;
     }
     @Override
     public Ast visitTyDec1Id(TigerParser.TyDec1IdContext ctx) {
@@ -272,24 +269,24 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     @Override
     public Ast visitTyDec1Array(TigerParser.TyDec1ArrayContext ctx) {
-        return new Id(ctx.getChild(2).toString());
+        return new Id(ctx.getChild(2).toString(),true);
     }
     @Override
     public Ast visitTyDec1Record(TigerParser.TyDec1RecordContext ctx) {
-        TyDecRecord tyDecRecord = new TyDecRecord();
+        Fields listFields = new Fields();
         int n = ctx.getChildCount();
         if (n == 2) {
-            return tyDecRecord;
+            return listFields;
         }
         Ast id = new Id(ctx.getChild(1).toString());
         Ast type = new Id(ctx.getChild(3).toString());
-        tyDecRecord.addField(id, type);
+        listFields.addField(id, type);
         for (int i = 1; 4*i+3 < n - 1; i++) {
             Ast id1 = new Id(ctx.getChild(4*i+1).toString());
             Ast type1 = new Id(ctx.getChild(4*i+3).toString());
-            tyDecRecord.addField(id1, type1);
+            listFields.addField(id1, type1);
         }
-        return tyDecRecord;
+        return listFields;
     }
     @Override
     public Ast visitFunDec(TigerParser.FunDecContext ctx) {

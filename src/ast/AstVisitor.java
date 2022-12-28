@@ -22,8 +22,8 @@ public interface AstVisitor<T> {
     public T visit(While while1);
     public T visit(For for1);
     public T visit(Let let);
-    public T visit(TyDecRecord tyDecRecord);
     public T visit(TyDec tyDec);
+    public T visit(Fields fields);
     public T visit(FunDec funDec);
     public T visit(FunDecType funDecType);
     public T visit(FunDecNoType funDecNoType);
