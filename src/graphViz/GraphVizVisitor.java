@@ -84,10 +84,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, "LValueDot");
+        this.addNode(nodeId, ".");
 
-        String idState =lValueDot.id.accept(this);
-        this.addTransition(nodeId, idState);
+        String accessState =lValueDot.access.accept(this);
+        this.addTransition(nodeId, accessState);
+
+        String fieldState =lValueDot.field.accept(this);
+        this.addTransition(nodeId, fieldState);
 
         return nodeId;
     }
