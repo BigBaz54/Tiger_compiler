@@ -59,15 +59,16 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             case 4 -> {
                 Ast id = new Id(ctx.getChild(0).toString());
                 Ast right = ctx.getChild(1).accept(this);
-                String name = (right instanceof LValueDot ? ":" : "[]");
-                Ast lvalue = new LValueExp(id, right,name);
+                String name = (right instanceof LValueDot ? "." : "[]");
+                Ast lvalue = new LValueExp(id, ((LValue) right).right,name);
+                System.out.println(right.getClass().getSimpleName());
                 Ast orExp = ctx.getChild(3).accept(this);
-                return new Exp(lvalue, orExp);
+                return new Exp(null,lvalue, orExp);
             }
             case 3 -> {
                 Ast id1 = new Id(ctx.getChild(0).toString());
                 Ast orExp1 = ctx.getChild(2).accept(this);
-                return new Exp(id1, orExp1);
+                return new Exp(id1, null,orExp1);
             }
         }
         return null;
