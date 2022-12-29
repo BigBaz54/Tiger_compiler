@@ -64,47 +64,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     }
 
+
     @Override
     public String visit(LValue lValue) {
-
+        // jamais utilisée
         String nodeId= this.nextState();
-
-        this.addNode(nodeId, "LValue");
-
-        for (Ast ast:lValue.lValue1) {
-            String astState = ast.accept(this);
-            this.addTransition(nodeId, astState);
-        }
-
-        return nodeId;
-    }
-
-    @Override
-    public String visit(LValueDot lValueDot) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, ".");
-
-        String accessState =lValueDot.access.accept(this);
-        this.addTransition(nodeId, accessState);
-
-        String fieldState =lValueDot.field.accept(this);
-        this.addTransition(nodeId, fieldState);
-
-        return nodeId;
-    }
-
-    @Override
-    public String visit(LValueBrack lValueBrack) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "LValueBrack");
-        
-        String expState = lValueBrack.exp.accept(this);
-        this.addTransition(nodeId, expState);
-
         return nodeId;
     }
 

@@ -1,5 +1,6 @@
 package ast;
 
+import org.antlr.runtime.RecognizerSharedState;
 import org.stringtemplate.v4.compiler.STParser.namedArg_return;
 
 import parser.TigerParser;
@@ -15,16 +16,32 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         if (childCount == 1) {
             return ctx.getChild(0).accept(this);
         }
-        LValue lValue = new LValue();
-        for (int i = 0; i < childCount; i++) {
-            lValue.addlvalue(ctx.getChild(i).accept(this));
+        Ast lValue;
+        Ast temp = ctx.getChild(childCount-1).accept(this);
+        Ast id = ((LValue) ctx.getChild(childCount-2).accept(this)).right;
+        if (temp instanceof LValueDot){
+            lValue = new LValueExp(id,((LValueDot) temp).right);
+            ((LValueExp)lValue).name = ".";
+        }else{
+            lValue = new LValueExp(id,((LValueBrack) temp).right);
+            ((LValueExp)lValue).name = "[]";
+        }
+        for (int i = childCount-2; i>0; i--) {
+            Ast temp2 = ctx.getChild(i).accept(this);
+            Ast idLeft = ((LValue) ctx.getChild(i-1).accept(this)).right;
+            Ast newLValue = new LValueExp(idLeft,lValue);
+            if (temp2 instanceof LValueDot){
+                ((LValueExp) newLValue).name=".";
+            }else{
+                ((LValueExp) newLValue).name=".";
+            }
+            lValue=newLValue;
         }
         return lValue;
     }
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Ast access = new Id(ctx.getChild(0).toString());
         Ast field = new Id(ctx.getChild(1).toString());
-        return new LValueDot(access, field);
+        return new LValueDot(field);
     }
 
     public Ast visitLValueBrack(TigerParser.LValueBrackContext ctx) {
@@ -41,9 +58,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             }
             case 4 -> {
                 Ast id = new Id(ctx.getChild(0).toString());
-                Ast lvalue = ctx.getChild(1).accept(this);
+                Ast right = ctx.getChild(1).accept(this);
+                String name = (right instanceof LValueDot ? ":" : "[]");
+                Ast lvalue = new LValueExp(id, right,name);
                 Ast orExp = ctx.getChild(3).accept(this);
-                return new Exp(id, lvalue, orExp);
+                return new Exp(lvalue, orExp);
             }
             case 3 -> {
                 Ast id1 = new Id(ctx.getChild(0).toString());
@@ -163,7 +182,6 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             case 2 -> {
                 Ast id =new Id (ctx.getChild(0).toString());
                 Ast right = ctx.getChild(1).accept(this);
-                System.out.println(right.getClass().getSimpleName());
                 switch (right.getClass().getSimpleName()) {
                     case "ArrayCreate" -> {
                         return new ArrayExp(id, ((ArrayCreate) right).integer, ((ArrayCreate) right).exp);
@@ -172,14 +190,14 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                         return new RecordExp(id, right);
                     }
                     case "LValueDot" -> {
-                        return new IdExp(id, right);
+                        return new LValueExp(id, ((LValueDot) right).right,".");                 }
+                    case "LValueBrack" -> {
+                        return new LValueExp(id, ((LValueBrack) right).right,"[]");
                     }
                     case "AstList" -> {
-                        System.out.println("assssst");
                         return new CallExp(id, right);
                     }
                     default -> {
-                        System.out.println("CallExp");
                         return new CallExp(id, right);
                     }
                 }
