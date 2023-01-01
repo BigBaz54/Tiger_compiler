@@ -576,15 +576,25 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeId, "For");
 
+        String idStart = this.nextState();
+        this.addNode(idStart, "Start");
         String idState = for1.id.accept(this);
         String initState = for1.init.accept(this);
-        String condState = for1.cond.accept(this);
-        String bodyState = for1.body.accept(this);
+        this.addTransition(nodeId, idStart);
+        this.addTransition(idStart, idState);
+        this.addTransition(idStart, initState);
 
-        this.addTransition(nodeId, idState);
-        this.addTransition(nodeId, initState);
-        this.addTransition(nodeId, condState);
-        this.addTransition(nodeId, bodyState);
+        String endId = this.nextState();
+        this.addNode(endId, "End");
+        this.addTransition(nodeId, endId);
+        String condState = for1.cond.accept(this);
+        this.addTransition(endId, condState);
+
+        String bodyId = this.nextState();
+        this.addNode(bodyId, "Body");
+        this.addTransition(nodeId, bodyId);
+        String bodyState = for1.body.accept(this);
+        this.addTransition(bodyId, bodyState);
         
         return nodeId;
     }
