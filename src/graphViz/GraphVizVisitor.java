@@ -2,19 +2,19 @@ package graphViz;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import SymboleTable.SymboleTable;
 import ast.*;
 import ast.RecordType;
+import SymboleTable.*;
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
     private int state;
     private String nodeBuffer;
     private String linkBuffer;
-    private SymboleTable symbolTable;
+    private SymboleTable symboleTable;
 
     public GraphVizVisitor(){
-        this.symbolTable = new SymboleTable();
+        this.symboleTable = new SymboleTable();
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
