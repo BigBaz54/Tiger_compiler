@@ -61,7 +61,6 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 Ast right = ctx.getChild(1).accept(this);
                 String name = (right instanceof LValueDot ? "." : "[]");
                 Ast lvalue = new LValueExp(id, ((LValue) right).right,name);
-                System.out.println(right.getClass().getSimpleName());
                 Ast orExp = ctx.getChild(3).accept(this);
                 return new Exp(null,lvalue, orExp);
             }
@@ -334,18 +333,24 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     public Ast visitFunDec(TigerParser.FunDecContext ctx) {
         int n = ctx.getChildCount();
         Ast id = new Id(ctx.getChild(1).toString());
-        Ast right = ctx.getChild(n-1).accept(this);
-        FunDec funDec = new FunDec(id, right);
+        // List of parameters
         ParamList params = new ParamList();
         for (int i = 0; 4*i+5 < n - 2; i++) {
             Ast paramId = new Id(ctx.getChild(4*i+3).toString());
             Ast paramType = new Id(ctx.getChild(4*i+5).toString());
             Binary param = new Param(paramId, paramType);
             params.add(param);
-            System.out.println("paramId: " + paramId + " paramType: " + paramType);
         }
-        funDec.astList = params;
-        return funDec;
+        // Body
+        Ast temp = ctx.getChild(n-1).accept(this);
+        if (temp instanceof FunDecType){
+            Ast body = ((FunDecType) temp).body;
+            Ast returnType = ((FunDecType) temp).type;
+            return new FunDec(id, params, body, returnType);
+        }else {
+            Ast body = temp;
+            return new FunDec(id, params, body);
+        }
     }
     @Override
     public Ast visitFunDec1NoType(TigerParser.FunDec1NoTypeContext ctx) {
@@ -385,7 +390,6 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitCallExp(TigerParser.CallExpContext ctx) {
         int n = ctx.getChildCount();
-        System.out.println(n);
         AstList params = new AstList();
         for (int i = 0; 2*i < n-2; i++) {
             Ast param = ctx.getChild(2*i+1).accept(this);

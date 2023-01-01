@@ -6,11 +6,11 @@ public class FunDecType implements Ast {
         return visitor.visit(this);
     }
     public Ast type;
-    public Ast right;
+    public Ast body;
 
-    public FunDecType(Ast type, Ast right) {
+    public FunDecType(Ast type, Ast body) {
         this.type = type;
-        this.right = right;
+        this.body = body;
     }
     
 }

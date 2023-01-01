@@ -143,7 +143,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
             return nodeId;
         } else {
             String plusExpLState = compExp.plusExpL.accept(this);
-            System.out.println("a");
             return plusExpLState;
         }
     }
@@ -321,7 +320,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(AstList astList) {
-        System.out.println("AstList");
         String nodeId= this.nextState();
         this.addNode(nodeId,astList.name);
 
@@ -475,31 +473,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
-    public String visit(FunDecNoType funDecNoType) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "FunDecNoType");
-
-        String expState = funDecNoType.exp.accept(this);
-        this.addTransition(nodeId, expState);
-        
-        return nodeId;
-    }
-
-    @Override
     public String visit(FunDecType funDecType) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "FunDecType");
-
-        String typeState = funDecType.type.accept(this);
-        String rightState = funDecType.right.accept(this);
-
-        this.addTransition(nodeId, typeState);
-        this.addTransition(nodeId, rightState);
-        
+        // Jamais utilisée
+        String nodeId= this.nextState();        
         return nodeId;
     }
 
@@ -511,12 +487,22 @@ public class GraphVizVisitor implements AstVisitor<String> {
         this.addNode(nodeId, "FunDec");
 
         String idState = funDec.id.accept(this);
-        String rightState = funDec.right.accept(this);
-        String paramState = funDec.astList.accept(this);
+        String paramState = funDec.params.accept(this);
+        String bodyId = this.nextState();
+        this.addNode(bodyId, "Body");
+        String bodyState = funDec.body.accept(this);
 
         this.addTransition(nodeId, idState);
-        this.addTransition(nodeId, rightState);
         this.addTransition(nodeId, paramState);
+        this.addTransition(nodeId, bodyId);
+        this.addTransition(bodyId, bodyState);
+        if (funDec.returnType != null) {
+            String returnId = this.nextState();
+            this.addNode(returnId, "ReturnType");
+            String typeState = funDec.returnType.accept(this);
+            this.addTransition(nodeId, returnId);
+            this.addTransition(returnId, typeState);
+        }
         
         return nodeId;
     }
@@ -551,7 +537,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
             this.addTransition(nodeIdRec, typeState);
             this.addTransition(nodeId, nodeIdRec);
         }
-        System.out.println(l.list);
         return nodeId;
     }
     
