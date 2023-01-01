@@ -563,9 +563,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeId, "Let");
 
+        String decId = this.nextState();
+        this.addNode(decId, "List of declarations");
+        this.addTransition(nodeId, decId);
+
         for (Ast ast:let.decs) {
             String astState = ast.accept(this);
-            this.addTransition(nodeId, astState);
+            this.addTransition(decId, astState);
         }
         
         for (Ast ast:let.body) {
