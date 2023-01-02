@@ -1,0 +1,22 @@
+(let
+    function main() : void =
+        let
+            function foo() : int =
+                1
+        in
+            print(foo())
+        end
+in
+    main()
+end;
+let 
+    function main2() : int = 
+        let 
+            var a : int := 2
+            var b : int := 4
+        in
+            4
+        end
+in 
+    var c := main2()
+end)
