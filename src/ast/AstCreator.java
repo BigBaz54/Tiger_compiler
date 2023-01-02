@@ -333,7 +333,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     @Override
     public Ast visitFunDec(TigerParser.FunDecContext ctx) {
         int n = ctx.getChildCount();
-        Ast id = new Id(ctx.getChild(1).toString());
+        Id id = new Id(ctx.getChild(1).toString());
         // List of parameters
         ParamList params = new ParamList();
         for (int i = 0; 4*i+5 < n - 2; i++) {
@@ -346,7 +346,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast temp = ctx.getChild(n-1).accept(this);
         if (temp instanceof FunDecType){
             Ast body = ((FunDecType) temp).body;
-            Ast returnType = ((FunDecType) temp).type;
+            Id returnType = ((FunDecType) temp).type;
             return new FunDec(id, params, body, returnType);
         }else {
             Ast body = temp;
@@ -360,7 +360,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     @Override
     public Ast visitFunDec1Type(TigerParser.FunDec1TypeContext ctx) {
-        Ast type = new Id(ctx.getChild(1).toString());
+        Id type = new Id(ctx.getChild(1).toString());
         Ast exp = ctx.getChild(3).accept(this);
         return new FunDecType(type, exp);
     }
