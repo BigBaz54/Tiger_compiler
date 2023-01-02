@@ -2,6 +2,8 @@ package SymboleTable;
 
 
 import types.Type;
+import types.TypeFactory;
+
 import java.util.List;
 
 public class FunctionEntry extends SymbolTableEntry {
@@ -23,7 +25,7 @@ public class FunctionEntry extends SymbolTableEntry {
     }
 
 
-    public void print() {
-        System.out.println(getName() + "\t" + type + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
+    public void print(TypeFactory f) {
+        System.out.println(getName() + "\t" + f.getType(type) + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
     }
 }

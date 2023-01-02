@@ -4,13 +4,18 @@ import java.util.Map;
 
 public class RecordType extends Type {
     private Map<String, Type> fields;
+    private String id;
 
-    public RecordType(Map<String, Type> fields) {
+    public RecordType(String id,Map<String, Type> fields) {
         this.fields = fields;
+        this.id = id;
     }
 
     public Map<String, Type> getFields() {
         return fields;
+    }
+    public String getId() {
+        return id;
     }
 
     @Override

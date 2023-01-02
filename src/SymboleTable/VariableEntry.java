@@ -1,6 +1,7 @@
 package SymboleTable;
 
 import types.Type;
+import types.TypeFactory;
 
 public class VariableEntry extends SymbolTableEntry {
     private int offset;
@@ -31,7 +32,7 @@ public class VariableEntry extends SymbolTableEntry {
 
 
 
-    public void print() {
-        System.out.println(getName() + "\t" + type + "\t" + "Variable" + "\t" + getValue() + "\t" + getOffset());
+    public void print(TypeFactory f) {
+        System.out.println(getName() + "\t" + f.getType(type) + "\t" + "Var" + "\t" + getValue() + "\t" + getOffset());
     }
 }

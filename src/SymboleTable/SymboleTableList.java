@@ -2,6 +2,8 @@ package SymboleTable;
 
 import java.util.ArrayList;
 
+import types.TypeFactory;
+
 public class SymboleTableList {
     private ArrayList<SymboleTable> symboleTableList;
 
@@ -25,9 +27,9 @@ public class SymboleTableList {
         return symboleTableList.size();
     }
 
-    public void print() {
+    public void print(TypeFactory f) {
         for (SymboleTable symboleTable : symboleTableList) {
-            symboleTable.print();
+            symboleTable.print(f);
         }
     }
 }

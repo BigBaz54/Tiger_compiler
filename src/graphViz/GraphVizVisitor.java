@@ -3,18 +3,13 @@ package graphViz;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import ast.*;
-import ast.RecordType;
 import SymboleTable.*;
-<<<<<<< HEAD
 import types.*;
-=======
-import types.NilType;
-import types.Type;
->>>>>>> 23e820741d57f6d857e2301102399f2734a75ab7
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
@@ -22,17 +17,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String nodeBuffer;
     private String linkBuffer;
     private SymboleTableList symboleTableList;
-    private Set<Type> types = new HashSet<>();
+    private TypeFactory typeFactory = new TypeFactory();
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
-        types.add(new IntType());
-        types.add(new BoolType());
-        types.add(new StringType());
-        types.add(new NilType());
     }
 
     public void dumpGraph(String filepath) throws IOException{
@@ -46,7 +37,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         output.close();
 
-        symboleTableList.print();
+        symboleTableList.print(typeFactory);
 
     }
 
@@ -596,7 +587,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         // SymbolTable
         SymboleTable newTable = new SymboleTable();
         for (Ast ast:let.decs) {
-            //System.out.println(ast.getClass().toString());
+            // Si l'entrée est une VarDec
             if (ast instanceof VarDec) {
                 VarDec varDec = (VarDec) ast;
                 String name=null;Type type=null;
@@ -604,12 +595,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 if(varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
                     name = varType.id.name;
-                    type = TypeFactory.fromString(varType.type.name);
+                    type = typeFactory.getType(varType.type.name);
                 }
                 if(varDec.left instanceof Id){
                     Id id = (Id) varDec.left;
                     name = id.name;
-                    type = TypeFactory.fromString(varDec.right.getClass().toString());
+                    type = typeFactory.getType("void");
                 }
                 if (varDec.right instanceof CompExp){
                     CompExp comp = (CompExp) varDec.right;
@@ -618,8 +609,25 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 SymbolTableEntry entry = new VariableEntry(name,type,0,0);
                 newTable.insert(entry);
                 
-
-            } else if (ast instanceof FunDec) {
+            } 
+            // Si l'entrée est une TypeRecord
+            else if (ast instanceof TyDecRecord) {
+                TyDecRecord typeRec = (TyDecRecord) ast;
+                String name = typeRec.id.name;
+                Map<String, Type> fields = new HashMap<String, Type>();
+                for (Binary field:((FieldList) typeRec.right).list) {
+                    String fieldType = ((Id) field.value2).name;
+                    fields.put(field.value1.name, typeFactory.getType(fieldType));
+                }
+                types.RecordType recordType = new types.RecordType(name, fields);
+                typeFactory.addType(name, recordType);
+                System.out.println("Type ajouté : "+recordType);
+            
+                
+                
+            } 
+            // Si l'entrée est une FunDec
+            else if (ast instanceof FunDec) {
                 FunDec funDec = (FunDec) ast;
                 List params = (List) funDec.params;
                 java.util.List<types.Type> listOfParameter = new ArrayList<types.Type>();

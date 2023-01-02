@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import types.TypeFactory;
+
 
 public class SymboleTable {
     private HashMap<String, SymbolTableEntry> table;
@@ -32,12 +34,12 @@ public class SymboleTable {
         return new ArrayList<>(table.values());
     }
 
-    public void print() {
+    public void print(TypeFactory f) {
         System.out.println("Region " + regionNumber + ":");
         System.out.println("____________________________________________________");
         System.out.println("Name\tType\tKind\tValue");
         for (SymbolTableEntry entry : getAllEntries()) {
-            entry.print();
+            entry.print(f);
         }
     }
 }
