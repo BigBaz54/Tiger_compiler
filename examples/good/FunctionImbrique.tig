@@ -1,11 +1,13 @@
 let
-    function main() : void =
+    var a:int := 25
+
+    function main(chibre : int) : void =
         let
-            function foo() : int =
+            function foo(chibre : int) : int =
                 1
         in
-            print(foo())
+            print(foo(3))
         end
 in
-    main()
+    main(69)
 end

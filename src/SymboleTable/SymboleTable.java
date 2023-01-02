@@ -50,7 +50,7 @@ public class SymboleTable {
 
 
     public void print() {
-        System.out.println("Region " + regionNumber + ":");
+        System.out.println("Region " + regionNumber + "\t / \tId " + idNumber +" :");
         System.out.println("____________________________________________________");
         System.out.println("Id\tKind\tName\tType\tValue");
         for (SymbolTableEntry entry : getAllEntries()) {
