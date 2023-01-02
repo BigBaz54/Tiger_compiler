@@ -2,9 +2,13 @@ package ast;
 
 public class RecordExp extends IdExp {
 
-    public RecordExp(Ast id, Ast exp) {
+    public RecordExp(Id id, Ast exp) {
         super(id, exp);
         name = "RecordExp";
+    }
+
+    public String getType(){
+        return id.name;
     }
     
 }

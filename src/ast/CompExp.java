@@ -1,5 +1,7 @@
 package ast;
 
+import types.*;
+
 public class CompExp implements Ast {
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
@@ -18,6 +20,12 @@ public class CompExp implements Ast {
         this.plusExpL = compExp;
         this.plusExpR = compExp1;
         this.op = op;
+    }
+    public Type getType() {
+        if (op != null)
+            return new BoolType();
+        else
+            return new IntType();
     }
 
 }
