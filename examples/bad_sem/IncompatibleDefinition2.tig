@@ -1,0 +1,8 @@
+let
+  function foo(x : int) : int =
+    x
+  function foo(x : string) : string =
+    x
+in
+  print(foo(1))
+end

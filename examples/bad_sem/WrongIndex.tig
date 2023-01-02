@@ -1,0 +1,7 @@
+let
+  type dict = {key:string, value:int}
+  var obj:dict := dict { key="foo", value=42 }
+  var x : int := obj["baz"]
+in
+  print(x)
+end

@@ -1,0 +1,7 @@
+let
+  var x : int := 1
+  var y : string := "hello"
+  var z : int := x + y
+in
+  print(z)
+end

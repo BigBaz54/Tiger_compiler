@@ -1,0 +1,11 @@
+let
+    function main() : void =
+        let
+            function foo() : int =
+                1
+        in
+            print(foo())
+        end
+in
+    main()
+end

@@ -1,0 +1,5 @@
+let
+  var x : int := y
+in
+  print(x)
+end
