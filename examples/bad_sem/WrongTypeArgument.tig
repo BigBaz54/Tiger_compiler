@@ -1,0 +1,7 @@
+let
+  function foo(x : int) : int =
+    x
+  var y : int := foo("hello")
+in
+  print(y)
+end
