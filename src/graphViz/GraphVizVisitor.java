@@ -65,7 +65,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeIdentifier, "Program");
         this.addTransition(nodeIdentifier, instructionsState);
-        symboleTableList.add(new SymboleTable(0,0));
+        symboleTableList.add(new SymboleTable(0));
         return nodeIdentifier;
 
     }
