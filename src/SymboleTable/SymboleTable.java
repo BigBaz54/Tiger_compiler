@@ -8,10 +8,12 @@ import java.util.List;
 public class SymboleTable {
     private HashMap<String, SymbolTableEntry> table;
     private int regionNumber;
+    private static int region=0;
 
-    public SymboleTable(int regionNumber) {
+    public SymboleTable() {
         this.table = new HashMap<>();
-        this.regionNumber = regionNumber;
+        this.regionNumber = region;
+        region ++;
     }
 
     public void insert(SymbolTableEntry entry) {

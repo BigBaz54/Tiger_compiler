@@ -7,8 +7,8 @@ public class VariableEntry extends SymbolTableEntry {
     private Object value;
     private int size;
 
-    public VariableEntry(String name, String type, int offset, int size, int idNumber) {
-        super(name, type, idNumber);
+    public VariableEntry(String name, String type, int offset, int size) {
+        super(name, type);
         this.offset = offset;
         this.size = size;
     }

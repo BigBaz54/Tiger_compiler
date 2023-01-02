@@ -24,4 +24,10 @@ public class SymboleTableList {
     public int size() {
         return symboleTableList.size();
     }
+
+    public void print() {
+        for (SymboleTable symboleTable : symboleTableList) {
+            symboleTable.print();
+        }
+    }
 }

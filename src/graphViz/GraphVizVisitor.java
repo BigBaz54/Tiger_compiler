@@ -14,13 +14,9 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String nodeBuffer;
     private String linkBuffer;
     private SymboleTableList symboleTableList;
-    private int currentRegion = 0;
-    private static int idNumber = 0;
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
-        SymboleTable symboleTable = new SymboleTable(currentRegion);
-        this.symboleTableList.add(symboleTable);
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
@@ -36,6 +32,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
         output.write(strToBytes);
 
         output.close();
+
+        symboleTableList.print();
 
     }
 
@@ -65,7 +63,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeIdentifier, "Program");
         this.addTransition(nodeIdentifier, instructionsState);
-        symboleTableList.add(new SymboleTable(0));
+        symboleTableList.add(new SymboleTable());
         return nodeIdentifier;
 
     }
@@ -575,20 +573,33 @@ public class GraphVizVisitor implements AstVisitor<String> {
         }
 
         // SymbolTable
-        currentRegion++;
-        SymboleTable newTable = new SymboleTable(currentRegion);
+        SymboleTable newTable = new SymboleTable();
         for (Ast ast:let.decs) {
+            //System.out.println(ast.getClass().toString());
             if (ast instanceof VarDec) {
                 VarDec varDec = (VarDec) ast;
+                System.out.println(varDec.right.getClass().toString());
                 if(varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
-                    SymbolTableEntry entry = new VariableEntry(varType.id.name, varType.type.toString(),0,0,idNumber);
-                    idNumber++;
+                    SymbolTableEntry entry = new VariableEntry(varType.id.name, varType.type.getClass().toString(),0,0);
+                
                     newTable.insert(entry);
-                    
+                    System.out.println("je suis un varType");
                 }
+                if(varDec.left instanceof Id){
+                    Id id = (Id) varDec.left;
+                    SymbolTableEntry entry = new VariableEntry(id.name, varDec.right.getClass().toString(),0,0);
+                    newTable.insert(entry);
+                    System.out.println("je suis un id");
+                }
+                if (varDec.right instanceof CompExp){
+                    CompExp comp = (CompExp) varDec.right;
+                    System.out.print(comp.plusExpL);
+                }
+                
             }
         }
+        symboleTableList.add(newTable);
 
         
 
@@ -669,3 +680,4 @@ public class GraphVizVisitor implements AstVisitor<String> {
         return nodeId;
     }
 }
+
