@@ -608,10 +608,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 }
                 // On regarde le type de l'expression à droite. 
                 TypeExp right = (TypeExp) varDec.right;
-                Type rightType = right.getType();
+                Type rightType = right.getType(typeFactory);
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
                 if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
-                    System.out.println("Type mismatch in variable declaration");
+                    System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
                     System.exit(1);
                 }
                 SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
