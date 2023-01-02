@@ -603,7 +603,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 }
                 // On regarde le type de l'expression à droite. 
                 SymbolTableEntry entry = new VariableEntry(name,type,0,0);
-                newTable.insert(entry);
+                newTable.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
             } 
             // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
@@ -611,12 +611,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 TyDecRecord typeRec = (TyDecRecord) ast;
                 String name = typeRec.id.name;
                 Map<String, Type> fields = new HashMap<String, Type>();
-                for (Binary field:((FieldList) typeRec.right).list) {
+                for (Binary field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
                     String fieldType = ((Id) field.value2).name;
                     fields.put(field.value1.name, TypeFactory.getType(fieldType));
                 }
-                types.RecordType recordType = new types.RecordType(name, fields);
-                TypeFactory.addType(name, recordType);             
+                types.RecordType recordType = new types.RecordType(name, fields); 
+                TypeFactory.addType(name, recordType);  // On ajoute le type dans la table des types           
             } 
             // Si l'entrée est une TypeArray --> On crée un nouveau type dans la table des types
             else if (ast instanceof TyDecArray){
@@ -624,8 +624,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 String name = typeArray.id.name;
                 String type = ((Id) typeArray.right).name;
                 types.ArrayType arrayType = new types.ArrayType(name, TypeFactory.getType(type),0);
-                TypeFactory.addType(name, arrayType);
+                TypeFactory.addType(name, arrayType); // On ajoute le type dans la table des types
             }
+            // Si l'entrée est un TypeId --> On crée un nouveau type dans la table des types
+            else if (ast instanceof TyDecId) {
+                TyDecId typeId = (TyDecId) ast;
+                String name = typeId.id.name;
+                String type = ((Id) typeId.right).name;
+                types.Type typeType = TypeFactory.getType(type);
+                TypeFactory.addType(name, typeType); // On ajoute le type dans la table des types
+            }
+
             // Si l'entrée est une FunDec
             else if (ast instanceof FunDec) {
                 FunDec funDec = (FunDec) ast;
