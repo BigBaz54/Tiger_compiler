@@ -18,6 +18,17 @@ public class PlusExp implements Ast,TypeExp {
     }
     
     public Type getType(){
-        return new IntType();
+
+        Type typeGauche = ((TypeExp)gauche).getType();
+        Type typeDroite = ((TypeExp)droite).getType();
+        if(typeGauche instanceof IntType && typeDroite instanceof IntType){
+            return new IntType();
+        }
+        else{
+            System.out.println("Type error: "+typeGauche+" and "+typeDroite+" are not compatible");
+            System.exit(1);
+            return null;
+        }
+
     }
 }
