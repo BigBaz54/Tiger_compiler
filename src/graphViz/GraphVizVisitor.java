@@ -165,6 +165,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String leftState = plusExp.gauche.accept(this);
         String rightState = plusExp.droite.accept(this);
 
+
         this.addTransition(nodeId, leftState);
         this.addTransition(nodeId, rightState);
 
@@ -663,6 +664,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     newTable.insert(entry);
                 }
             }
+
 
         }
         // Remplissage de la TDS
