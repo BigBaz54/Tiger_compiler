@@ -294,9 +294,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         if(right instanceof Id){
             boolean isArray = ((Id) right).isArrayId;
             if (isArray)
-                return new TyDecArray(id,right);
+                return new TyDecArray(id,(Id) right);
             else
-                return new TyDecId(id,right);
+                return new TyDecId(id,(Id) right);
         }
         else if (right instanceof FieldList){
             return new TyDecRecord(id,right);

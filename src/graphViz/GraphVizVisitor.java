@@ -601,11 +601,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     name = id.name;
                     type = TypeFactory.getType("void");
                 }
+                // On regarde le type de l'expression à droite. 
                 SymbolTableEntry entry = new VariableEntry(name,type,0,0);
                 newTable.insert(entry);
                 
             } 
-            // Si l'entrée est une TypeRecord
+            // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
             else if (ast instanceof TyDecRecord) {
                 TyDecRecord typeRec = (TyDecRecord) ast;
                 String name = typeRec.id.name;
@@ -615,13 +616,16 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     fields.put(field.value1.name, TypeFactory.getType(fieldType));
                 }
                 types.RecordType recordType = new types.RecordType(name, fields);
-                TypeFactory.addType(name, recordType);
-                System.out.println("Type ajouté : "+name);
-                System.out.println("Type ajouté : "+recordType.toString());
-            
-                
-                
+                TypeFactory.addType(name, recordType);             
             } 
+            // Si l'entrée est une TypeArray --> On crée un nouveau type dans la table des types
+            else if (ast instanceof TyDecArray){
+                TyDecArray typeArray = (TyDecArray) ast;
+                String name = typeArray.id.name;
+                String type = ((Id) typeArray.right).name;
+                types.ArrayType arrayType = new types.ArrayType(name, TypeFactory.getType(type),0);
+                TypeFactory.addType(name, arrayType);
+            }
             // Si l'entrée est une FunDec
             else if (ast instanceof FunDec) {
                 FunDec funDec = (FunDec) ast;

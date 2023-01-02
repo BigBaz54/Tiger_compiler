@@ -5,7 +5,7 @@ public class ArrayType extends Type {
     private int size;
     private String id;
 
-    public ArrayType(Type elementType, int size, String id) {
+    public ArrayType(String id,Type elementType, int size) {
         this.elementType = elementType;
         this.size = size;
         this.id = id;
