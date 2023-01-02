@@ -3,19 +3,20 @@ package SymboleTable;
 import types.Type;
 
 public abstract class SymbolTableEntry {
-    private String name;
-    private Type type;
+    protected String name;
+    protected String type;
+    protected int idNumber;
 
-    public SymbolTableEntry(String name, Type type) {
+    public SymbolTableEntry(String name, String type, int idNumber) {
         this.name = name;
         this.type = type;
+        this.idNumber = idNumber;
     }
 
     public String getName() {
         return name;
     }
 
-    public Type getType() {
-        return type;
-    }
+
+    public abstract void print();
 }

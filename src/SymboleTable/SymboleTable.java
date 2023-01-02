@@ -7,9 +7,11 @@ import java.util.List;
 
 public class SymboleTable {
     private HashMap<String, SymbolTableEntry> table;
+    private int regionNumber;
 
-    public SymboleTable() {
+    public SymboleTable(int regionNumber) {
         this.table = new HashMap<>();
+        this.regionNumber = regionNumber;
     }
 
     public void insert(SymbolTableEntry entry) {
@@ -26,6 +28,15 @@ public class SymboleTable {
 
     public List<SymbolTableEntry> getAllEntries() {
         return new ArrayList<>(table.values());
+    }
+
+    public void print() {
+        System.out.println("Region " + regionNumber + ":");
+        System.out.println("____________________________________________________");
+        System.out.println("Name\tType\tKind\tValue");
+        for (SymbolTableEntry entry : getAllEntries()) {
+            entry.print();
+        }
     }
 }
 

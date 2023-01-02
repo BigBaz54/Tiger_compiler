@@ -7,15 +7,11 @@ import java.util.List;
 public class FunctionEntry extends SymbolTableEntry {
     private List<Type> parameterTypes;
     private int numParameters;
-    private int regionNumber;
-    private int idNumber;
 
-    public FunctionEntry(String name, List<Type> parameterTypes, Type returnType, int numParameters, int regionNumber, int idNumber) {
-        super(name, returnType);
+    public FunctionEntry(String name, List<Type> parameterTypes, String returnType, int numParameters, int idNumber) {
+        super(name, returnType, idNumber);
         this.parameterTypes = parameterTypes;
         this.numParameters = numParameters;
-        this.regionNumber = regionNumber;
-        this.idNumber = idNumber;
     }
 
     public List<Type> getParameterTypes() {
@@ -26,11 +22,8 @@ public class FunctionEntry extends SymbolTableEntry {
         return numParameters;
     }
 
-    public int getRegionNumber() {
-        return regionNumber;
-    }
 
-    public int getIdNumber() {
-        return idNumber;
+    public void print() {
+        System.out.println(getName() + "\t" + type + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
     }
 }

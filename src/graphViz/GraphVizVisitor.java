@@ -2,6 +2,8 @@ package graphViz;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import ast.*;
 import ast.RecordType;
 import SymboleTable.*;
@@ -11,10 +13,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private int state;
     private String nodeBuffer;
     private String linkBuffer;
-    private SymboleTable symboleTable;
+    private ArrayList<SymboleTable> symboleTable = new ArrayList<>();
+    private int currentRegion = 0;
+    private static int idNumber = 0;
+
 
     public GraphVizVisitor(){
-        this.symboleTable = new SymboleTable();
+        this.symboleTable.add(new SymboleTable(currentRegion));
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
@@ -565,6 +570,24 @@ public class GraphVizVisitor implements AstVisitor<String> {
             String astState = ast.accept(this);
             this.addTransition(bodyId, astState);
         }
+
+        // SymbolTable
+        currentRegion++;
+        SymboleTable newTable = new SymboleTable(currentRegion);
+        for (Ast ast:let.decs) {
+            if (ast instanceof VarDec) {
+                VarDec varDec = (VarDec) ast;
+                if(varDec.left instanceof VarType) {
+                    VarType varType = (VarType) varDec.left;
+                    SymbolTableEntry entry = new VariableEntry(varType.id.name, varType.type.toString(),0,0,idNumber);
+                    idNumber++;
+                    newTable.insert(entry);
+                    
+                }
+            }
+        }
+
+        
 
         return nodeId;
     }
