@@ -638,8 +638,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 List params = (List) funDec.params;
                 java.util.List<Type> listOfParameter = new ArrayList<Type>();
                 for (Binary param:params.list) {
-                    Param p = (Param) param;
-                    listOfParameter.add(typeFactory.getType(p.value2.name));
+                    String type = ((Id) param.value2).name;
+                    listOfParameter.add(typeFactory.getType(type));
                 }
                 if (funDec.returnType != null) {
                     Type type = typeFactory.getType(funDec.returnType.name);
