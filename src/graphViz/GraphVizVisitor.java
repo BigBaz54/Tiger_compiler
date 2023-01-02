@@ -18,6 +18,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String linkBuffer;
     private SymboleTableList symboleTableList;
     private TypeFactory typeFactory = new TypeFactory();
+    private SymboleTable current_tds;
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
@@ -61,7 +62,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(Program program) {
 
-        symboleTableList.add(new SymboleTable());
+        current_tds = new SymboleTable();
+        symboleTableList.add(current_tds);
 
         String nodeIdentifier = this.nextState();
 
@@ -492,8 +494,14 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(FunDec funDec) {
-        SymboleTable symboleTable = new SymboleTable(symboleTableList.get(SymboleTable.region,SymboleTable.idNumber));
-        System.out.println(symboleTable.region);
+        // Partie TDS
+        SymboleTable newTable = new SymboleTable(current_tds);
+        current_tds = newTable;
+        symboleTableList.add(newTable);
+
+
+
+        // Partie Graphe
         String nodeId= this.nextState();
 
         this.addNode(nodeId, "FunDec");
@@ -501,10 +509,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String idState = funDec.id.accept(this);
         String paramState = funDec.params.accept(this);
         for (Binary param :funDec.params.list) {
-            String name = param.value1.toString();
-            Type type =(Type) param.value2;
+            String name = param.value1.name;
+            Type type =typeFactory.getType(((Id) param.value2).name);
             VariableEntry entry = new VariableEntry(name, type,0,0);
-            symboleTable.insert(entry);
+            current_tds.insert(entry);
         }
 
 
@@ -563,32 +571,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(Let let) {
-
-        String nodeId= this.nextState();
-
-        this.addNode(nodeId, "Let");
-
-        String decId = this.nextState();
-        this.addNode(decId, "List of declarations");
-        this.addTransition(nodeId, decId);
-
-        for (Ast ast:let.decs) {
-            String astState = ast.accept(this);
-            this.addTransition(decId, astState);
-        }
-        
-        String bodyId = this.nextState();
-        this.addNode(bodyId, "Body");
-        this.addTransition(nodeId, bodyId);
-
-        for (Ast ast:let.body) {
-            String astState = ast.accept(this);
-            this.addTransition(bodyId, astState);
-        }
-
         // SymbolTable //
         // Initialisation des variables déclarées dans la TDS
-        SymboleTable newTable = new SymboleTable();
         for (Ast ast:let.decs) {
             // Si l'entrée est une VarDec
             if (ast instanceof VarDec) {
@@ -615,7 +599,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     System.exit(1);
                 }
                 SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
-                newTable.insert(entry); // On ajoute l'entrée dans la table des symboles
+                current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
             } 
             // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
@@ -650,18 +634,21 @@ public class GraphVizVisitor implements AstVisitor<String> {
             // Si l'entrée est une FunDec
             else if (ast instanceof FunDec) {
                 FunDec funDec = (FunDec) ast;
+                String name = funDec.id.name;
                 List params = (List) funDec.params;
-                java.util.List<types.Type> listOfParameter = new ArrayList<types.Type>();
+                java.util.List<Type> listOfParameter = new ArrayList<Type>();
                 for (Binary param:params.list) {
-                    listOfParameter.add((Type) param.value2);
+                    Param p = (Param) param;
+                    listOfParameter.add(typeFactory.getType(p.value2.name));
                 }
                 if (funDec.returnType != null) {
-                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter , (Type) funDec.returnType, params.getSize());
-                    newTable.insert(entry);
+                    Type type = typeFactory.getType(funDec.returnType.name);
+                    SymbolTableEntry entry = new FunctionEntry(name,listOfParameter , type, params.getSize());
+                    current_tds.insert(entry);
                 } else {
-                    Type type = new NilType();
-                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter ,type , params.getSize());
-                    newTable.insert(entry);
+                    Type type = new VoidType();
+                    SymbolTableEntry entry = new FunctionEntry(name,listOfParameter ,type , params.getSize());
+                    current_tds.insert(entry);
                 }
             }
 
@@ -673,7 +660,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Exp exp = (Exp) ast;
                 if(exp.id!=null){
                     String name = exp.id.name;
-                    SymbolTableEntry entry = newTable.lookup(name);
+                    SymbolTableEntry entry = current_tds.lookup(name);
                     if(entry!=null){
                         Ast value = exp.orExp;
                         System.out.println(value.getClass().getSimpleName());
@@ -682,8 +669,30 @@ public class GraphVizVisitor implements AstVisitor<String> {
             }
         }
 
-        // Ajout de la table des symboles dans la liste des tables des symboles
-        symboleTableList.add(newTable);
+
+        // Graph //
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "Let");
+
+        String decId = this.nextState();
+        this.addNode(decId, "List of declarations");
+        this.addTransition(nodeId, decId);
+
+        for (Ast ast:let.decs) {
+            String astState = ast.accept(this);
+            this.addTransition(decId, astState);
+        }
+        
+        String bodyId = this.nextState();
+        this.addNode(bodyId, "Body");
+        this.addTransition(nodeId, bodyId);
+
+        for (Ast ast:let.body) {
+            String astState = ast.accept(this);
+            this.addTransition(bodyId, astState);
+        }
+
 
         return nodeId;
     }
