@@ -33,7 +33,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
             if (temp2 instanceof LValueDot){
                 ((LValueExp) newLValue).name=".";
             }else{
-                ((LValueExp) newLValue).name=".";
+                ((LValueExp) newLValue).name="[]";
             }
             lValue=newLValue;
         }
