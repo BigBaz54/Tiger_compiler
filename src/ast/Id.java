@@ -10,6 +10,7 @@ public class Id implements Ast, TypeExp {
     
     public String name;
     public boolean isArrayId;
+
     
     public Id(String name) {
         this.name = name;
@@ -21,8 +22,13 @@ public class Id implements Ast, TypeExp {
         this.isArrayId = isArrayId;
     }
 
-    public Type getType() {
-        return TypeFactory.getType(name);
+    public Type getType(){
+        return new VoidType();
+    }
+
+    @Override
+    public Type getType(TypeFactory f) {
+        return f.getType(name);
     }
         
 }

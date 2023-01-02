@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TypeFactory {
 
-    private static Map<String, Type> types = new HashMap<String, Type>();
+    private Map<String, Type> types = new HashMap<String, Type>();
 
     public TypeFactory() {
         types.put("int",new IntType());
@@ -15,11 +15,11 @@ public class TypeFactory {
         types.put("void",new VoidType());
     }
 
-    public static Type getType(String id) {
+    public Type getType(String id) {
         return types.get(id);
     }
 
-    public static void addType(String id, Type type) {
+    public void addType(String id, Type type) {
         types.put(id, type);
     }
 

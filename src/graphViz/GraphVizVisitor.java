@@ -17,6 +17,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String nodeBuffer;
     private String linkBuffer;
     private SymboleTableList symboleTableList;
+    private TypeFactory typeFactory = new TypeFactory();
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
@@ -587,7 +588,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
         // SymbolTable //
         // Initialisation des variables déclarées dans la TDS
         SymboleTable newTable = new SymboleTable();
-        System.out.println(newTable.region);
         for (Ast ast:let.decs) {
             // Si l'entrée est une VarDec
             if (ast instanceof VarDec) {
@@ -597,12 +597,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 if(varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
                     name = varType.id.name;
-                    type = TypeFactory.getType(varType.type.name);
+                    type = typeFactory.getType(varType.type.name);
                 }
                 if(varDec.left instanceof Id){
+                    System.out.println("Id");
                     Id id = (Id) varDec.left;
                     name = id.name;
-                    type = TypeFactory.getType("void");
+                    type = typeFactory.getType("void");
                 }
                 // On regarde le type de l'expression à droite. 
                 TypeExp right = (TypeExp) varDec.right;
@@ -623,26 +624,26 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Map<String, Type> fields = new HashMap<String, Type>();
                 for (Binary field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
                     String fieldType = ((Id) field.value2).name;
-                    fields.put(field.value1.name, TypeFactory.getType(fieldType));
+                    fields.put(field.value1.name, typeFactory.getType(fieldType));
                 }
                 types.RecordType recordType = new types.RecordType(name, fields); 
-                TypeFactory.addType(name, recordType);  // On ajoute le type dans la table des types           
+                typeFactory.addType(name, recordType);  // On ajoute le type dans la table des types           
             } 
             // Si l'entrée est une TypeArray --> On crée un nouveau type dans la table des types
             else if (ast instanceof TyDecArray){
                 TyDecArray typeArray = (TyDecArray) ast;
                 String name = typeArray.id.name;
                 String type = ((Id) typeArray.right).name;
-                types.ArrayType arrayType = new types.ArrayType(name, TypeFactory.getType(type),0);
-                TypeFactory.addType(name, arrayType); // On ajoute le type dans la table des types
+                types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
+                typeFactory.addType(name, arrayType); // On ajoute le type dans la table des types
             }
             // Si l'entrée est un TypeId --> On crée un nouveau type dans la table des types
             else if (ast instanceof TyDecId) {
                 TyDecId typeId = (TyDecId) ast;
                 String name = typeId.id.name;
                 String type = ((Id) typeId.right).name;
-                types.Type typeType = TypeFactory.getType(type);
-                TypeFactory.addType(name, typeType); // On ajoute le type dans la table des types
+                types.Type typeType = typeFactory.getType(type);
+                typeFactory.addType(name, typeType); // On ajoute le type dans la table des types
             }
 
             // Si l'entrée est une FunDec
