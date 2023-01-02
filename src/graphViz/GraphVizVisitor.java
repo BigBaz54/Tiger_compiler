@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import ast.*;
 import ast.RecordType;
 import SymboleTable.*;
+import types.NilType;
 import types.Type;
 
 public class GraphVizVisitor implements AstVisitor<String> {
@@ -488,12 +489,21 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(FunDec funDec) {
         SymboleTable symboleTable = new SymboleTable();
+
         String nodeId= this.nextState();
 
         this.addNode(nodeId, "FunDec");
 
         String idState = funDec.id.accept(this);
         String paramState = funDec.params.accept(this);
+        for (Binary param :funDec.params.list) {
+            String name = param.value1.toString();
+            Type type =(Type) param.value2;
+            VariableEntry entry = new VariableEntry(name, type,0,0);
+            symboleTable.insert(entry);
+        }
+
+
         String bodyId = this.nextState();
         this.addNode(bodyId, "Body");
         String bodyState = funDec.body.accept(this);
@@ -580,14 +590,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 VarDec varDec = (VarDec) ast;
                 if (varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
-                    SymbolTableEntry entry = new VariableEntry(varType.id.name, varType.type.getClass().toString(),0,0);
-                
+                    SymbolTableEntry entry = new VariableEntry(varType.id.name,(Type) varType.type,0,0);
                     newTable.insert(entry);
 
                 }
                 if(varDec.left instanceof Id){
                     Id id = (Id) varDec.left;
-                    SymbolTableEntry entry = new VariableEntry(id.name, varDec.right.getClass().toString(),0,0);
+                    SymbolTableEntry entry = new VariableEntry(id.name,(Type) varDec.right,0,0);
                     newTable.insert(entry);
                     System.out.println("je suis un id");
                 }
@@ -605,10 +614,11 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     listOfParameter.add((Type) param.value2);
                 }
                 if (funDec.returnType != null) {
-                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter , funDec.returnType.toString(), params.getSize(), idNumber);
+                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter , (Type) funDec.returnType, params.getSize());
                     newTable.insert(entry);
                 } else {
-                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter , "void", 0, idNumber);
+                    Type type = new NilType();
+                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter ,type , params.getSize());
                     newTable.insert(entry);
                 }
             }

@@ -8,18 +8,18 @@ public class FunDec implements Ast {
     }
 
     public Ast id;
-    public Ast params;
+    public ParamList params;
     public Ast body;
     public Ast returnType;
 
-    public FunDec(Ast id, Ast params, Ast body) {
+    public FunDec(Ast id, ParamList params, Ast body) {
         this.id = id;
         this.params = params;
         this.body = body;
         this.returnType = null;
     }
 
-    public FunDec(Ast id, Ast params, Ast body, Ast returnType) {
+    public FunDec(Ast id, ParamList params, Ast body, Ast returnType) {
         this.id = id;
         this.params = params;
         this.body = body;
