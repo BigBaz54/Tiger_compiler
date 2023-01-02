@@ -492,7 +492,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(FunDec funDec) {
-        SymboleTable symboleTable = new SymboleTable();
+        SymboleTable symboleTable = new SymboleTable(symboleTableList.get(SymboleTable.region,SymboleTable.idNumber));
         System.out.println(symboleTable.region);
         String nodeId= this.nextState();
 

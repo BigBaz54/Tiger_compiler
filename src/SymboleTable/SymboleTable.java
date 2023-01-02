@@ -12,7 +12,7 @@ public class SymboleTable {
     private int regionNumber;
     public static int region=0;
     private int id;
-    private static int idNumber=0;
+    public static int idNumber=0;
     private SymboleTable parent;
 
     public SymboleTable() {
