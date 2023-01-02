@@ -16,5 +16,8 @@ public class List implements Ast {
     public void add(Binary b) {
         list.add(b);
     }
+    public int getSize() {
+        return list.size();
+    }
     
 }
