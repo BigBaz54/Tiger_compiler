@@ -17,4 +17,11 @@ public class SymboleTableList {
         return symboleTableList.get(index);
     }
 
+    public ArrayList<SymboleTable> getSymboleTableList() {
+        return symboleTableList;
+    }
+
+    public int size() {
+        return symboleTableList.size();
+    }
 }

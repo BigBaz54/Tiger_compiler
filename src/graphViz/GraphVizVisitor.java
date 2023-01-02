@@ -34,7 +34,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         byte[] strToBytes = buffer.getBytes();
 
         output.write(strToBytes);
-        
+
         output.close();
 
     }
@@ -65,7 +65,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addNode(nodeIdentifier, "Program");
         this.addTransition(nodeIdentifier, instructionsState);
-
+        symboleTableList.add(new SymboleTable(0,0));
         return nodeIdentifier;
 
     }
@@ -404,6 +404,8 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         this.addTransition(nodeId, leftState);
         this.addTransition(nodeId, rightState);
+
+
         
         return nodeId;
     }
