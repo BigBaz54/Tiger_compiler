@@ -1,9 +1,18 @@
 package ast;
 
-public class ArrayExp extends IdExp{
+import types.*;
+
+public class ArrayExp extends IdExp implements TypeExp{
     
     public ArrayExp(Id id, Ast integer, Ast exp) {
         super(id, integer, exp);
         name = "ArrayExp";
+    }
+
+    public Type getType(){
+        return new VoidType();
+    }
+    public Type getType(TypeFactory f){
+        return f.getType(id.name);
     }
 }
