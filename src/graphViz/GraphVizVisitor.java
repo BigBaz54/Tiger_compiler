@@ -495,7 +495,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(FunDec funDec) {
         // Partie TDS
-        SymboleTable newTable = new SymboleTable();
+        SymboleTable newTable = new SymboleTable(current_tds);
         current_tds = newTable;
         symboleTableList.add(newTable);
 
