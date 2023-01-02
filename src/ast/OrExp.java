@@ -1,6 +1,9 @@
 package ast;
 
-public class OrExp implements Ast{
+import types.BoolType;
+import types.Type;
+
+public class OrExp implements Ast, TypeExp{
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
     }
@@ -9,5 +12,9 @@ public class OrExp implements Ast{
     public OrExp(Ast gauche, Ast droite) {
         this.gauche = gauche;
         this.droite = droite;
+    }
+
+    public Type getType(){
+        return new BoolType();
     }
 }

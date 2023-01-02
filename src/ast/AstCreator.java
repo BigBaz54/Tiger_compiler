@@ -15,7 +15,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         int childCount = ctx.getChildCount();
         if (childCount == 1) {
             return ctx.getChild(0).accept(this);
-        }
+        }/*
         Ast lValue;
         Ast temp = ctx.getChild(childCount-1).accept(this);
         Ast id = ((LValue) ctx.getChild(childCount-2).accept(this)).right;
@@ -36,11 +36,12 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 ((LValueExp) newLValue).name="[]";
             }
             lValue=newLValue;
-        }
+        }*/
+        Ast lValue = ctx.getChild(0).accept(this);
         return lValue;
     }
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Ast field = new Id(ctx.getChild(1).toString());
+        Id field = new Id(ctx.getChild(1).toString());
         return new LValueDot(field);
     }
 
@@ -57,7 +58,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 return Exp;
             }
             case 4 -> {
-                Ast id = new Id(ctx.getChild(0).toString());
+                Id id = new Id(ctx.getChild(0).toString());
                 Ast right = ctx.getChild(1).accept(this);
                 String name = (right instanceof LValueDot ? "." : "[]");
                 Ast lvalue = new LValueExp(id, ((LValue) right).right,name);
@@ -180,7 +181,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 return id;
             }
             case 2 -> {
-                Ast id =new Id (ctx.getChild(0).toString());
+                Id id =new Id (ctx.getChild(0).toString());
                 Ast right = ctx.getChild(1).accept(this);
                 switch (right.getClass().getSimpleName()) {
                     case "ArrayCreate" -> {
@@ -190,7 +191,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                         return new RecordExp(id, right);
                     }
                     case "LValueDot" -> {
-                        return new LValueExp(id, ((LValueDot) right).right,".");                 }
+                        return new LValueExp(id, ((LValue) right).right,".");                 }
                     case "LValueBrack" -> {
                         return new LValueExp(id, ((LValueBrack) right).right,"[]");
                     }
@@ -227,7 +228,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         } else {
             FieldList records = new FieldList();
             for (int i = 3; i < childCount ; i=i+4) {
-                Ast id = new Id(ctx.getChild(i-2).toString());
+                Id id = new Id(ctx.getChild(i-2).toString());
                 Ast fieldExp = ctx.getChild(i).accept(this);
                 RecordValue recordValue = new RecordValue(id,fieldExp);
                 records.add(recordValue);
@@ -288,7 +289,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
     }
     @Override
     public Ast visitTyDec(TigerParser.TyDecContext ctx) {
-        Ast id = new Id(ctx.getChild(1).toString());
+        Id id = new Id(ctx.getChild(1).toString());
         Ast right = ctx.getChild(3).accept(this);
         if(right instanceof Id){
             boolean isArray = ((Id) right).isArrayId;
@@ -317,13 +318,13 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         if (n == 2) {
             return listFields;
         }
-        Ast id = new Id(ctx.getChild(1).toString());
-        Ast type = new Id(ctx.getChild(3).toString());
+        Id id = new Id(ctx.getChild(1).toString());
+        Id type = new Id(ctx.getChild(3).toString());
         RecordType recordType = new RecordType(id, type);
         listFields.add(recordType);
         for (int i = 1; 4*i+3 < n - 1; i++) {
-            Ast id1 = new Id(ctx.getChild(4*i+1).toString());
-            Ast type1 = new Id(ctx.getChild(4*i+3).toString());
+            Id id1 = new Id(ctx.getChild(4*i+1).toString());
+            Id type1 = new Id(ctx.getChild(4*i+3).toString());
             RecordType recordType1 = new RecordType(id1, type1);
             listFields.add(recordType1);
         }
@@ -336,9 +337,9 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         // List of parameters
         ParamList params = new ParamList();
         for (int i = 0; 4*i+5 < n - 2; i++) {
-            Ast paramId = new Id(ctx.getChild(4*i+3).toString());
-            Ast paramType = new Id(ctx.getChild(4*i+5).toString());
-            Binary param = new Param(paramId, paramType);
+            Id paramId = new Id(ctx.getChild(4*i+3).toString());
+            Id paramType = new Id(ctx.getChild(4*i+5).toString());
+            Param param = new Param(paramId, paramType);
             params.add(param);
         }
         // Body
@@ -369,7 +370,8 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast right = ctx.getChild(2).accept(this);
         Ast left;
         if(right instanceof VarDecType){
-            left = new VarType(id, ((VarDecType) right).type);
+            Id type = (Id) ((VarDecType) right).type;
+            left = new VarType(id, type);
             right = ((VarDecType) right).exp;
         }else{
             left = id;

@@ -2,11 +2,11 @@ package ast;
 
 public class TyDec implements Ast{
 
-    public Ast id;
+    public Id id;
     public Ast right;
     public String name;
 
-    public TyDec(Ast id, Ast right) {
+    public TyDec(Id id, Ast right) {
         this.id = id;
         this.right = right;
     }

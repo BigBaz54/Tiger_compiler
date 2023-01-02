@@ -2,7 +2,7 @@ package ast;
 
 public class Param extends Binary{
 
-    public Param(Ast id, Ast type) {
+    public Param(Id id, Id type) {
         super(id, type);
         name = "Param";
     }

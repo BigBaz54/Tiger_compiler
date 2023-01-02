@@ -2,7 +2,7 @@ package ast;
 
 public class LValueBrack extends LValue{
 
-    public LValueBrack(IntLit id) {
+    public LValueBrack(Ast id) {
         super(id);
     }
 }

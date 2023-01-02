@@ -2,7 +2,7 @@ package ast;
 
 public class TyDecId extends TyDec{
 
-    public TyDecId(Ast id, Ast right) {
+    public TyDecId(Id id, Ast right) {
         super(id,right);
         name = "TypeDecId";
     }

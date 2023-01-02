@@ -1,6 +1,8 @@
 package ast;
 
-public class PlusExp implements Ast {
+import types.*;
+
+public class PlusExp implements Ast,TypeExp {
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -13,5 +15,9 @@ public class PlusExp implements Ast {
         this.gauche = gauche;
         this.droite = droite;
         this.op = op;
+    }
+    
+    public Type getType(){
+        return new IntType();
     }
 }
