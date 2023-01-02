@@ -1,0 +1,14 @@
+let
+  var a : int := 5
+  var b : String := "hello"
+  var c : int := 5 | "hello"
+  var d : int := a & b
+  var e : int := a < b
+  var f : int := a > b
+in
+  print(c)
+
+end
+
+
+

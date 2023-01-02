@@ -21,8 +21,21 @@ public class CompExp implements Ast {
         this.plusExpR = compExp1;
         this.op = op;
     }
-    public Type getType() {
-        return new BoolType();
+
+    public Type getType(){
+        Type typeGauche = ((TypeExp)plusExpL).getType();
+        Type typeDroite = ((TypeExp)plusExpR).getType();
+        if(typeGauche instanceof IntType && typeDroite instanceof IntType){
+            return new IntType();
+        }
+        if (typeGauche instanceof StringType && typeDroite instanceof StringType){
+            return new StringType();
+        }
+        else{
+            System.out.println("Type error: "+typeGauche+" and "+typeDroite+" are not compatible");
+            System.exit(1);
+            return null;
+        }
     }
 
 }
