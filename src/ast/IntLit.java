@@ -1,6 +1,8 @@
 package ast;
 
-public class IntLit implements Ast {
+import types.*;
+
+public class IntLit implements Ast,TypeExp {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -10,6 +12,9 @@ public class IntLit implements Ast {
 
     public IntLit(int value) {
         this.value = value;
+    }
+    public Type getType(){
+        return new IntType();
     }
     
 }

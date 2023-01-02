@@ -1,8 +1,9 @@
 package ast;
 
 import java.util.ArrayList;
+import types.*;
 
-public class Let implements Ast {
+public class Let implements Ast, TypeExp {
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -19,6 +20,9 @@ public class Let implements Ast {
     }
     public void addBody(Ast body) {
         this.body.add(body);
+    }
+    public Type getType() {
+        return new VoidType();
     }
     
 }

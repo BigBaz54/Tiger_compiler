@@ -1,6 +1,8 @@
 package ast;
 
-public class IfThenElse implements Ast {
+import types.*;
+
+public class IfThenElse implements Ast , TypeExp{
 
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -17,6 +19,9 @@ public class IfThenElse implements Ast {
     public IfThenElse(Ast condition, Ast thenBlock) {
         this.condition = condition;
         this.thenBlock = thenBlock;
+    }
+    public Type getType(){
+        return new VoidType();
     }
     
 }

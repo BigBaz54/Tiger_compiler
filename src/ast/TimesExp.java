@@ -1,6 +1,8 @@
 package ast;
 
-public class TimesExp implements Ast {
+import types.*;
+
+public class TimesExp implements Ast, TypeExp {
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -14,5 +16,9 @@ public class TimesExp implements Ast {
         this.gauche = gauche;
         this.droite = droite;
         this.op = op;
+    }
+
+    public Type getType() {
+        return new IntType();
     }
 }

@@ -1,6 +1,8 @@
 package ast;
 
-public class Nill implements Ast {
+import types.*;
+
+public class Nill implements Ast,TypeExp {
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -9,6 +11,9 @@ public class Nill implements Ast {
     public String name = "nill";
 
     public Nill() {
+    }
+    public Type getType(){
+        return new NilType();
     }
 
 }

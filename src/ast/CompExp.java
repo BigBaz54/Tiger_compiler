@@ -22,10 +22,7 @@ public class CompExp implements Ast {
         this.op = op;
     }
     public Type getType() {
-        if (op != null)
-            return new BoolType();
-        else
-            return new IntType();
+        return new BoolType();
     }
 
 }

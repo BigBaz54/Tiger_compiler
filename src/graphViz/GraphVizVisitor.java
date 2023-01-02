@@ -60,13 +60,14 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(Program program) {
 
+        symboleTableList.add(new SymboleTable());
+
         String nodeIdentifier = this.nextState();
 
         String instructionsState =program.child.accept(this);
 
         this.addNode(nodeIdentifier, "Program");
         this.addTransition(nodeIdentifier, instructionsState);
-        symboleTableList.add(new SymboleTable());
         return nodeIdentifier;
 
     }
@@ -490,7 +491,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(FunDec funDec) {
         SymboleTable symboleTable = new SymboleTable();
-
+        System.out.println(symboleTable.region);
         String nodeId= this.nextState();
 
         this.addNode(nodeId, "FunDec");
@@ -583,8 +584,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
             this.addTransition(bodyId, astState);
         }
 
-        // SymbolTable
+        // SymbolTable //
+        // Initialisation des variables déclarées dans la TDS
         SymboleTable newTable = new SymboleTable();
+        System.out.println(newTable.region);
         for (Ast ast:let.decs) {
             // Si l'entrée est une VarDec
             if (ast instanceof VarDec) {
@@ -602,7 +605,14 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     type = TypeFactory.getType("void");
                 }
                 // On regarde le type de l'expression à droite. 
-                SymbolTableEntry entry = new VariableEntry(name,type,0,0);
+                TypeExp right = (TypeExp) varDec.right;
+                Type rightType = right.getType();
+                // Si le type de l'expression à droite est différent du type de la variable --> Erreur
+                if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
+                    System.out.println("Type mismatch in variable declaration");
+                    System.exit(1);
+                }
+                SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
                 newTable.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
             } 
@@ -654,6 +664,22 @@ public class GraphVizVisitor implements AstVisitor<String> {
             }
 
         }
+        // Remplissage de la TDS
+        for(Ast ast : let.body){
+            if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
+                Exp exp = (Exp) ast;
+                if(exp.id!=null){
+                    String name = exp.id.name;
+                    SymbolTableEntry entry = newTable.lookup(name);
+                    if(entry!=null){
+                        Ast value = exp.orExp;
+                        System.out.println(value.getClass().getSimpleName());
+                    }
+                }
+            }
+        }
+
+        // Ajout de la table des symboles dans la liste des tables des symboles
         symboleTableList.add(newTable);
 
         return nodeId;

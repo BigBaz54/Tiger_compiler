@@ -1,8 +1,9 @@
 package ast;
 
 import java.util.ArrayList;
+import types.*;
 
-public class SeqExp implements Ast {
+public class SeqExp implements Ast, TypeExp {
 
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
@@ -17,5 +18,9 @@ public class SeqExp implements Ast {
     
     public void addseqExp(Ast seqExp1) {
         this.seqExp1.add(seqExp1);
+    }
+
+    public Type getType() {
+        return new VoidType();
     }
 }

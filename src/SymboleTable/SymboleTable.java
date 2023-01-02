@@ -10,7 +10,7 @@ import types.TypeFactory;
 public class SymboleTable {
     private HashMap<String, SymbolTableEntry> table;
     private int regionNumber;
-    private static int region=0;
+    public static int region=0;
 
     public SymboleTable() {
         this.table = new HashMap<>();
@@ -37,10 +37,12 @@ public class SymboleTable {
     public void print() {
         System.out.println("Region " + regionNumber + ":");
         System.out.println("____________________________________________________");
-        System.out.println("Name\tType\tKind\tValue");
+        System.out.println("Id\tKind\tName\tType\tValue");
         for (SymbolTableEntry entry : getAllEntries()) {
             entry.print();
         }
+        System.out.println("____________________________________________________");
+        System.out.println();
     }
 }
 

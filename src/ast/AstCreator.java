@@ -66,7 +66,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 return new Exp(null,lvalue, orExp);
             }
             case 3 -> {
-                Ast id1 = new Id(ctx.getChild(0).toString());
+                Id id1 = new Id(ctx.getChild(0).toString());
                 Ast orExp1 = ctx.getChild(2).accept(this);
                 return new Exp(id1, null,orExp1);
             }
@@ -96,7 +96,7 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         switch (childCount) {
             case 1 -> {
                 Ast compExp = ctx.getChild(0).accept(this);
-                return new CompExp(compExp);
+                return compExp;
             }
             case 3 -> {
                 Ast compExp1 = ctx.getChild(0).accept(this);

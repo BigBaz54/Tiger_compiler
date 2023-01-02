@@ -1,6 +1,8 @@
 package ast;
 
-public class StringLit implements Ast {
+import types.*;
+
+public class StringLit implements Ast,TypeExp {
     
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visit(this);
@@ -11,6 +13,9 @@ public class StringLit implements Ast {
     public StringLit(String value) {
         String[] temp = value.split("\"");
         this.value = temp.length < 1 ? "" : temp[1];
+    }
+    public Type getType(){
+        return new StringType();
     }
 }
 
