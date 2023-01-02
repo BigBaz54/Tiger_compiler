@@ -5,9 +5,9 @@ public class VarType implements Ast {
         return visitor.visit(this);
     }
     public Id id;
-    public Ast type;
+    public Id type;
     
-    public VarType(Id id,Ast type) {
+    public VarType(Id id,Id type) {
         this.id = id;
         this.type = type;
     }

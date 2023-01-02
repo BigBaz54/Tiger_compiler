@@ -8,7 +8,7 @@ public class FunctionEntry extends SymbolTableEntry {
     private List<Type> parameterTypes;
     private int numParameters;
 
-    public FunctionEntry(String name, List<Type> parameterTypes, String returnType, int numParameters) {
+    public FunctionEntry(String name, List<Type> parameterTypes, Type returnType, int numParameters) {
         super(name, returnType);
         this.parameterTypes = parameterTypes;
         this.numParameters = numParameters;

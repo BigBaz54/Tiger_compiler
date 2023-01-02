@@ -3,10 +3,13 @@ package graphViz;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import ast.*;
 import ast.RecordType;
 import SymboleTable.*;
+import types.*;
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
@@ -14,12 +17,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String nodeBuffer;
     private String linkBuffer;
     private SymboleTableList symboleTableList;
+    private Set<Type> types = new HashSet<>();
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
+        types.add(new IntType());
+        types.add(new BoolType());
+        types.add(new StringType());
+        types.add(new NilType());
     }
 
     public void dumpGraph(String filepath) throws IOException{
@@ -578,24 +586,24 @@ public class GraphVizVisitor implements AstVisitor<String> {
             //System.out.println(ast.getClass().toString());
             if (ast instanceof VarDec) {
                 VarDec varDec = (VarDec) ast;
-                System.out.println(varDec.right.getClass().toString());
+                String name=null;Type type=null;
+                //System.out.println(varDec.right.getClass().toString());
                 if(varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
-                    SymbolTableEntry entry = new VariableEntry(varType.id.name, varType.type.getClass().toString(),0,0);
-                
-                    newTable.insert(entry);
-                    System.out.println("je suis un varType");
+                    name = varType.id.name;
+                    type = TypeFactory.fromString(varType.type.name);
                 }
                 if(varDec.left instanceof Id){
                     Id id = (Id) varDec.left;
-                    SymbolTableEntry entry = new VariableEntry(id.name, varDec.right.getClass().toString(),0,0);
-                    newTable.insert(entry);
-                    System.out.println("je suis un id");
+                    name = id.name;
+                    type = TypeFactory.fromString(varDec.right.getClass().toString());
                 }
                 if (varDec.right instanceof CompExp){
                     CompExp comp = (CompExp) varDec.right;
-                    System.out.print(comp.plusExpL);
+                    type = comp.getType();
                 }
+                SymbolTableEntry entry = new VariableEntry(name,type,0,0);
+                newTable.insert(entry);
                 
             }
         }
