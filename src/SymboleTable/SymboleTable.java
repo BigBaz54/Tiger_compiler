@@ -11,11 +11,22 @@ public class SymboleTable {
     private HashMap<String, SymbolTableEntry> table;
     private int regionNumber;
     public static int region=0;
+    private int id;
+    private static int idNumber=0;
+    private SymboleTable parent;
 
     public SymboleTable() {
         this.table = new HashMap<>();
         this.regionNumber = region;
         region ++;
+        this.parent = null;
+    }
+    public SymboleTable(SymboleTable parent) {
+        this.table = new HashMap<>();
+        this.regionNumber = region;
+        region ++;
+        this.parent = parent;
+        this.id = idNumber;
     }
 
     public void insert(SymbolTableEntry entry) {
@@ -33,6 +44,10 @@ public class SymboleTable {
     public List<SymbolTableEntry> getAllEntries() {
         return new ArrayList<>(table.values());
     }
+    public int getRegionNumber() {
+        return regionNumber;
+    }
+
 
     public void print() {
         System.out.println("Region " + regionNumber + ":");
@@ -43,6 +58,10 @@ public class SymboleTable {
         }
         System.out.println("____________________________________________________");
         System.out.println();
+    }
+
+    public int getId() {
+        return id;
     }
 }
 
