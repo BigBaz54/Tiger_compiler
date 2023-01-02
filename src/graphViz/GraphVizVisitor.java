@@ -9,7 +9,12 @@ import java.util.Set;
 import ast.*;
 import ast.RecordType;
 import SymboleTable.*;
+<<<<<<< HEAD
 import types.*;
+=======
+import types.NilType;
+import types.Type;
+>>>>>>> 23e820741d57f6d857e2301102399f2734a75ab7
 
 public class GraphVizVisitor implements AstVisitor<String> {
 
@@ -154,8 +159,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
             return nodeId;
         } else {
-            String plusExpLState = compExp.plusExpL.accept(this);
-            return plusExpLState;
+            return compExp.plusExpL.accept(this);
         }
     }
 
@@ -495,6 +499,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(FunDec funDec) {
+        SymboleTable symboleTable = new SymboleTable();
 
         String nodeId= this.nextState();
 
@@ -502,6 +507,14 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String idState = funDec.id.accept(this);
         String paramState = funDec.params.accept(this);
+        for (Binary param :funDec.params.list) {
+            String name = param.value1.toString();
+            Type type =(Type) param.value2;
+            VariableEntry entry = new VariableEntry(name, type,0,0);
+            symboleTable.insert(entry);
+        }
+
+
         String bodyId = this.nextState();
         this.addNode(bodyId, "Body");
         String bodyState = funDec.body.accept(this);
@@ -605,11 +618,26 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 SymbolTableEntry entry = new VariableEntry(name,type,0,0);
                 newTable.insert(entry);
                 
+
+            } else if (ast instanceof FunDec) {
+                FunDec funDec = (FunDec) ast;
+                List params = (List) funDec.params;
+                java.util.List<types.Type> listOfParameter = new ArrayList<types.Type>();
+                for (Binary param:params.list) {
+                    listOfParameter.add((Type) param.value2);
+                }
+                if (funDec.returnType != null) {
+                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter , (Type) funDec.returnType, params.getSize());
+                    newTable.insert(entry);
+                } else {
+                    Type type = new NilType();
+                    SymbolTableEntry entry = new FunctionEntry(funDec.id.toString(),listOfParameter ,type , params.getSize());
+                    newTable.insert(entry);
+                }
             }
+
         }
         symboleTableList.add(newTable);
-
-        
 
         return nodeId;
     }
