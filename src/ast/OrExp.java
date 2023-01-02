@@ -1,6 +1,7 @@
 package ast;
 
 import types.BoolType;
+import types.IntType;
 import types.Type;
 
 public class OrExp implements Ast, TypeExp{
@@ -15,6 +16,15 @@ public class OrExp implements Ast, TypeExp{
     }
 
     public Type getType(){
-        return new BoolType();
+        Type typeGauche = ((TypeExp)gauche).getType();
+        Type typeDroite = ((TypeExp)droite).getType();
+        if(typeGauche instanceof IntType && typeDroite instanceof IntType){
+            return new IntType();
+        }
+        else{
+            System.out.println("Type error: "+typeGauche+" and "+typeDroite+" are not compatible");
+            System.exit(1);
+            return null;
+        }
     }
 }
