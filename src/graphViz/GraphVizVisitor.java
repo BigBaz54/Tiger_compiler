@@ -11,10 +11,10 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private int state;
     private String nodeBuffer;
     private String linkBuffer;
-    private SymboleTable symboleTable;
+    private SymboleTableList symboleTableList;
 
     public GraphVizVisitor(){
-        this.symboleTable = new SymboleTable();
+        this.symboleTableList = new SymboleTableList();
         this.state = 0;
         this.nodeBuffer = "digraph \"ast\"{\n\n\tnodesep=1;\n\tranksep=1;\n\n";
         this.linkBuffer = "\n";
@@ -28,7 +28,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         byte[] strToBytes = buffer.getBytes();
 
         output.write(strToBytes);
-
+        
         output.close();
 
     }
