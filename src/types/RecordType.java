@@ -14,7 +14,7 @@ public class RecordType extends Type {
     public Map<String, Type> getFields() {
         return fields;
     }
-    public String getId() {
+    public String toString() {
         return id;
     }
 

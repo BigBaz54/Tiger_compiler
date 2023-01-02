@@ -34,12 +34,12 @@ public class SymboleTable {
         return new ArrayList<>(table.values());
     }
 
-    public void print(TypeFactory f) {
+    public void print() {
         System.out.println("Region " + regionNumber + ":");
         System.out.println("____________________________________________________");
         System.out.println("Name\tType\tKind\tValue");
         for (SymbolTableEntry entry : getAllEntries()) {
-            entry.print(f);
+            entry.print();
         }
     }
 }

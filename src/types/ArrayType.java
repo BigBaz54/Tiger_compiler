@@ -3,10 +3,12 @@ package types;
 public class ArrayType extends Type {
     private Type elementType;
     private int size;
+    private String id;
 
-    public ArrayType(Type elementType, int size) {
+    public ArrayType(Type elementType, int size, String id) {
         this.elementType = elementType;
         this.size = size;
+        this.id = id;
     }
 
     public Type getElementType() {
@@ -25,5 +27,9 @@ public class ArrayType extends Type {
         } else {
             return false;
         }
+    }
+    @Override
+    public String toString() {
+        return id;
     }
 }

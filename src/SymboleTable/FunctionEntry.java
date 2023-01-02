@@ -25,7 +25,7 @@ public class FunctionEntry extends SymbolTableEntry {
     }
 
 
-    public void print(TypeFactory f) {
-        System.out.println(getName() + "\t" + f.getType(type) + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
+    public void print() {
+        System.out.println(getName() + "\t" + type.toString() + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
     }
 }

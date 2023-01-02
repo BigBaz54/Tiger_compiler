@@ -27,9 +27,9 @@ public class SymboleTableList {
         return symboleTableList.size();
     }
 
-    public void print(TypeFactory f) {
+    public void print() {
         for (SymboleTable symboleTable : symboleTableList) {
-            symboleTable.print(f);
+            symboleTable.print();
         }
     }
 }

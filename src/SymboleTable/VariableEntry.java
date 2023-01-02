@@ -32,7 +32,7 @@ public class VariableEntry extends SymbolTableEntry {
 
 
 
-    public void print(TypeFactory f) {
-        System.out.println(getName() + "\t" + f.getType(type) + "\t" + "Var" + "\t" + getValue() + "\t" + getOffset());
+    public void print() {
+        System.out.println(getName() + "\t" + type.toString() + "\t" + "Var" + "\t" + getValue() + "\t" + getOffset());
     }
 }

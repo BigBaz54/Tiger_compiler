@@ -21,5 +21,5 @@ public abstract class SymbolTableEntry {
     }
 
 
-    public abstract void print(TypeFactory f);
+    public abstract void print();
 }

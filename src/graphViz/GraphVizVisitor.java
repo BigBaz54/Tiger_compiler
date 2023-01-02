@@ -17,7 +17,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
     private String nodeBuffer;
     private String linkBuffer;
     private SymboleTableList symboleTableList;
-    private TypeFactory typeFactory = new TypeFactory();
 
     public GraphVizVisitor(){
         this.symboleTableList = new SymboleTableList();
@@ -37,7 +36,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         output.close();
 
-        symboleTableList.print(typeFactory);
+        symboleTableList.print();
 
     }
 
@@ -595,16 +594,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 if(varDec.left instanceof VarType) {
                     VarType varType = (VarType) varDec.left;
                     name = varType.id.name;
-                    type = typeFactory.getType(varType.type.name);
+                    type = TypeFactory.getType(varType.type.name);
                 }
                 if(varDec.left instanceof Id){
                     Id id = (Id) varDec.left;
                     name = id.name;
-                    type = typeFactory.getType("void");
-                }
-                if (varDec.right instanceof CompExp){
-                    CompExp comp = (CompExp) varDec.right;
-                    type = comp.getType();
+                    type = TypeFactory.getType("void");
                 }
                 SymbolTableEntry entry = new VariableEntry(name,type,0,0);
                 newTable.insert(entry);
@@ -617,11 +612,12 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Map<String, Type> fields = new HashMap<String, Type>();
                 for (Binary field:((FieldList) typeRec.right).list) {
                     String fieldType = ((Id) field.value2).name;
-                    fields.put(field.value1.name, typeFactory.getType(fieldType));
+                    fields.put(field.value1.name, TypeFactory.getType(fieldType));
                 }
                 types.RecordType recordType = new types.RecordType(name, fields);
-                typeFactory.addType(name, recordType);
-                System.out.println("Type ajouté : "+recordType);
+                TypeFactory.addType(name, recordType);
+                System.out.println("Type ajouté : "+name);
+                System.out.println("Type ajouté : "+recordType.toString());
             
                 
                 
