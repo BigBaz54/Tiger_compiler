@@ -8,6 +8,8 @@ let
         in
             print(foo(3))
         end
+    var b:String := "bing chilling"
+
 in
     main(69)
 end

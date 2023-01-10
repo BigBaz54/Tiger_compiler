@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.antlr.v4.runtime.misc.Pair;
 import types.IntType;
+import types.NilType;
+import types.Type;
 import types.TypeFactory;
 
 public class SymboleTableList {
@@ -37,4 +39,6 @@ public class SymboleTableList {
             symboleTable.print();
         }
     }
+
+
 }

@@ -22,4 +22,7 @@ public abstract class SymbolTableEntry {
 
 
     public abstract void print();
+    public Type getType(){
+        return this.type;
+    }
 }

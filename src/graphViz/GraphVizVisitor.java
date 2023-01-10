@@ -607,35 +607,39 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(Let let) {
-        // // SymbolTable //
-        // // Initialisation des variables déclarées dans la TDS
-        // for (Ast ast:let.decs) {
-        //     // Si l'entrée est une VarDec
-        //     if (ast instanceof VarDec) {
-        //         VarDec varDec = (VarDec) ast;
-        //         String name=null;Type type=null;
-        //         //System.out.println(varDec.right.getClass().toString());
-        //         if(varDec.left instanceof VarType) {
-        //             VarType varType = (VarType) varDec.left;
-        //             name = varType.id.name;
-        //             type = typeFactory.getType(varType.type.name);
-        //         }
-        //         if(varDec.left instanceof Id){
-        //             System.out.println("Id");
-        //             Id id = (Id) varDec.left;
-        //             name = id.name;
-        //             type = typeFactory.getType("void");
-        //         }
-        //         // On regarde le type de l'expression à droite. 
-        //         TypeExp right = (TypeExp) varDec.right;
-        //         Type rightType = right.getType(typeFactory);
-        //         // Si le type de l'expression à droite est différent du type de la variable --> Erreur
-        //         if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
-        //             System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
-        //             System.exit(1);
-        //         }
-        //         SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
-        //         current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
+        // SymbolTable //
+        // Initialisation des variables déclarées dans la TDS
+        for (Ast ast:let.decs) {
+            // Si l'entrée est une VarDec
+            if (ast instanceof VarDec) {
+                VarDec varDec = (VarDec) ast;
+                String name=null;Type type=null;
+                //System.out.println(varDec.right.getClass().toString());
+                if(varDec.left instanceof VarType) {
+                    VarType varType = (VarType) varDec.left;
+                    name = varType.id.name;
+                    type = typeFactory.getType(varType.type.name);
+                }
+                if(varDec.left instanceof Id){
+                    System.out.println("Id");
+                    Id id = (Id) varDec.left;
+                    name = id.name;
+                    type = typeFactory.getType("void");
+                }
+                // On regarde le type de l'expression à droite.
+                Type rightType =  current_tds.lookupType(varDec.right.toString());
+                System.out.println("-------------------------");
+                System.out.println("Name : "+name);
+                System.out.println("vardeck right  : "+varDec.right.);
+                //TypeExp right = (TypeExp) varDec.right;
+                //Type rightType = right.getType(typeFactory);
+                // Si le type de l'expression à droite est différent du type de la variable --> Erreur
+                if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
+                    System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
+                    System.exit(1);
+                }
+                SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
+                current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
         //     } 
         //     // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
@@ -689,21 +693,31 @@ public class GraphVizVisitor implements AstVisitor<String> {
         //     }
 
 
-        // }
-        // // Remplissage de la TDS
-        // for(Ast ast : let.body){
-        //     if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
-        //         Exp exp = (Exp) ast;
-        //         if(exp.id!=null){
-        //             String name = exp.id.name;
-        //             SymbolTableEntry entry = current_tds.lookup(name);
-        //             if(entry!=null){
-        //                 Ast value = exp.orExp;
-        //                 System.out.println(value.getClass().getSimpleName());
-        //             }
-        //         }
-        //     }
-        // }
+        }
+        // Remplissage de la TDS
+        for(Ast ast : let.body){
+            if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
+                Exp exp = (Exp) ast;
+                if(exp.id!=null){
+                    String name = exp.id.name;
+                    SymbolTableEntry entry = current_tds.lookup(name);
+                    if(entry!=null){
+                        Ast value = exp.orExp;
+                        Type type1 = entry.getType();
+                        Type type2 = ((TypeExp) exp.orExp).getType();
+                        if (type1 != type2){
+                            System.out.println("Type mismatch in variable assignment of "+name+" : Expected "+type1+" and got "+type2);
+                            System.exit(1);
+                        }
+                        System.out.println(value.getClass().getSimpleName());
+                    }
+                    else{
+                        System.out.println("Variable "+name+" is not declared");
+                        System.exit(1);
+                    }
+                }
+            }
+        }
 
 
         // Graph //

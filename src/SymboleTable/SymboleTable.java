@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import types.Type;
 import types.TypeFactory;
 
 
@@ -53,7 +54,10 @@ public class SymboleTable {
 
 
     public void print() {
-        System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ":");
+        if (parent != null) {
+            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": "+ "Paren " + parent.regionNumber+ " / " + parent.idNumber);
+        }
+        System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": ");
         System.out.println("____________________________________________________");
         System.out.println("Id\tKind\tName\tType\tValue");
         for (SymbolTableEntry entry : getAllEntries()) {
@@ -65,6 +69,21 @@ public class SymboleTable {
 
     public int getId() {
         return id;
+    }
+
+    public Type lookupType(String name) {
+        SymbolTableEntry entry = lookup(name);
+        if (entry != null) {
+            return entry.getType();
+        }
+        while (this.parent != null){
+            entry = parent.lookup(name);
+            if (entry != null) {
+                return entry.getType();
+            }
+            this.parent = parent.parent;
+        }
+        return null;
     }
 }
 
