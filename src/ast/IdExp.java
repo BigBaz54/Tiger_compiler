@@ -1,7 +1,6 @@
 package ast;
 
 import java.util.List;
-import types.Type;
 
 public class IdExp implements Ast {
     public <T> T accept(AstVisitor<T> visitor) {

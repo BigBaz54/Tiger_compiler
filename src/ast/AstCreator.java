@@ -11,43 +11,27 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
         Ast child = ctx.getChild(0).accept(this);
         return new Program(child);
     }
+
     public Ast visitLValue(TigerParser.LValueContext ctx) {
         int childCount = ctx.getChildCount();
-        if (childCount == 1) {
-            return ctx.getChild(0).accept(this);
-        }/*
-        Ast lValue;
-        Ast temp = ctx.getChild(childCount-1).accept(this);
-        Ast id = ((LValue) ctx.getChild(childCount-2).accept(this)).right;
-        if (temp instanceof LValueDot){
-            lValue = new LValueExp(id,((LValueDot) temp).right);
-            ((LValueExp)lValue).name = ".";
-        }else{
-            lValue = new LValueExp(id,((LValueBrack) temp).right);
-            ((LValueExp)lValue).name = "[]";
-        }
-        for (int i = childCount-2; i>0; i--) {
-            Ast temp2 = ctx.getChild(i).accept(this);
-            Ast idLeft = ((LValue) ctx.getChild(i-1).accept(this)).right;
-            Ast newLValue = new LValueExp(idLeft,lValue);
-            if (temp2 instanceof LValueDot){
-                ((LValueExp) newLValue).name=".";
-            }else{
-                ((LValueExp) newLValue).name="[]";
-            }
-            lValue=newLValue;
-        }*/
         Ast lValue = ctx.getChild(0).accept(this);
+        if (childCount == 1) {
+            return lValue;
+        }
+        for (int i = 1; i < childCount; i++) {
+            Ast temp = ctx.getChild(i).accept(this);
+            ((LValueExp) temp).accessed = lValue;
+            lValue = temp;
+        }
         return lValue;
     }
+
     public Ast visitLValueDot(TigerParser.LValueDotContext ctx) {
-        Id field = new Id(ctx.getChild(1).toString());
-        return new LValueDot(field);
+        return new LValueDot(null, new Id(ctx.getChild(1).toString()));
     }
 
     public Ast visitLValueBrack(TigerParser.LValueBrackContext ctx) {
-        Ast exp = ctx.getChild(1).accept(this);
-        return new LValueBrack(exp);
+        return new LValueBrack(null, ctx.getChild(1).accept(this));
     }
 
     public Ast visitExp(TigerParser.ExpContext ctx) {
@@ -58,12 +42,10 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                 return Exp;
             }
             case 4 -> {
-                Id id = new Id(ctx.getChild(0).toString());
-                Ast right = ctx.getChild(1).accept(this);
-                String name = (right instanceof LValueDot ? "." : "[]");
-                Ast lvalue = new LValueExp(id, ((LValue) right).right,name);
+                Ast lValue = ctx.getChild(1).accept(this);
+                ((LValueExp) lValue).setId(new Id(ctx.getChild(0).toString()));
                 Ast orExp = ctx.getChild(3).accept(this);
-                return new Exp(null,lvalue, orExp);
+                return new Exp(null,lValue, orExp);
             }
             case 3 -> {
                 Id id1 = new Id(ctx.getChild(0).toString());
@@ -191,9 +173,16 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                         return new RecordExp(id, right);
                     }
                     case "LValueDot" -> {
-                        return new LValueExp(id, ((LValue) right).right,".");                 }
+                        // jamais utilisé je crois
+                        System.out.println("Si ça s'affiche : ça vient de idExp dans AstCreator, dire à LV");
+                        ((LValueExp) right).setId(id);
+                        return right;
+                    }
                     case "LValueBrack" -> {
-                        return new LValueExp(id, ((LValueBrack) right).right,"[]");
+                        // jamais utilisé je crois
+                        System.out.println("Si ça s'affiche : ça vient de idExp dans AstCreator, dire à LV");
+                        ((LValueExp) right).setId(id);
+                        return right;
                     }
                     case "AstList" -> {
                         return new CallExp(id, right);

@@ -30,5 +30,9 @@ public class Id implements Ast, TypeExp {
     public Type getType(TypeFactory f) {
         return f.getType(name);
     }
-        
+
+    @Override
+    public String toString() {
+        return name;
+    }  
 }

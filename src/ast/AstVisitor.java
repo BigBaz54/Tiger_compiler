@@ -2,6 +2,8 @@ package ast;
 
 public interface AstVisitor<T> {
     public T visit(Program program);
+    public T visit(LValueDot lValueDot);
+    public T visit(LValueBrack lValueBrack);
     public T visit(LValue lValue);
     public T visit(Exp exp) ;
     public T visit(OrExp orExp) ;
@@ -40,4 +42,5 @@ public interface AstVisitor<T> {
     public T visit(Concat concat);
     public T visit(Not not);
     public T visit(Exit exit);
+    public T visit(LValueExp lValueExp);
 }

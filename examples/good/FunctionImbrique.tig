@@ -1,9 +1,9 @@
 let
     var a:int := 25
 
-    function main(chibre : int) : void =
+    function main(chiffre : int) : void =
         let
-            function foo(chibre : int) : int =
+            function foo(chiffre : int) : int =
                 1
         in
             print(foo(3))

@@ -84,6 +84,42 @@ public class GraphVizVisitor implements AstVisitor<String> {
     }
 
     @Override
+    public String visit(LValueExp lValueExp) {
+        String nodeId= this.nextState();
+        return nodeId;
+    }
+
+    @Override
+    public String visit(LValueBrack lValueBrack) {
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, "[]");
+
+        String accessedState = lValueBrack.accessed.accept(this);
+        String expState = lValueBrack.exp.accept(this);
+
+        this.addTransition(nodeId, accessedState);
+        this.addTransition(nodeId, expState);
+
+        return nodeId;
+    }
+
+    @Override
+    public String visit(LValueDot lValueDot) {
+        String nodeId= this.nextState();
+
+        this.addNode(nodeId, ".");
+
+        String accessedState = lValueDot.accessed.accept(this);
+        String expState = lValueDot.exp.accept(this);
+
+        this.addTransition(nodeId, accessedState);
+        this.addTransition(nodeId, expState);
+
+        return nodeId;
+    }
+
+    @Override
     public String visit(Exp exp) {
 
         String nodeId = this.nextState();
@@ -571,103 +607,103 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(Let let) {
-        // SymbolTable //
-        // Initialisation des variables déclarées dans la TDS
-        for (Ast ast:let.decs) {
-            // Si l'entrée est une VarDec
-            if (ast instanceof VarDec) {
-                VarDec varDec = (VarDec) ast;
-                String name=null;Type type=null;
-                //System.out.println(varDec.right.getClass().toString());
-                if(varDec.left instanceof VarType) {
-                    VarType varType = (VarType) varDec.left;
-                    name = varType.id.name;
-                    type = typeFactory.getType(varType.type.name);
-                }
-                if(varDec.left instanceof Id){
-                    System.out.println("Id");
-                    Id id = (Id) varDec.left;
-                    name = id.name;
-                    type = typeFactory.getType("void");
-                }
-                // On regarde le type de l'expression à droite. 
-                TypeExp right = (TypeExp) varDec.right;
-                Type rightType = right.getType(typeFactory);
-                // Si le type de l'expression à droite est différent du type de la variable --> Erreur
-                if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
-                    System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
-                    System.exit(1);
-                }
-                SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
-                current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
+        // // SymbolTable //
+        // // Initialisation des variables déclarées dans la TDS
+        // for (Ast ast:let.decs) {
+        //     // Si l'entrée est une VarDec
+        //     if (ast instanceof VarDec) {
+        //         VarDec varDec = (VarDec) ast;
+        //         String name=null;Type type=null;
+        //         //System.out.println(varDec.right.getClass().toString());
+        //         if(varDec.left instanceof VarType) {
+        //             VarType varType = (VarType) varDec.left;
+        //             name = varType.id.name;
+        //             type = typeFactory.getType(varType.type.name);
+        //         }
+        //         if(varDec.left instanceof Id){
+        //             System.out.println("Id");
+        //             Id id = (Id) varDec.left;
+        //             name = id.name;
+        //             type = typeFactory.getType("void");
+        //         }
+        //         // On regarde le type de l'expression à droite. 
+        //         TypeExp right = (TypeExp) varDec.right;
+        //         Type rightType = right.getType(typeFactory);
+        //         // Si le type de l'expression à droite est différent du type de la variable --> Erreur
+        //         if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
+        //             System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
+        //             System.exit(1);
+        //         }
+        //         SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
+        //         current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
-            } 
-            // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
-            else if (ast instanceof TyDecRecord) {
-                TyDecRecord typeRec = (TyDecRecord) ast;
-                String name = typeRec.id.name;
-                Map<String, Type> fields = new HashMap<String, Type>();
-                for (Binary field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
-                    String fieldType = ((Id) field.value2).name;
-                    fields.put(field.value1.name, typeFactory.getType(fieldType));
-                }
-                types.RecordType recordType = new types.RecordType(name, fields); 
-                typeFactory.addType(name, recordType);  // On ajoute le type dans la table des types           
-            } 
-            // Si l'entrée est une TypeArray --> On crée un nouveau type dans la table des types
-            else if (ast instanceof TyDecArray){
-                TyDecArray typeArray = (TyDecArray) ast;
-                String name = typeArray.id.name;
-                String type = ((Id) typeArray.right).name;
-                types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
-                typeFactory.addType(name, arrayType); // On ajoute le type dans la table des types
-            }
-            // Si l'entrée est un TypeId --> On crée un nouveau type dans la table des types
-            else if (ast instanceof TyDecId) {
-                TyDecId typeId = (TyDecId) ast;
-                String name = typeId.id.name;
-                String type = ((Id) typeId.right).name;
-                types.Type typeType = typeFactory.getType(type);
-                typeFactory.addType(name, typeType); // On ajoute le type dans la table des types
-            }
+        //     } 
+        //     // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
+        //     else if (ast instanceof TyDecRecord) {
+        //         TyDecRecord typeRec = (TyDecRecord) ast;
+        //         String name = typeRec.id.name;
+        //         Map<String, Type> fields = new HashMap<String, Type>();
+        //         for (Binary field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
+        //             String fieldType = ((Id) field.value2).name;
+        //             fields.put(field.value1.name, typeFactory.getType(fieldType));
+        //         }
+        //         types.RecordType recordType = new types.RecordType(name, fields); 
+        //         typeFactory.addType(name, recordType);  // On ajoute le type dans la table des types           
+        //     } 
+        //     // Si l'entrée est une TypeArray --> On crée un nouveau type dans la table des types
+        //     else if (ast instanceof TyDecArray){
+        //         TyDecArray typeArray = (TyDecArray) ast;
+        //         String name = typeArray.id.name;
+        //         String type = ((Id) typeArray.right).name;
+        //         types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
+        //         typeFactory.addType(name, arrayType); // On ajoute le type dans la table des types
+        //     }
+        //     // Si l'entrée est un TypeId --> On crée un nouveau type dans la table des types
+        //     else if (ast instanceof TyDecId) {
+        //         TyDecId typeId = (TyDecId) ast;
+        //         String name = typeId.id.name;
+        //         String type = ((Id) typeId.right).name;
+        //         types.Type typeType = typeFactory.getType(type);
+        //         typeFactory.addType(name, typeType); // On ajoute le type dans la table des types
+        //     }
 
-            // Si l'entrée est une FunDec
-            else if (ast instanceof FunDec) {
-                FunDec funDec = (FunDec) ast;
-                String name = funDec.id.name;
-                List params = (List) funDec.params;
-                java.util.List<Type> listOfParameter = new ArrayList<Type>();
-                for (Binary param:params.list) {
-                    String type = ((Id) param.value2).name;
-                    listOfParameter.add(typeFactory.getType(type));
-                }
-                if (funDec.returnType != null) {
-                    Type type = typeFactory.getType(funDec.returnType.name);
-                    SymbolTableEntry entry = new FunctionEntry(name,listOfParameter , type, params.getSize());
-                    current_tds.insert(entry);
-                } else {
-                    Type type = new VoidType();
-                    SymbolTableEntry entry = new FunctionEntry(name,listOfParameter ,type , params.getSize());
-                    current_tds.insert(entry);
-                }
-            }
+        //     // Si l'entrée est une FunDec
+        //     else if (ast instanceof FunDec) {
+        //         FunDec funDec = (FunDec) ast;
+        //         String name = funDec.id.name;
+        //         List params = (List) funDec.params;
+        //         java.util.List<Type> listOfParameter = new ArrayList<Type>();
+        //         for (Binary param:params.list) {
+        //             String type = ((Id) param.value2).name;
+        //             listOfParameter.add(typeFactory.getType(type));
+        //         }
+        //         if (funDec.returnType != null) {
+        //             Type type = typeFactory.getType(funDec.returnType.name);
+        //             SymbolTableEntry entry = new FunctionEntry(name,listOfParameter , type, params.getSize());
+        //             current_tds.insert(entry);
+        //         } else {
+        //             Type type = new VoidType();
+        //             SymbolTableEntry entry = new FunctionEntry(name,listOfParameter ,type , params.getSize());
+        //             current_tds.insert(entry);
+        //         }
+        //     }
 
 
-        }
-        // Remplissage de la TDS
-        for(Ast ast : let.body){
-            if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
-                Exp exp = (Exp) ast;
-                if(exp.id!=null){
-                    String name = exp.id.name;
-                    SymbolTableEntry entry = current_tds.lookup(name);
-                    if(entry!=null){
-                        Ast value = exp.orExp;
-                        System.out.println(value.getClass().getSimpleName());
-                    }
-                }
-            }
-        }
+        // }
+        // // Remplissage de la TDS
+        // for(Ast ast : let.body){
+        //     if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
+        //         Exp exp = (Exp) ast;
+        //         if(exp.id!=null){
+        //             String name = exp.id.name;
+        //             SymbolTableEntry entry = current_tds.lookup(name);
+        //             if(entry!=null){
+        //                 Ast value = exp.orExp;
+        //                 System.out.println(value.getClass().getSimpleName());
+        //             }
+        //         }
+        //     }
+        // }
 
 
         // Graph //

@@ -16,5 +16,9 @@ public class IntLit implements Ast,TypeExp {
     public Type getType(){
         return new IntType();
     }
-    
+
+    @Override
+    public String toString() {
+        return Integer.toString(value);
+    }
 }

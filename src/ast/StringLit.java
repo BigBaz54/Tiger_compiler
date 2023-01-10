@@ -17,5 +17,10 @@ public class StringLit implements Ast,TypeExp {
     public Type getType(){
         return new StringType();
     }
+
+    @Override
+    public String toString() {
+        return "\"" + value + "\"";
+    }
 }
 
