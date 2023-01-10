@@ -590,9 +590,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     name = id.name;
                     type = typeFactory.getType("void");
                 }
-                // On regarde le type de l'expression à droite. 
-                TypeExp right = (TypeExp) varDec.right;
-                Type rightType = right.getType(typeFactory);
+                // On regarde le type de l'expression à droite.
+                Type rightType =  current_tds.lookupType(varDec.right.toString());
+                System.out.println("-------------------------");
+                System.out.println("Name : "+name);
+                System.out.println("vardeck right  : "+varDec.right.);
+                //TypeExp right = (TypeExp) varDec.right;
+                //Type rightType = right.getType(typeFactory);
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
                 if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
                     System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
@@ -663,7 +667,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     SymbolTableEntry entry = current_tds.lookup(name);
                     if(entry!=null){
                         Ast value = exp.orExp;
+                        Type type1 = entry.getType();
+                        Type type2 = ((TypeExp) exp.orExp).getType();
+                        if (type1 != type2){
+                            System.out.println("Type mismatch in variable assignment of "+name+" : Expected "+type1+" and got "+type2);
+                            System.exit(1);
+                        }
                         System.out.println(value.getClass().getSimpleName());
+                    }
+                    else{
+                        System.out.println("Variable "+name+" is not declared");
+                        System.exit(1);
                     }
                 }
             }
