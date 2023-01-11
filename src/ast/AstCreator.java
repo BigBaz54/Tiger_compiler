@@ -1,8 +1,5 @@
 package ast;
 
-import org.antlr.runtime.RecognizerSharedState;
-import org.stringtemplate.v4.compiler.STParser.namedArg_return;
-
 import parser.TigerParser;
 import parser.TigerParserBaseVisitor;
 
