@@ -1,57 +1,55 @@
 package SymboleTable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import types.Type;
-import types.TypeFactory;
-
 
 public class SymboleTable {
-    private HashMap<String, SymbolTableEntry> table;
+    private ArrayList<SymbolTableEntry> symboleTable;
     private int regionNumber;
-    public static int region=0;
+    public static int region = 0;
     private int idNumber;
-    public static int id=0;
+    public static int id = 0;
     private SymboleTable parent;
 
     public SymboleTable() {
-        this.table = new HashMap<>();
+        this.symboleTable = new ArrayList<>();
         this.regionNumber = region;
         region ++;
         this.idNumber = id;
         id ++;
         this.parent = null;
     }
+
     public SymboleTable(SymboleTable parent) {
-        this.table = new HashMap<>();
+        this.symboleTable = new ArrayList<>();
         this.regionNumber = region;
         region ++;
-        this.parent = parent;
         this.idNumber = id;
         id++;
+        this.parent = parent;
     }
 
     public void insert(SymbolTableEntry entry) {
-        table.put(entry.getName(), entry);
+        symboleTable.add(entry);
     }
 
     public SymbolTableEntry lookup(String name) {
-        return table.get(name);
+        for (SymbolTableEntry entry : symboleTable) {
+            if (entry.getName() == name) {
+                return entry;
+            }
+        }
+        return null;
     }
 
-    public void delete(String name) {
-        table.remove(name);
+    public ArrayList<SymbolTableEntry> getSymbolTable() {
+        return symboleTable;
     }
 
-    public List<SymbolTableEntry> getAllEntries() {
-        return new ArrayList<>(table.values());
-    }
     public int getRegionNumber() {
         return regionNumber;
     }
-
 
     public void print() {
         if (parent != null) {
@@ -60,7 +58,7 @@ public class SymboleTable {
         System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": ");
         System.out.println("____________________________________________________");
         System.out.println("Id\tKind\tName\tType\tValue");
-        for (SymbolTableEntry entry : getAllEntries()) {
+        for (SymbolTableEntry entry : symboleTable) {
             entry.print();
         }
         System.out.println("____________________________________________________");
