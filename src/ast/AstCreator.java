@@ -174,13 +174,11 @@ public class AstCreator extends TigerParserBaseVisitor<Ast> {
                     }
                     case "LValueDot" -> {
                         // jamais utilisé je crois
-                        System.out.println("Si ça s'affiche : ça vient de idExp dans AstCreator, dire à LV");
                         ((LValueExp) right).setId(id);
                         return right;
                     }
                     case "LValueBrack" -> {
                         // jamais utilisé je crois
-                        System.out.println("Si ça s'affiche : ça vient de idExp dans AstCreator, dire à LV");
                         ((LValueExp) right).setId(id);
                         return right;
                     }
