@@ -1,6 +1,5 @@
 package ast;
 
-import types.BoolType;
 import types.IntType;
 import types.Type;
 
