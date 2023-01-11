@@ -22,6 +22,7 @@ public class SymboleTableCreator {
     }
 
     public void createTable(String currentNode) {
+        System.out.println("Current node: " + nameEquivalence.get(currentNode));
         ArrayList<String> children = tree.get(currentNode);
         if (nameEquivalence.get(currentNode).equals("VarDec")) {
             if (nameEquivalence.get(children.get(0)).equals(":")){
@@ -58,6 +59,22 @@ public class SymboleTableCreator {
             String typeType=getType(nameEquivalence.get(children.get(1)));
             typeFactory.addType(nameType, typeFactory.getType(typeType));
         }
+        if(nameEquivalence.get(currentNode).equals("FunDec")){
+            String nameFunction=nameEquivalence.get(children.get(0));
+            if(children.size()>3){
+                String typeFunction=getType(nameEquivalence.get(children.get(3)));
+            }
+            ArrayList<String> paramchildren = tree.get(children.get(1));
+            List<Type> params = new ArrayList<Type>();
+            for (int i = 0; i < paramchildren.size(); i++) {
+                String paramtype = nameEquivalence.get(tree.get(paramchildren.get(i)).get(1));
+                params.add(typeFactory.getType(paramtype));
+            }
+            String bodyFunction = nameEquivalence.get(children.get(2));
+            FunctionEntry functionEntry = new FunctionEntry(nameFunction, params, typeFactory.getType(bodyFunction),params.size());
+            current_tds.insert(functionEntry);
+        }
+        
         if(children != null) {
             for(String child : children){
                 createTable(child);
