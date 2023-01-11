@@ -1,5 +1,6 @@
 package SymboleTable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -191,6 +192,22 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
 
         }
 
+        if (tyDec instanceof TyDecArray) {
+            TyDecArray tyDecArray = (TyDecArray) tyDec;
+            String name = tyDecArray.id.name;
+            String type = ((Id) tyDecArray.right).name;
+            types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
+            typeFactory.addType(name, arrayType);  // On ajoute le type dans la table des types
+        }
+
+        if (tyDec instanceof TyDecId) {
+            TyDecId tyDecId = (TyDecId) tyDec;
+            String name = tyDecId.id.name;
+            String type = ((Id) tyDecId.right).name;
+            types.Type idType = typeFactory.getType(type);
+            typeFactory.addType(name, idType);  // On ajoute le type dans la table des types
+        }
+
         return null;
     }
 
@@ -205,11 +222,30 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDec funDec) {
+        // Visiteur
         funDec.id.accept(this);
         funDec.params.accept(this);
         funDec.body.accept(this);
         if(funDec.returnType!=null)
             funDec.returnType.accept(this);
+            
+        // Remplissage de la table des symboles
+        String name = funDec.id.name;
+        List params = (List) funDec.params;
+        java.util.List<Type> listOfParameter = new ArrayList<Type>();
+        for (Binary param:params.list) {
+            String type = ((Id) param.value2).name;
+            listOfParameter.add(typeFactory.getType(type));
+        }
+        if (funDec.returnType != null) {
+            Type type = typeFactory.getType(funDec.returnType.name);
+            SymbolTableEntry entry = new FunctionEntry(name,listOfParameter , type, params.getSize());
+            currentSymboleTable.insert(entry);
+        } else {
+            Type type = new VoidType();
+            SymbolTableEntry entry = new FunctionEntry(name,listOfParameter ,type , params.getSize());
+            currentSymboleTable.insert(entry);
+        }
         return null;
     }
 
