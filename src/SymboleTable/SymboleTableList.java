@@ -2,11 +2,6 @@ package SymboleTable;
 
 import java.util.ArrayList;
 
-import types.IntType;
-import types.NilType;
-import types.Type;
-import types.TypeFactory;
-
 public class SymboleTableList {
     private ArrayList<SymboleTable> symboleTableList;
 
@@ -35,6 +30,4 @@ public class SymboleTableList {
             symboleTable.print();
         }
     }
-
-
 }
