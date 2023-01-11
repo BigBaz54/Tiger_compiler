@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 
 import java.io.IOException;
 
+import SymboleTable.CreateTree;
+import SymboleTable.SymboleTableCreator;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -62,6 +64,11 @@ public class Main {
             ast.accept(graphViz);
         
             graphViz.dumpGraph("./out/tree.dot");
+            CreateTree tree = new CreateTree();
+            tree.readFile();
+            SymboleTableCreator symboleTableCreator = new SymboleTableCreator(tree.getTree(), tree.getNameEquivalence());
+            symboleTableCreator.createTable("N0");
+            symboleTableCreator.getSymboleTableList().print();
         } 
         catch (IOException e) {
             e.printStackTrace();

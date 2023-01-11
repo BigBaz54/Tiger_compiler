@@ -38,7 +38,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         output.close();
 
-        symboleTableList.print();
+        //symboleTableList.print();
 
     }
 
@@ -630,7 +630,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Type rightType =  current_tds.lookupType(varDec.right.toString());
                 System.out.println("-------------------------");
                 System.out.println("Name : "+name);
-                System.out.println("vardeck right  : "+varDec.right.);
+                System.out.println("vardeck right  : "+varDec.right.toString());
                 //TypeExp right = (TypeExp) varDec.right;
                 //Type rightType = right.getType(typeFactory);
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
@@ -693,7 +693,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         //     }
 
 
-        }
+        }}
         // Remplissage de la TDS
         for(Ast ast : let.body){
             if(ast instanceof Exp){ // Si on a un assignment (:=), on modifie les valeurs de la TDS
