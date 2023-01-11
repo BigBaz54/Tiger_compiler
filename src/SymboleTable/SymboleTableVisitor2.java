@@ -1,5 +1,8 @@
 package SymboleTable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ast.*;
 import types.*;
 
@@ -174,6 +177,20 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
     public Void visit(TyDec tyDec) {
         tyDec.id.accept(this);
         tyDec.right.accept(this);
+
+        if (tyDec instanceof TyDecRecord) {
+            TyDecRecord tyDecRecord = (TyDecRecord) tyDec;
+            String name = tyDecRecord.id.name;
+            Map<String, Type> fields = new HashMap<String, Type>();
+            for (Binary field:((FieldList) tyDecRecord.right).list) { // On crée sa liste de champs
+                String fieldType = ((Id) field.value2).name;
+                fields.put(field.value1.name, typeFactory.getType(fieldType));
+            }
+            types.RecordType recordType = new types.RecordType(name, fields);
+            typeFactory.addType(name, recordType);  // On ajoute le type dans la table des types
+
+        }
+
         return null;
     }
 
@@ -238,6 +255,7 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
             System.exit(1);
         }
         SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
+        System.out.println("Variable "+name+" of type "+rightType+" added to the symbol table");
         currentSymboleTable.insert(entry); // On ajoute l'entrée dans la table des symboles
         
         return null;
