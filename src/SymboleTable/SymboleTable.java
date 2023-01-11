@@ -34,9 +34,9 @@ public class SymboleTable {
         symboleTable.add(entry);
     }
 
-    public SymbolTableEntry lookup(String name) {
+    public SymbolTableEntry lookup(String name, boolean isFunction) {
         for (SymbolTableEntry entry : symboleTable) {
-            if (entry.getName() == name) {
+            if ((entry.getName() == name) && ((entry instanceof FunctionEntry) == isFunction)) {
                 return entry;
             }
         }
@@ -69,19 +69,41 @@ public class SymboleTable {
         return id;
     }
 
-    public Type lookupType(String name) {
-        SymbolTableEntry entry = lookup(name);
+    public ArrayList<Type> lookupType(String name) {
+        SymbolTableEntry entry;
+        Type funcType = null;
+        Type varType = null;
+        SymboleTable curr = this;
+
+        entry = curr.lookup(name, true);
         if (entry != null) {
-            return entry.getType();
+            funcType = entry.getType();
         }
-        while (this.parent != null){
-            entry = parent.lookup(name);
+        entry = curr.lookup(name, false);
+        if (entry != null) {
+            varType = entry.getType();
+        }
+
+        while ((curr.parent != null) && (funcType == null || varType == null)){
+            curr = curr.parent;
+            entry = curr.lookup(name, true);
             if (entry != null) {
-                return entry.getType();
+                funcType = entry.getType();
             }
-            this.parent = parent.parent;
+            entry = curr.lookup(name, false);
+            if (entry != null) {
+                varType = entry.getType();
+            }
         }
-        return null;
+
+        ArrayList<Type> res = new ArrayList<>();
+        if (funcType != null) {
+            res.add(funcType);
+        }
+        if (varType != null) {
+            res.add(varType);
+        }
+        return res;
     }
 }
 
