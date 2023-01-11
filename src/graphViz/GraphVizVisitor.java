@@ -2,7 +2,7 @@ package graphViz;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 import ast.*;
 import SymboleTable.*;
@@ -624,19 +624,19 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     type = typeFactory.getType("void");
                 }
                 // On regarde le type de l'expression à droite.
-                Type rightType =  current_tds.lookupType(varDec.right.toString());
+                ArrayList<Type> rightType =  current_tds.lookupType(varDec.right.toString());
                 System.out.println("-------------------------");
                 System.out.println("Name : "+name);
                 System.out.println("vardeck right  : "+varDec.right.toString());
                 //TypeExp right = (TypeExp) varDec.right;
                 //Type rightType = right.getType(typeFactory);
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
-                if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
+                if((type !=null)&&(rightType.isEmpty())&&(!type.isIn(rightType))) {
                     System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
                     // System.exit(1);
                 }
-                SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
-                current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
+                // SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
+                // current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
         //     } 
         //     // Si l'entrée est une TypeRecord --> On crée un nouveau type dans la table des types
@@ -697,7 +697,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Exp exp = (Exp) ast;
                 if(exp.id!=null){
                     String name = exp.id.name;
-                    SymbolTableEntry entry = current_tds.lookup(name);
+                    SymbolTableEntry entry = current_tds.lookup(name, false);
                     if(entry!=null){
                         Ast value = exp.orExp;
                         Type type1 = entry.getType();
