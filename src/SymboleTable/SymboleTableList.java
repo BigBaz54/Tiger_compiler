@@ -1,41 +1,37 @@
 package SymboleTable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.antlr.v4.runtime.misc.Pair;
 import types.IntType;
 import types.NilType;
 import types.Type;
 import types.TypeFactory;
 
 public class SymboleTableList {
-    private HashMap<Pair<Integer, Integer>, SymboleTable> symboleTableHash;
+    private ArrayList<SymboleTable> symboleTableList;
 
     public SymboleTableList() {
-        this.symboleTableHash = new HashMap<>();
+        this.symboleTableList = new ArrayList<>();
     }
 
     public void add(SymboleTable symboleTable) {
-        int i = symboleTable.getRegionNumber();
-        int j = symboleTable.getId();
-        symboleTableHash.put(new Pair<>(i, j), symboleTable);
+        symboleTableList.add(symboleTable);
     }
 
-    public SymboleTable get(int i, int j) {
-        return symboleTableHash.get(new Pair<>(i, j));
+    public SymboleTable get(int i) {
+        return symboleTableList.get(i);
     }
 
     public ArrayList<SymboleTable> getSymboleTableList() {
-        return new ArrayList<>(symboleTableHash.values());
+        return symboleTableList;
     }
 
     public int size() {
-        return symboleTableHash.size();
+        return symboleTableList.size();
     }
 
     public void print() {
-        for (SymboleTable symboleTable : symboleTableHash.values()) {
+        for (SymboleTable symboleTable : symboleTableList) {
             symboleTable.print();
         }
     }
