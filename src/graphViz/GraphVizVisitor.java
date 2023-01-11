@@ -231,7 +231,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String nodeId= this.nextState();
 
-        this.addNode(nodeId, str.value);
+        this.addNode(nodeId, "\\\""+str.value+"\\\"");
         
         return nodeId;
     }
@@ -636,7 +636,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
                 if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
                     System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
-                    System.exit(1);
+                    // System.exit(1);
                 }
                 SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
                 current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
@@ -707,13 +707,13 @@ public class GraphVizVisitor implements AstVisitor<String> {
                         Type type2 = ((TypeExp) exp.orExp).getType();
                         if (type1 != type2){
                             System.out.println("Type mismatch in variable assignment of "+name+" : Expected "+type1+" and got "+type2);
-                            System.exit(1);
+                            // System.exit(1);
                         }
                         System.out.println(value.getClass().getSimpleName());
                     }
                     else{
                         System.out.println("Variable "+name+" is not declared");
-                        System.exit(1);
+                        // System.exit(1);
                     }
                 }
             }
