@@ -1,7 +1,6 @@
 package SymboleTable;
 
 import types.Type;
-import types.TypeFactory;
 
 public class VariableEntry extends SymbolTableEntry {
     private int offset;
@@ -29,8 +28,6 @@ public class VariableEntry extends SymbolTableEntry {
     public int getSize() {
         return size;
     }
-
-
 
     public void print() {
         System.out.println(idNumber+"\t"+"Var"+"\t"+ getName() + "\t" + type.toString() + "\t" + getValue() + "\t" + getOffset());

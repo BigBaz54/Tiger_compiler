@@ -1,7 +1,6 @@
 package SymboleTable;
 
 import types.Type;
-import types.TypeFactory;
 
 public abstract class SymbolTableEntry {
     protected String name;
@@ -19,7 +18,6 @@ public abstract class SymbolTableEntry {
     public String getName() {
         return name;
     }
-
 
     public abstract void print();
     public Type getType(){
