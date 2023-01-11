@@ -95,9 +95,15 @@ public class SymboleTableCreator {
             case "ArrayExp":
                 return nameEquivalence.get(tree.get(children.get(0)).get(0));
             case "IfThenElse":
-                // Retourn le type du then
+                // Check si le type du then et du else sont les mêmes puis retourne le type du then
+                String typeThen = getType(children.get(1));
+                String typeElse = getType(children.get(2));
+                if(!typeThen.equals(typeElse)){
+                    System.out.println("Error : Tyme mistmatch in if then else");
+                }
                 return getType(children.get(1));
             case "IfThen":
+                // Retourne le type du then
                 return getType(children.get(1));
             default:    
                 System.out.println("node : " + nodeName);
