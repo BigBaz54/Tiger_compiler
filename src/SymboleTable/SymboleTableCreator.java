@@ -71,9 +71,12 @@ public class SymboleTableCreator {
                 String paramtype = nameEquivalence.get(tree.get(paramchildren.get(i)).get(1));
                 params.add(typeFactory.getType(paramtype));
             }
-            String bodyFunction = nameEquivalence.get(tree.get(children.get(2)).get(0));
-            
-            FunctionEntry functionEntry = new FunctionEntry(nameFunction, params, typeFunction,params.size());
+            String bodyFunction = tree.get(children.get(2)).get(0);
+            Type typeBodyFunction = typeFactory.getType(getType(bodyFunction));
+            if(typeFunction != null && !typeFunction.equals(typeBodyFunction)){
+                System.out.println("Error : Tyme mistmatch in function declaration of " + nameFunction);
+            }
+            FunctionEntry functionEntry = new FunctionEntry(nameFunction, params, typeBodyFunction,params.size());
             current_tds.insert(functionEntry);
         }
         
@@ -84,23 +87,35 @@ public class SymboleTableCreator {
         }
     }
     public String getType(String node){
+        String nodeName = nameEquivalence.get(node);
         ArrayList<String> children = tree.get(node);
-        if (nameEquivalence.get(node).equals("RecordExp")){
-            return nameEquivalence.get(tree.get(children.get(0)).get(0));
+        switch (nodeName){
+            case "RecordExp":
+                return nameEquivalence.get(tree.get(children.get(0)).get(0));
+            case "ArrayExp":
+                return nameEquivalence.get(tree.get(children.get(0)).get(0));
+            case "IfThenElse":
+                // Retourn le type du then
+                return getType(children.get(1));
+            case "IfThen":
+                return getType(children.get(1));
+            default:    
+                System.out.println("node : " + nodeName);
+                List<String> operateur = Arrays.asList("+", "-", "*", "/", ">", "<", ">=", "<=", "=", "<>", "and", "or");
+                try {
+                    Integer.parseInt(nodeName);
+                    return "int";
+                }
+                catch(NumberFormatException e){
+                    if (operateur.contains(nameEquivalence.get(tree.get(children.get(0)).get(0)))){
+                        return "int";
+                    }
+                    if(nameEquivalence.get(tree.get(children.get(0)).get(0)).contains("\"")){
+                        return "string";
+                    }
+                }
+                return null;
         }
-        else if(nameEquivalence.get(node).equals("ArrayExp")){
-            return nameEquivalence.get(tree.get(children.get(0)).get(0));
-        }
-        else{
-            List<String> operateur = Arrays.asList("+", "-", "*", "/", ">", "<", ">=", "<=", "=", "<>", "and", "or");
-            if (operateur.contains(nameEquivalence.get(tree.get(children.get(0)).get(0)))){
-                return "int";
-            }
-            if(nameEquivalence.get(tree.get(children.get(0)).get(0)).contains("\"")){
-                return "string";
-            }
-        }
-        return null;
     }
     public SymboleTableList getSymboleTableList() {
         return symboleTableList;
