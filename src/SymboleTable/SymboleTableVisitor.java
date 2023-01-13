@@ -7,13 +7,13 @@ import java.util.Map;
 import ast.*;
 import types.*;
 
-public class SymboleTableVisitor2 implements AstVisitor<Void> {
+public class SymboleTableVisitor implements AstVisitor<Void> {
 
     private SymboleTableList symboleTableList;
     private SymboleTable currentSymboleTable;
     private TypeFactory typeFactory;
 
-    public SymboleTableVisitor2() {
+    public SymboleTableVisitor() {
         symboleTableList = new SymboleTableList();
         typeFactory = new TypeFactory();
         currentSymboleTable = null;
