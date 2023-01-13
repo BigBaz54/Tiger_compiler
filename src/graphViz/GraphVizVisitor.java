@@ -59,9 +59,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
     @Override
     public String visit(Program program) {
 
-        current_tds = new SymboleTable();
-        symboleTableList.add(current_tds);
-
         String nodeIdentifier = this.nextState();
 
         String instructionsState =program.child.accept(this);
@@ -527,14 +524,6 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
     @Override
     public String visit(FunDec funDec) {
-        // Partie TDS
-        SymboleTable newTable = new SymboleTable(current_tds);
-        current_tds = newTable;
-        symboleTableList.add(newTable);
-
-
-
-        // Partie Graphe
         String nodeId= this.nextState();
 
         this.addNode(nodeId, "FunDec");
@@ -545,7 +534,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
             String name = param.value1.name;
             Type type =typeFactory.getType(((Id) param.value2).name);
             VariableEntry entry = new VariableEntry(name, type,0,0);
-            current_tds.insert(entry);
+            // current_tds.insert(entry);
         }
 
 
@@ -624,17 +613,17 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     type = typeFactory.getType("void");
                 }
                 // On regarde le type de l'expression à droite.
-                ArrayList<Type> rightType =  current_tds.lookupType(varDec.right.toString());
+                // ArrayList<Type> rightType =  current_tds.lookupType(varDec.right.toString());
                 System.out.println("-------------------------");
                 System.out.println("Name : "+name);
                 System.out.println("vardeck right  : "+varDec.right.toString());
                 //TypeExp right = (TypeExp) varDec.right;
                 //Type rightType = right.getType(typeFactory);
                 // Si le type de l'expression à droite est différent du type de la variable --> Erreur
-                if((type !=null)&&(rightType.isEmpty())&&(!type.isIn(rightType))) {
-                    System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
+                // if((type !=null)&&(rightType.isEmpty())&&(!type.isIn(rightType))) {
+                //    System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
                     // System.exit(1);
-                }
+                //}
                 // SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
                 // current_tds.insert(entry); // On ajoute l'entrée dans la table des symboles
                 
@@ -697,7 +686,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                 Exp exp = (Exp) ast;
                 if(exp.id!=null){
                     String name = exp.id.name;
-                    SymbolTableEntry entry = current_tds.lookup(name, false);
+                    /* SymbolTableEntry entry = current_tds.lookup(name, false);
                     if(entry!=null){
                         Ast value = exp.orExp;
                         Type type1 = entry.getType();
@@ -711,7 +700,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
                     else{
                         System.out.println("Variable "+name+" is not declared");
                         // System.exit(1);
-                    }
+                    }*/
                 }
             }
         }
