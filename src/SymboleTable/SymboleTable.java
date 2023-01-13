@@ -11,20 +11,24 @@ public class SymboleTable {
     private int idNumber;
     public static int id = 0;
     private SymboleTable parent;
+    private int childrenRegion;
 
     public SymboleTable() {
         this.symboleTable = new ArrayList<>();
         this.regionNumber = region;
-        region ++;
+        region++;
+        this.childrenRegion = region;
+        region++;
         this.idNumber = id;
-        id ++;
+        id++;
         this.parent = null;
     }
 
     public SymboleTable(SymboleTable parent) {
         this.symboleTable = new ArrayList<>();
-        this.regionNumber = region;
-        region ++;
+        this.regionNumber = parent.childrenRegion;
+        this.childrenRegion = region;
+        region++;
         this.idNumber = id;
         id++;
         this.parent = parent;
@@ -52,10 +56,12 @@ public class SymboleTable {
     }
 
     public void print() {
+        System.out.println("\n\n____________________________________________________");
         if (parent != null) {
             System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": "+ "Paren " + parent.regionNumber+ " / " + parent.idNumber);
+        } else {
+            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": ");
         }
-        System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": ");
         System.out.println("____________________________________________________");
         System.out.println("Id\tKind\tName\tType\tValue");
         for (SymbolTableEntry entry : symboleTable) {
