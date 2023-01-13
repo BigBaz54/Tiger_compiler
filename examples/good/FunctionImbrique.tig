@@ -8,8 +8,12 @@ let
         in
             print(foo(3))
         end
-    var b:String := "bing chilling"
-
+        var b:String := "bing chilling"
+        function bar(chiffre : int) : int =
+                1
+        in
+            print(bar(3))
+        end
 in
     main(69)
 end
