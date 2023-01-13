@@ -25,6 +25,8 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
 
     @Override
     public Void visit(Program program) {
+        currentSymboleTable = new SymboleTable();
+        symboleTableList.add(currentSymboleTable);
         program.child.accept(this);
         return null;
     }
@@ -163,8 +165,6 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
 
     @Override
     public Void visit(Let let) {
-        currentSymboleTable = new SymboleTable(currentSymboleTable);
-        symboleTableList.add(currentSymboleTable);
         for(Ast ast : let.decs) {
             ast.accept(this);
         }
@@ -222,6 +222,10 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDec funDec) {
+        SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
+        currentSymboleTable = newSymboleTable;
+        symboleTableList.add(currentSymboleTable);
+
         // Visiteur
         funDec.id.accept(this);
         funDec.params.accept(this);
@@ -232,7 +236,7 @@ public class SymboleTableVisitor2 implements AstVisitor<Void> {
         // Remplissage de la table des symboles
         String name = funDec.id.name;
         List params = (List) funDec.params;
-        java.util.List<Type> listOfParameter = new ArrayList<Type>();
+        ArrayList<Type> listOfParameter = new ArrayList<Type>();
         for (Binary param:params.list) {
             String type = ((Id) param.value2).name;
             listOfParameter.add(typeFactory.getType(type));
