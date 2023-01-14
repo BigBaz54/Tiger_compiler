@@ -5,15 +5,13 @@ let
         let
             function foo(chiffre : int) : int =
                 1
-        in
-            print(foo(3))
-        end
-        var b:String := "bing chilling"
-        function bar(chiffre : int) : int =
+            var b:String := "bing chilling"
+            function bar(chiffre : int) : int =
                 1
         in
+            print(foo(2));
             print(bar(3))
         end
-in
-    main(69)
-end
+    in
+        main(69)
+    end
