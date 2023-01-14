@@ -222,7 +222,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDec funDec) {
-        // Ajout dans le TDS mère
+        // Ajout dans la TDS mère
         String name = funDec.id.name;
         ArrayList<Type> paramTypes = new ArrayList<>();
         for (Tuple tuple : funDec.params.list) {
@@ -234,7 +234,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         currentSymboleTable.insert(funcEntry);
         SymboleTable oldSymboleTable = currentSymboleTable;
 
-        // Ajout des params dans le TDS fille
+        // Ajout des params dans la TDS fille
         SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
         symboleTableList.add(newSymboleTable);
         currentSymboleTable = newSymboleTable;
