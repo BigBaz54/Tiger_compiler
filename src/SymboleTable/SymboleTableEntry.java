@@ -6,7 +6,7 @@ public abstract class SymboleTableEntry {
     protected String name;
     protected Type type;
     protected int idNumber;
-    private int id;
+    private static int id;
 
     public SymboleTableEntry(String name, Type type) {
         this.name = name;
