@@ -2,19 +2,19 @@ package SymboleTable;
 
 import types.Type;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class FunctionEntry extends SymboleTableEntry {
-    private List<Type> parameterTypes;
+    private ArrayList<Type> parameterTypes;
     private int numParameters;
 
-    public FunctionEntry(String name, List<Type> parameterTypes, Type returnType, int numParameters) {
+    public FunctionEntry(String name, ArrayList<Type> parameterTypes, Type returnType, int numParameters) {
         super(name, returnType);
         this.parameterTypes = parameterTypes;
         this.numParameters = numParameters;
     }
 
-    public List<Type> getParameterTypes() {
+    public ArrayList<Type> getParameterTypes() {
         return parameterTypes;
     }
 
