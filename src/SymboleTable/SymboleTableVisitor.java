@@ -230,7 +230,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         }
         Type returnType = typeFactory.getType(funDec.returnType.name);
         int nbParams = funDec.params.getSize();
-        SymboleTableEntry funcEntry = new FunctionEntry(name, paramTypes, returnType, nbParams);
+        SymboleTableEntry funcEntry = new FunctionEntry(name, paramTypes, returnType, nbParams, 0);
         currentSymboleTable.insert(funcEntry);
         SymboleTable oldSymboleTable = currentSymboleTable;
 

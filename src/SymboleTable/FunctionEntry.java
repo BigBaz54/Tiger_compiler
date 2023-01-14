@@ -8,8 +8,8 @@ public class FunctionEntry extends SymboleTableEntry {
     private ArrayList<Type> parameterTypes;
     private int numParameters;
 
-    public FunctionEntry(String name, ArrayList<Type> parameterTypes, Type returnType, int numParameters) {
-        super(name, returnType);
+    public FunctionEntry(String name, ArrayList<Type> parameterTypes, Type returnType, int numParameters, int offset) {
+        super(name, returnType, offset);
         this.parameterTypes = parameterTypes;
         this.numParameters = numParameters;
     }
@@ -23,6 +23,6 @@ public class FunctionEntry extends SymboleTableEntry {
     }
 
     public void print() {
-        System.out.println(idNumber + "\t" + "Func" + "\t" + getName() + "\t" + type.toString() + "\t" + "Function" + "\t" + getParameterTypes() + "\t" + getNumParameters());
+        System.out.println(idNumber + "\t" + "Func" + "\t" + getName() + "\t" + type.toString() + "\t" + offset + "\t" + getParameterTypes());
     }
 }

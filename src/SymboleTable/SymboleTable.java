@@ -56,18 +56,18 @@ public class SymboleTable {
     }
 
     public void print() {
-        System.out.println("\n\n____________________________________________________");
+        System.out.println("\n\n____________________________________________________________________");
         if (parent != null) {
-            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": "+ "Paren " + parent.regionNumber+ " / " + parent.idNumber);
+            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ "\t / \t "+ "Parent " + parent.regionNumber+ " / " + parent.idNumber);
         } else {
-            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber+ ": ");
+            System.out.println("Region " + regionNumber + "\t / \tId " + idNumber);
         }
-        System.out.println("____________________________________________________");
-        System.out.println("Id\tKind\tName\tType\tValue");
+        System.out.println("____________________________________________________________________");
+        System.out.println("Id\tKind\tName\tType\tOffset\tArgs.");
         for (SymboleTableEntry entry : symboleTable) {
             entry.print();
         }
-        System.out.println("____________________________________________________");
+        System.out.println("____________________________________________________________________");
         System.out.println();
     }
 
