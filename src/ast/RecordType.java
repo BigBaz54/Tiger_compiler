@@ -1,6 +1,6 @@
 package ast;
 
-public class RecordType extends Binary{
+public class RecordType extends Tuple{
 
     public RecordType(Id id, Id type) {
         super(id, type);

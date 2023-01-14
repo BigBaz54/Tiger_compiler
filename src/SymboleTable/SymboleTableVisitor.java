@@ -183,7 +183,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             TyDecRecord tyDecRecord = (TyDecRecord) tyDec;
             String name = tyDecRecord.id.name;
             Map<String, Type> fields = new HashMap<String, Type>();
-            for (Binary field:((FieldList) tyDecRecord.right).list) { // On crée sa liste de champs
+            for (Tuple field:((FieldList) tyDecRecord.right).list) { // On crée sa liste de champs
                 String fieldType = ((Id) field.value2).name;
                 fields.put(field.value1.name, typeFactory.getType(fieldType));
             }
@@ -213,9 +213,9 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(List l) {
-        for(Binary binary : l.list) {
-            binary.value1.accept(this);
-            binary.value2.accept(this);
+        for(Tuple tuple : l.list) {
+            tuple.value1.accept(this);
+            tuple.value2.accept(this);
         }
         return null;
     }
@@ -237,7 +237,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         String name = funDec.id.name;
         List params = (List) funDec.params;
         ArrayList<Type> listOfParameter = new ArrayList<Type>();
-        for (Binary param:params.list) {
+        for (Tuple param:params.list) {
             String type = ((Id) param.value2).name;
             listOfParameter.add(typeFactory.getType(type));
         }
@@ -269,35 +269,6 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(VarDec varDec) {
-        varDec.left.accept(this);
-        varDec.right.accept(this);
-
-        // On regarde le type de la variable.
-        String name=null;
-        Type type=null;
-        if(varDec.left instanceof VarType) {
-            VarType varType = (VarType) varDec.left;
-            name = varType.id.name;
-            type = typeFactory.getType(varType.type.name);
-        }
-        if(varDec.left instanceof Id){
-            Id id = (Id) varDec.left;
-            name = id.name;
-            type = typeFactory.getType("void");
-        }
-        // On regarde le type de l'expression à droite.
-        //Type rightType =  currentSymboleTable.lookupType(varDec.right.toString());
-        TypeExp right = (TypeExp) varDec.right;
-        Type rightType = right.getType(typeFactory);
-        // Si le type de l'expression à droite est différent du type de la variable --> Erreur
-        if((type !=null)&&(rightType !=null)&&(!type.equals(rightType))) {
-            System.out.println("Type mismatch in variable declaration of "+name+" : Expected "+type+" and got "+rightType);
-            System.exit(1);
-        }
-        SymbolTableEntry entry = new VariableEntry(name,rightType,0,0);
-        System.out.println("Variable "+name+" of type "+rightType+" added to the symbol table");
-        currentSymboleTable.insert(entry); // On ajoute l'entrée dans la table des symboles
-        
         return null;
     }
 

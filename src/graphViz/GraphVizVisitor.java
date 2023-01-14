@@ -530,7 +530,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
 
         String idState = funDec.id.accept(this);
         String paramState = funDec.params.accept(this);
-        for (Binary param :funDec.params.list) {
+        for (Tuple param :funDec.params.list) {
             String name = param.value1.name;
             Type type =typeFactory.getType(((Id) param.value2).name);
             VariableEntry entry = new VariableEntry(name, type,0,0);
@@ -578,7 +578,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         String nodeId= this.nextState();
 
         this.addNode(nodeId,l.name);
-        for (Binary element:l.list) {
+        for (Tuple element:l.list) {
             String idState1 = element.value1.accept(this);
             String typeState = element.value2.accept(this);
             String nodeIdRec = this.nextState();
@@ -633,7 +633,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         //         TyDecRecord typeRec = (TyDecRecord) ast;
         //         String name = typeRec.id.name;
         //         Map<String, Type> fields = new HashMap<String, Type>();
-        //         for (Binary field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
+        //         for (Tuple field:((FieldList) typeRec.right).list) { // On crée sa liste de champs
         //             String fieldType = ((Id) field.value2).name;
         //             fields.put(field.value1.name, typeFactory.getType(fieldType));
         //         }
@@ -663,7 +663,7 @@ public class GraphVizVisitor implements AstVisitor<String> {
         //         String name = funDec.id.name;
         //         List params = (List) funDec.params;
         //         java.util.List<Type> listOfParameter = new ArrayList<Type>();
-        //         for (Binary param:params.list) {
+        //         for (Tuple param:params.list) {
         //             String type = ((Id) param.value2).name;
         //             listOfParameter.add(typeFactory.getType(type));
         //         }
