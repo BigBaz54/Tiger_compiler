@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import types.Type;
 
 public class SymboleTable {
-    private ArrayList<SymbolTableEntry> symboleTable;
+    private ArrayList<SymboleTableEntry> symboleTable;
     private int regionNumber;
     public static int region = 0;
     private int idNumber;
@@ -34,12 +34,12 @@ public class SymboleTable {
         this.parent = parent;
     }
 
-    public void insert(SymbolTableEntry entry) {
+    public void insert(SymboleTableEntry entry) {
         symboleTable.add(entry);
     }
 
-    public SymbolTableEntry lookup(String name, boolean isFunction) {
-        for (SymbolTableEntry entry : symboleTable) {
+    public SymboleTableEntry lookup(String name, boolean isFunction) {
+        for (SymboleTableEntry entry : symboleTable) {
             if ((entry.getName() == name) && ((entry instanceof FunctionEntry) == isFunction)) {
                 return entry;
             }
@@ -47,7 +47,7 @@ public class SymboleTable {
         return null;
     }
 
-    public ArrayList<SymbolTableEntry> getSymbolTable() {
+    public ArrayList<SymboleTableEntry> getSymbolTable() {
         return symboleTable;
     }
 
@@ -64,7 +64,7 @@ public class SymboleTable {
         }
         System.out.println("____________________________________________________");
         System.out.println("Id\tKind\tName\tType\tValue");
-        for (SymbolTableEntry entry : symboleTable) {
+        for (SymboleTableEntry entry : symboleTable) {
             entry.print();
         }
         System.out.println("____________________________________________________");
@@ -76,7 +76,7 @@ public class SymboleTable {
     }
 
     public ArrayList<Type> lookupType(String name) {
-        SymbolTableEntry entry;
+        SymboleTableEntry entry;
         Type funcType = null;
         Type varType = null;
         SymboleTable curr = this;

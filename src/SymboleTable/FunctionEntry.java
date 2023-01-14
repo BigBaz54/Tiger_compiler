@@ -4,7 +4,7 @@ import types.Type;
 
 import java.util.List;
 
-public class FunctionEntry extends SymbolTableEntry {
+public class FunctionEntry extends SymboleTableEntry {
     private List<Type> parameterTypes;
     private int numParameters;
 

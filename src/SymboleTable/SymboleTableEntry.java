@@ -2,13 +2,13 @@ package SymboleTable;
 
 import types.Type;
 
-public abstract class SymbolTableEntry {
+public abstract class SymboleTableEntry {
     protected String name;
     protected Type type;
     protected int idNumber;
     private int id;
 
-    public SymbolTableEntry(String name, Type type) {
+    public SymboleTableEntry(String name, Type type) {
         this.name = name;
         this.type = type;
         this.idNumber = id;

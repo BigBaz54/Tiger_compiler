@@ -2,7 +2,7 @@ package SymboleTable;
 
 import types.Type;
 
-public class VariableEntry extends SymbolTableEntry {
+public class VariableEntry extends SymboleTableEntry {
     private int offset;
     private Object value;
     private int size;
