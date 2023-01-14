@@ -236,6 +236,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
         // Ajout des params dans le TDS fille
         SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
+        symboleTableList.add(newSymboleTable);
         currentSymboleTable = newSymboleTable;
         for (Tuple tuple : funDec.params.list) {
             currentSymboleTable.insert(new VariableEntry(tuple.value1.name, typeFactory.getType(((Id) tuple.value2).name), 0, 0));
@@ -266,6 +267,17 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(VarDec varDec) {
+        String name;
+        Type type;
+        if (varDec.left instanceof Id) {
+            name = (((Id) varDec.left).name);
+            type = new VoidType();
+            // type = ((TypeExp) varDec.right).getType();
+        } else {
+            name = ((VarType) varDec.left).id.name;
+            type = typeFactory.getType(((VarType) varDec.left).type.name);
+        }
+        currentSymboleTable.insert(new VariableEntry(name, type, 0, 0));
         return null;
     }
 
