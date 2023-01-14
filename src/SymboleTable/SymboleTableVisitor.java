@@ -222,34 +222,31 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDec funDec) {
+        // Ajout dans le TDS mère
+        String name = funDec.id.name;
+        ArrayList<Type> paramTypes = new ArrayList<>();
+        for (Tuple tuple : funDec.params.list) {
+            paramTypes.add(typeFactory.getType(((Id) tuple.value2).name));
+        }
+        Type returnType = typeFactory.getType(funDec.returnType.name);
+        int nbParams = funDec.params.getSize();
+        SymboleTableEntry funcEntry = new FunctionEntry(name, paramTypes, returnType, nbParams);
+        currentSymboleTable.insert(funcEntry);
+        SymboleTable oldSymboleTable = currentSymboleTable;
+
+        // Ajout des params dans le TDS fille
         SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
         currentSymboleTable = newSymboleTable;
-        symboleTableList.add(currentSymboleTable);
+        for (Tuple tuple : funDec.params.list) {
+            currentSymboleTable.insert(new VariableEntry(tuple.value1.name, typeFactory.getType(((Id) tuple.value2).name), 0, 0));
+        }
 
-        // Visiteur
-        funDec.id.accept(this);
-        funDec.params.accept(this);
+        // Visite du corps de la fonction
         funDec.body.accept(this);
-        if(funDec.returnType!=null)
-            funDec.returnType.accept(this);
-            
-        // Remplissage de la table des symboles
-        String name = funDec.id.name;
-        List params = (List) funDec.params;
-        ArrayList<Type> listOfParameter = new ArrayList<Type>();
-        for (Tuple param:params.list) {
-            String type = ((Id) param.value2).name;
-            listOfParameter.add(typeFactory.getType(type));
-        }
-        if (funDec.returnType != null) {
-            Type type = typeFactory.getType(funDec.returnType.name);
-            SymbolTableEntry entry = new FunctionEntry(name,listOfParameter , type, params.getSize());
-            currentSymboleTable.insert(entry);
-        } else {
-            Type type = new VoidType();
-            SymbolTableEntry entry = new FunctionEntry(name,listOfParameter ,type , params.getSize());
-            currentSymboleTable.insert(entry);
-        }
+
+        // On repasse sur la table mère
+        currentSymboleTable = oldSymboleTable;
+
         return null;
     }
 
