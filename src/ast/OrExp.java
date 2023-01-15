@@ -1,7 +1,6 @@
 package ast;
 
 import SymboleTable.SymboleTable;
-import controlSem.varUndefined;
 import types.IntType;
 import types.Type;
 import types.TypeFactory;

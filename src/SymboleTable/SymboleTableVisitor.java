@@ -48,7 +48,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(LValue lValue) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -99,13 +99,13 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(Nill nill) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Break Breack) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -135,7 +135,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(ArrayCreate ArrayCreate) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -259,7 +259,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDecType funDecType) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -318,7 +318,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(VarDecType varDecNoType) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
@@ -331,85 +331,85 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(Id id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(IntLit intLit) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(StringLit str) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Print print) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Flush flush) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(GetChar getChar) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Ord ord) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Chr chr) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Size size) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Substring substring) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Concat concat) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Not not) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(Exit exit) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
     public Void visit(LValueExp lValueExp) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 }
