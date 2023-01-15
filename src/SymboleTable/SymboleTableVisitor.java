@@ -250,7 +250,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             // On repasse sur la table mère
             currentSymboleTable = oldSymboleTable;
         } else {
-            System.out.println("[SEM] Function "+name+" already declared.");
+            System.out.println("[SEM] Function "+name+" already declared");
         }
 
         return null;
@@ -273,24 +273,30 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
     @Override
     public Void visit(VarDec varDec) {
         String name;
-        Type type;
+        Type leftType;
+        Type rightType = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
+        if ((varDec.right instanceof Id)) {
+            String rightName =  (((Id) varDec.right).name);
+            if (currentSymboleTable.lookupTypeVar(rightName)==null) {
+                System.out.println("[SEM] var "+rightName+" is not defined");
+            }
+        }
         if (varDec.left instanceof Id) {
             // Cas où le type n'est pas précisé
             name = (((Id) varDec.left).name);
-            type = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
-            if (type==null) {
+            if (rightType==null) {
                 return null;
             }
+            currentSymboleTable.insert(new VariableEntry(name, rightType, 0, 0));
         } else {
             // Cas où le type est précisé
             name = ((VarType) varDec.left).id.name;
-            type = typeFactory.getType(((VarType) varDec.left).type.name);
-            Type rightType = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
-            if (!(type.equals(rightType))) {
-                System.out.println("[SEM] Type mismatch : "+type+" was expected but "+rightType+" was provided.");
+            leftType = typeFactory.getType(((VarType) varDec.left).type.name);
+            if (!(leftType.equals(rightType))) {
+                System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+rightType+" was provided");
             }
+            currentSymboleTable.insert(new VariableEntry(name, leftType, 0, 0));
         }
-        currentSymboleTable.insert(new VariableEntry(name, type, 0, 0));
         return null;
     }
 
