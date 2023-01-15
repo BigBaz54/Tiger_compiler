@@ -144,9 +144,14 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
     @Override
     public Void visit(IdExp idExp) {
         idExp.id.accept(this);
+        // System.out.println(idExp.id.name);
+        if (currentSymboleTable.lookupTypeFun(idExp.id.name)==null) {
+            System.out.println("[SEM] Function "+idExp.id.name+" is not defined");
+        }
         if(idExp.expList!=null) {
             for(Ast ast : idExp.expList) {
                 ast.accept(this);
+                // System.out.println(ast.getClass());
             }
         }
         return null;
