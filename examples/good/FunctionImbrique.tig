@@ -1,7 +1,7 @@
 let
     var a:int := 25
-
-    function main(chiffre : int) : void =
+    var c := a
+    function main(chiffre : int, c2 : int) : void =
         let
             function foo(chiffre : int) : int =
                 1
