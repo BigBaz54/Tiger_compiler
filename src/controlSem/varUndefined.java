@@ -9,7 +9,7 @@ public class varUndefined {
         if ((var instanceof Id)) {
             String name =  (((Id) var).name);
             if (symboleTable.lookupTypeVar(name)==null) {
-                System.out.println("[SEM] var "+name+" is not defined");
+                System.out.println("[SEM] Variable "+name+" is not defined");
             }
         }
     }

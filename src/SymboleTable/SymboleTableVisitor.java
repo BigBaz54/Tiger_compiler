@@ -280,6 +280,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         if (varDec.left instanceof Id) {
             // Cas où le type n'est pas précisé
             name = (((Id) varDec.left).name);
+            if (currentSymboleTable.lookupTypeVar(name)!=null) {
+                System.out.println("[SEM] Variable "+name+" already declared");
+                return null;
+            }
             if (rightType==null) {
                 return null;
             }
@@ -287,6 +291,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         } else {
             // Cas où le type est précisé
             name = ((VarType) varDec.left).id.name;
+            if (currentSymboleTable.lookupTypeVar(name)!=null) {
+                System.out.println("[SEM] Variable "+name+" already declared");
+                return null;
+            }
             leftType = typeFactory.getType(((VarType) varDec.left).type.name);
             if (!(leftType.equals(rightType))) {
                 System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+rightType+" was provided");

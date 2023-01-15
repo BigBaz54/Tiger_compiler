@@ -24,10 +24,10 @@ public class OrExp implements Ast, TypeExp{
             return new IntType();
         } else if ((gauche instanceof Id) && (typeGauche==null) || (droite instanceof Id) && (typeDroite==null)) {
             if ((gauche instanceof Id) && (typeGauche==null)) {
-                System.out.println("[SEM] var "+((Id) gauche).name+" is not defined");
+                System.out.println("[SEM] Variable "+((Id) gauche).name+" is not defined");
             }
             if ((droite instanceof Id) && (typeDroite==null)) {
-                System.out.println("[SEM] var "+((Id) droite).name+" is not defined");
+                System.out.println("[SEM] Variable "+((Id) droite).name+" is not defined");
             }
             return null;
         } else {

@@ -33,10 +33,10 @@ public class CompExp implements Ast, TypeExp {
             return new IntType();
         } else if ((plusExpL instanceof Id) && (typeGauche==null) || (plusExpR instanceof Id) && (typeDroite==null)) {
             if ((plusExpL instanceof Id) && (typeGauche==null)) {
-                System.out.println("[SEM] var "+((Id) plusExpL).name+" is not defined");
+                System.out.println("[SEM] Variable "+((Id) plusExpL).name+" is not defined");
             }
             if ((plusExpR instanceof Id) && (typeDroite==null)) {
-                System.out.println("[SEM] var "+((Id) plusExpR).name+" is not defined");
+                System.out.println("[SEM] Variable "+((Id) plusExpR).name+" is not defined");
             }
             return null;
         } else{
