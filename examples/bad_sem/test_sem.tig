@@ -25,10 +25,10 @@ in
     nonDec3 := 2;                                   /* var nonDec3 is not defined */
     i := nonDec4;                                   /* var nonDec4 is not defined */
     i := nonDec5 + nonDec6;                         /* var nonDec5 is not defined + var nonDec6 is not defined */
+    nonDec7;
     i := "";                                        /* int expected, string provided */
     s := foo(2, 2);                                 /* string expected, int provided */
     bar(2);                                         /* function bar not defined */
     print(foo(2));                                  /* function foo expected 2 args. but 1 was given */
     print(foo("", 2))                               /* function foo expected type int for arg1 but string was provided */
-
 end
