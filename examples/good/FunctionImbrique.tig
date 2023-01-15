@@ -12,6 +12,7 @@ let
             var g := d+c
             var h := d>c
             var i := d=c
+            var j := b=b
             function bar(chiffre : int) : int =
                 1
         in
