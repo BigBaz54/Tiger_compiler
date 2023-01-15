@@ -271,8 +271,8 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         Type type;
         if (varDec.left instanceof Id) {
             name = (((Id) varDec.left).name);
-            type = new VoidType();
-            // type = ((TypeExp) varDec.right).getType();
+            // type = new VoidType();
+            type = ((TypeExp) varDec.right).getType(currentSymboleTable);
         } else {
             name = ((VarType) varDec.left).id.name;
             type = typeFactory.getType(((VarType) varDec.left).type.name);
