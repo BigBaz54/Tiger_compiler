@@ -250,7 +250,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             // On repasse sur la table mère
             currentSymboleTable = oldSymboleTable;
         } else {
-            System.out.println("function "+name+" already declared");
+            System.out.println("[SEM] Function "+name+" already declared.");
         }
 
         return null;
@@ -282,6 +282,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             // Cas où le type est précisé
             name = ((VarType) varDec.left).id.name;
             type = typeFactory.getType(((VarType) varDec.left).type.name);
+            Type rightType = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
+            if (!(type.equals(rightType))) {
+                System.out.println("[SEM] Type mismatch : "+type+" was expected but "+rightType+" was provided.");
+            }
         }
         currentSymboleTable.insert(new VariableEntry(name, type, 0, 0));
         return null;

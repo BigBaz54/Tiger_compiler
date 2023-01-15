@@ -57,6 +57,7 @@ public class Main {
             graphViz.dumpGraph("./out/tree.dot");
 
             // Visiteur de création de la table des symboles + appel
+            System.out.println("\n");
             SymboleTableVisitor symboleTableVisitor = new SymboleTableVisitor();
             ast.accept(symboleTableVisitor);
             symboleTableVisitor.print();
