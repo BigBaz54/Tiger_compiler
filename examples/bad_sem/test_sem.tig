@@ -14,13 +14,15 @@ let
     var c := 1/0                                    /* can't divide by 0 */
     var d := nonDec                                 /* var nonDec is not defined */
     var d2 := nonDec1 + nonDec2                     /* var nonDec1 is not defined + var nonDec2 is not defined */
-    var e := s > i                                  /* can't compare string and int */
+    var e := s > i                                  /* operator > can't be used with string and int */
     var f := s & s                                  /* operator & can't be used with string and string */
-    var g := arr1[12]                               /* index out of band */
+    var g := arr1[12]                               /* index out of bounds */
     var h := dict1.kye                              /* type dict has no attribute "kye" */
     var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
 in
+    i := "";                                        /* int expected, string provided */
+    s := foo(2, 2)                                  /* string expected, int provided */
     print(foo(2));                                  /* function foo expected 2 args. but 1 was given */
     print(foo("", 2))                               /* function foo expected type int for arg1 but string was provided */
 
