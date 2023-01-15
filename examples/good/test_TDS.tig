@@ -23,9 +23,9 @@ let
             function bar(chiffre : int) : int =
                 1
         in
-            print(foo(2));
-            print(bar(3))
+            foo(2);
+            bar(3)
         end
     in
-        main(69)
+        main(69, 2)
     end
