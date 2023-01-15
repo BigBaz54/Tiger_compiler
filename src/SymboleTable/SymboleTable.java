@@ -93,7 +93,8 @@ public class SymboleTable {
             System.out.println("Region " + regionNumber + "\t / \tId " + idNumber);
         }
         System.out.println("____________________________________________________________________");
-        System.out.println("Id\tKind\tName\tType\tOffset\tArgs.");
+        // System.out.println("Id\tKind\tName\tType\tOffset\tArgs.");
+        System.out.println("Id\tKind\tName\tType\tArgs.");
         for (SymboleTableEntry entry : symboleTable) {
             entry.print();
         }
