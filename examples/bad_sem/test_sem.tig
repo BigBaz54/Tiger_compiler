@@ -9,7 +9,7 @@ let
     var a:int := "je suis une string"               /* int expected, string provided */
     var a2:string := i                              /* string expected, int provided */
     var a3:string := foo(2, 3)                      /* string expected, int provided */
-    var b := 1 + "1"                                /* operator + can't be used with int and string */
+    var b := 1 - "1"                                /* operator - can't be used with int and string */
     var b2 := i * s                                 /* operator * can't be used with int and string */
     var c := 1/0                                    /* can't divide by 0 */
     var d := nonDec                                 /* var nonDec undefined */

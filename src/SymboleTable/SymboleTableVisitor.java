@@ -63,9 +63,6 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(OrExp orExp) {
-        if (orExp.getType(currentSymboleTable, typeFactory)==null) {
-            System.out.println("[SEM] Operator | can't be used with types "+((TypeExp) orExp.gauche).getType(currentSymboleTable, typeFactory)+" and "+((TypeExp) orExp.droite).getType(currentSymboleTable, typeFactory));
-        }
         orExp.gauche.accept(this);
         orExp.droite.accept(this);
         return null;
@@ -87,9 +84,6 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(PlusExp plusExp) {
-        if (plusExp.getType(currentSymboleTable, typeFactory)==null) {
-            System.out.println("[SEM] Operator + can't be used with types "+((TypeExp) plusExp.gauche).getType(currentSymboleTable, typeFactory)+" and "+((TypeExp) plusExp.droite).getType(currentSymboleTable, typeFactory));
-        }
         plusExp.gauche.accept(this);
         plusExp.droite.accept(this);
         return null;

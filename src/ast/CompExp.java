@@ -33,6 +33,7 @@ public class CompExp implements Ast, TypeExp {
             return new IntType();
         }
         else{
+            System.out.println("[SEM] Operator "+op+" can't be used with types "+((TypeExp) plusExpL).getType(symboleTable, typeFactory)+" and "+((TypeExp) plusExpR).getType(symboleTable, typeFactory));
             return null;
         }
     }

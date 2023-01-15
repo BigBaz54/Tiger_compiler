@@ -22,10 +22,14 @@ public class TimesExp implements Ast, TypeExp {
     public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
         Type typeGauche = ((TypeExp)gauche).getType(symboleTable, typeFactory);
         Type typeDroite = ((TypeExp)droite).getType(symboleTable, typeFactory);
+        if (droite.toString().equals("0")) {
+            System.out.println("[SEM] Division by 0");
+        }
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
         }
-        else{
+        else {
+            System.out.println("[SEM] Operator "+op+" can't be used with types "+((TypeExp) gauche).getType(symboleTable, typeFactory)+" and "+((TypeExp) droite).getType(symboleTable, typeFactory));
             return null;
         }
     }

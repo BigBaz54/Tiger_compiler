@@ -23,6 +23,7 @@ public class OrExp implements Ast, TypeExp{
             return new IntType();
         }
         else{
+            System.out.println("[SEM] Operator | can't be used with types "+((TypeExp) gauche).getType(symboleTable, typeFactory)+" and "+((TypeExp) droite).getType(symboleTable, typeFactory));
             return null;
         }
     }
