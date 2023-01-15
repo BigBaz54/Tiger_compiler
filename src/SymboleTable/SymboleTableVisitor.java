@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ast.*;
+import controlSem.varUndefined;
 import types.*;
 
 public class SymboleTableVisitor implements AstVisitor<Void> {
@@ -275,12 +276,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         String name;
         Type leftType;
         Type rightType = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
-        if ((varDec.right instanceof Id)) {
-            String rightName =  (((Id) varDec.right).name);
-            if (currentSymboleTable.lookupTypeVar(rightName)==null) {
-                System.out.println("[SEM] var "+rightName+" is not defined");
-            }
-        }
+        new varUndefined(varDec.right, currentSymboleTable);
         if (varDec.left instanceof Id) {
             // Cas où le type n'est pas précisé
             name = (((Id) varDec.left).name);

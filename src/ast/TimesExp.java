@@ -27,8 +27,13 @@ public class TimesExp implements Ast, TypeExp {
         }
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
-        }
-        else {
+        } else if ((gauche instanceof Id) && (typeGauche==null)) {
+            System.out.println("[SEM] var "+((Id) gauche).name+" is not defined");
+            return null;
+        } else if ((droite instanceof Id) && (typeDroite==null)) {
+            System.out.println("[SEM] var "+((Id) droite).name+" is not defined");
+            return null;
+        } else {
             System.out.println("[SEM] Operator "+op+" can't be used with types "+((TypeExp) gauche).getType(symboleTable, typeFactory)+" and "+((TypeExp) droite).getType(symboleTable, typeFactory));
             return null;
         }

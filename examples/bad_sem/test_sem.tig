@@ -12,7 +12,8 @@ let
     var b := 1 - "1"                                /* operator - can't be used with int and string */
     var b2 := i * s                                 /* operator * can't be used with int and string */
     var c := 1/0                                    /* can't divide by 0 */
-    var d := nonDec                                 /* var nonDec undefined */
+    var d := nonDec                                 /* var nonDec is not defined */
+    var d2 := nonDec1 + nonDec2                     /* var nonDec1 is not defined + var nonDec2 is not defined */
     var e := s > i                                  /* can't compare string and int */
     var f := s & s                                  /* operator & can't be used with string and string */
     var g := arr1[12]                               /* index out of band */
