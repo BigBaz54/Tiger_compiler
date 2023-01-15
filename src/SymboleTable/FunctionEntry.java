@@ -23,6 +23,8 @@ public class FunctionEntry extends SymboleTableEntry {
     }
 
     public void print() {
-        System.out.println(idNumber + "\t" + "Func" + "\t" + getName() + "\t" + type.toString() + "\t" + offset + "\t" + getParameterTypes());
+        if (!name.equals("print")&&!name.equals("chr")&&!name.equals("substring")&&!name.equals("concat")&&!name.equals("exit")&&!name.equals("flush")&&!name.equals("not")&&!name.equals("ord")&&!name.equals("size")&&!name.equals("getchar")) {
+            System.out.println(idNumber + "\t" + "Func" + "\t" + getName() + "\t" + type.toString() + "\t" + offset + "\t" + getParameterTypes());
+        }
     }
 }
