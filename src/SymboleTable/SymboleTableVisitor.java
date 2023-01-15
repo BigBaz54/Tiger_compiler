@@ -222,31 +222,36 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(FunDec funDec) {
-        // Ajout dans la TDS mère
+        // Ajout dans la TDS mère (seulement si une fonction n'est pas déjà nommée pareil)
         String name = funDec.id.name;
-        ArrayList<Type> paramTypes = new ArrayList<>();
-        for (Tuple tuple : funDec.params.list) {
-            paramTypes.add(typeFactory.getType(((Id) tuple.value2).name));
+        if (currentSymboleTable.lookupTypeFun(name)==null) {
+
+            ArrayList<Type> paramTypes = new ArrayList<>();
+            for (Tuple tuple : funDec.params.list) {
+                paramTypes.add(typeFactory.getType(((Id) tuple.value2).name));
+            }
+            Type returnType = typeFactory.getType(funDec.returnType.name);
+            int nbParams = funDec.params.getSize();
+            SymboleTableEntry funcEntry = new FunctionEntry(name, paramTypes, returnType, nbParams, 0);
+            currentSymboleTable.insert(funcEntry);
+            SymboleTable oldSymboleTable = currentSymboleTable;
+            
+            // Ajout des params dans la TDS fille
+            SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
+            symboleTableList.add(newSymboleTable);
+            currentSymboleTable = newSymboleTable;
+            for (Tuple tuple : funDec.params.list) {
+                currentSymboleTable.insert(new VariableEntry(tuple.value1.name, typeFactory.getType(((Id) tuple.value2).name), 0, 0));
+            }
+    
+            // Visite du corps de la fonction
+            funDec.body.accept(this);
+    
+            // On repasse sur la table mère
+            currentSymboleTable = oldSymboleTable;
+        } else {
+            System.out.println("function "+name+" already declared");
         }
-        Type returnType = typeFactory.getType(funDec.returnType.name);
-        int nbParams = funDec.params.getSize();
-        SymboleTableEntry funcEntry = new FunctionEntry(name, paramTypes, returnType, nbParams, 0);
-        currentSymboleTable.insert(funcEntry);
-        SymboleTable oldSymboleTable = currentSymboleTable;
-
-        // Ajout des params dans la TDS fille
-        SymboleTable newSymboleTable = new SymboleTable(currentSymboleTable);
-        symboleTableList.add(newSymboleTable);
-        currentSymboleTable = newSymboleTable;
-        for (Tuple tuple : funDec.params.list) {
-            currentSymboleTable.insert(new VariableEntry(tuple.value1.name, typeFactory.getType(((Id) tuple.value2).name), 0, 0));
-        }
-
-        // Visite du corps de la fonction
-        funDec.body.accept(this);
-
-        // On repasse sur la table mère
-        currentSymboleTable = oldSymboleTable;
 
         return null;
     }
