@@ -22,7 +22,7 @@ let
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
 in
     i := "";                                        /* int expected, string provided */
-    s := foo(2, 2)                                  /* string expected, int provided */
+    s := foo(2, 2);                                 /* string expected, int provided */
     print(foo(2));                                  /* function foo expected 2 args. but 1 was given */
     print(foo("", 2))                               /* function foo expected type int for arg1 but string was provided */
 
