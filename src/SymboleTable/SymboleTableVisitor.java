@@ -273,6 +273,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(VarDec varDec) {
+        boolean error = false;
         String name;
         Type leftType;
         Type rightType = ((TypeExp) varDec.right).getType(currentSymboleTable, typeFactory);
@@ -282,9 +283,12 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             name = (((Id) varDec.left).name);
             if (currentSymboleTable.lookupTypeVar(name)!=null) {
                 System.out.println("[SEM] Variable "+name+" already declared");
-                return null;
+                error = true;
             }
             if (rightType==null) {
+                error = true;
+            }
+            if (error==true) {
                 return null;
             }
             currentSymboleTable.insert(new VariableEntry(name, rightType, 0, 0));
@@ -293,11 +297,19 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             name = ((VarType) varDec.left).id.name;
             if (currentSymboleTable.lookupTypeVar(name)!=null) {
                 System.out.println("[SEM] Variable "+name+" already declared");
-                return null;
+                error = true;
             }
             leftType = typeFactory.getType(((VarType) varDec.left).type.name);
-            if (!(leftType.equals(rightType))) {
-                System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+rightType+" was provided");
+            if (leftType != null) {
+                if (!(leftType.equals(rightType))) {
+                    System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+rightType+" was provided");
+                }
+            } else {
+                System.out.println("[SEM] Type "+((VarType) varDec.left).type.name+" is not defined");
+                error = true;
+            }
+            if (error == true) {
+                return null;
             }
             currentSymboleTable.insert(new VariableEntry(name, leftType, 0, 0));
         }
