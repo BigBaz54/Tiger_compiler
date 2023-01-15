@@ -16,7 +16,7 @@ let
     var e := s > i                                  /* can't compare string and int */
     var f := s & s                                  /* operator & can't be used with string and string */
     var g := arr1[12]                               /* index out of band */
-    var h := dict1.key                              /* type dict has no attribute "kye" */
+    var h := dict1.kye                              /* type dict has no attribute "kye" */
     var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
 in
