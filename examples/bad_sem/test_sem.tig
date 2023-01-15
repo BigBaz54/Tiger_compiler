@@ -24,6 +24,7 @@ let
 in
     nonDec3 := 2;                                   /* var nonDec3 is not defined */
     i := nonDec4;                                   /* var nonDec4 is not defined */
+    i := nonDec5 + nonDec6;                         /* var nonDec5 is not defined + var nonDec6 is not defined */
     i := "";                                        /* int expected, string provided */
     s := foo(2, 2);                                 /* string expected, int provided */
     bar(2);                                         /* function bar not defined */
