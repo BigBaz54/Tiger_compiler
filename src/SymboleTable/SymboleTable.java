@@ -186,5 +186,25 @@ public class SymboleTable {
         
         return null;
     }
+
+    public int getNbArg(String name) {
+        SymboleTableEntry entry;
+        SymboleTable curr = this;
+
+        entry = curr.lookup(name, true);
+        if (entry != null) {
+            return ((FunctionEntry) entry).getNumParameters();
+        }
+
+        while (curr.parent != null){
+            curr = curr.parent;
+            entry = curr.lookup(name, true);
+            if (entry != null) {
+                return ((FunctionEntry) entry).getNumParameters();
+            }
+        }
+        
+        return -1;
+    }
 }
 

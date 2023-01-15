@@ -24,6 +24,7 @@ public class TimesExp implements Ast, TypeExp {
         Type typeDroite = ((TypeExp)droite).getType(symboleTable, typeFactory);
         if (droite.toString().equals("0")) {
             System.out.println("[SEM] Division by 0");
+            return null;
         }
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();

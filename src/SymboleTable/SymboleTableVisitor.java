@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.plaf.ColorUIResource;
+
 import ast.*;
 import controlSem.varUndefined;
 import types.*;
@@ -147,8 +149,19 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         // System.out.println(idExp.id.name);
         if (currentSymboleTable.lookupTypeFun(idExp.id.name)==null) {
             System.out.println("[SEM] Function "+idExp.id.name+" is not defined");
+            return null;
         }
         if(idExp.expList!=null) {
+            if (!idExp.id.name.equals("print")) {
+                int expectedNb = currentSymboleTable.getNbArg(idExp.id.name);
+                if (idExp.expList.get(0) instanceof AstList) {
+                    int givenNb = ((AstList) idExp.expList.get(0)).getList().size();
+                    if (givenNb != expectedNb) {
+                        System.out.println("[SEM] Function "+idExp.id.name+" expected "+expectedNb+" arguments but "+givenNb+" were given");
+                    }
+                }
+            }
+            
             for(Ast ast : idExp.expList) {
                 ast.accept(this);
                 // System.out.println(ast.getClass());

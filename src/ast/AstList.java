@@ -20,4 +20,7 @@ public class AstList implements Ast{
         list.add(a);
     }
     
+    public ArrayList<Ast> getList() {
+        return list;
+    }
 }
