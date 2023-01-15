@@ -54,20 +54,28 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(Exp exp) {
-        if(exp.id!=null)
+        if(exp.id!=null) {
             exp.id.accept(this);
-
             Type leftType = currentSymboleTable.lookupTypeVar(exp.id.name);
             if (leftType==null) {
                 System.out.println("[SEM] Variable "+exp.id.name+" is not defined");
-            } 
+                return null;
+            }
+        }
         if(exp.lvalue!=null)
             exp.lvalue.accept(this);
         exp.orExp.accept(this);
         if ((exp.orExp instanceof Id) && ((currentSymboleTable.lookupTypeVar(((Id)exp.orExp).name))==null)) {
             System.out.println("[SEM] Variable "+((Id)exp.orExp).name+" is not defined");
         } else if ((exp.orExp instanceof TypeExp)){
-            Type ortype = ((((TypeExp)exp.orExp).getType(currentSymboleTable, typeFactory)));
+            Type orType = ((((TypeExp)exp.orExp).getType(currentSymboleTable, typeFactory)));
+            if (exp.id != null && orType!=null) {
+                Type leftType = currentSymboleTable.lookupTypeVar(exp.id.name);
+                if (!(leftType.equals(orType))) {
+                    System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+orType+" was provided");
+                    return null;
+                }
+            }
         }
         return null;
     }
@@ -136,10 +144,11 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
     @Override
     public Void visit(IdExp idExp) {
         idExp.id.accept(this);
-        if(idExp.expList!=null)
+        if(idExp.expList!=null) {
             for(Ast ast : idExp.expList) {
                 ast.accept(this);
             }
+        }
         return null;
     }
 
@@ -341,7 +350,6 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
 
     @Override
     public Void visit(Id id) {
-        
         return null;
     }
 
