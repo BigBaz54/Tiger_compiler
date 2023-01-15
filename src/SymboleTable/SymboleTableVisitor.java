@@ -56,9 +56,17 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
     public Void visit(Exp exp) {
         if(exp.id!=null)
             exp.id.accept(this);
+
+            Type leftType = currentSymboleTable.lookupTypeVar(exp.id.name);
+            if (leftType==null) {
+                System.out.println("[SEM] Variable "+exp.id.name+" is not defined");
+            } 
         if(exp.lvalue!=null)
             exp.lvalue.accept(this);
         exp.orExp.accept(this);
+        if ((exp.orExp instanceof Id) && ((currentSymboleTable.lookupTypeVar(((Id)exp.orExp).name))==null)) {
+            System.out.println("[SEM] Variable "+((Id)exp.orExp).name+" is not defined");
+        }
         return null;
     }
 
