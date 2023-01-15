@@ -1,7 +1,6 @@
 let 
-    var i:int = 1
-    var s:string = "s"
-    var unInit:int
+    var i:int := 1
+    var s:string := "s"
     type arr = array of int
     var arr1:arr := arr[2] of 0
     type dict = {key:string, value:int}
@@ -16,13 +15,12 @@ let
     var d := nonDec                                 /* var nonDec undefined */
     var e := s > i                                  /* can't compare string and int */
     var f := s & s                                  /* operator & can't be used with string and string */
-    var g:int = unInit                              /* var unInit uninitialized */
-    var h := arr1[12]                               /* index out of band */
-    var i := dict1["kye"]                           /* type dict has no attribute "kye" */
-    var s:string = "S"                              /* var s already declared */
+    var g := arr1[12]                               /* index out of band */
+    var h := dict1["kye"]                           /* type dict has no attribute "kye" */
+    var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
 in
-    print(foo(2))                                   /* function foo expected 2 args. but 1 was given */
+    print(foo(2));                                  /* function foo expected 2 args. but 1 was given */
     print(foo("", 2))                               /* function foo expected type int for arg1 but string was provided */
 
 end
