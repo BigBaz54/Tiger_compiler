@@ -146,25 +146,36 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
     @Override
     public Void visit(IdExp idExp) {
         idExp.id.accept(this);
-        // System.out.println(idExp.id.name);
         if (currentSymboleTable.lookupTypeFun(idExp.id.name)==null) {
             System.out.println("[SEM] Function "+idExp.id.name+" is not defined");
             return null;
         }
         if(idExp.expList!=null) {
-            if (!idExp.id.name.equals("print")) {
                 int expectedNb = currentSymboleTable.getNbArg(idExp.id.name);
                 if (idExp.expList.get(0) instanceof AstList) {
                     int givenNb = ((AstList) idExp.expList.get(0)).getList().size();
                     if (givenNb != expectedNb) {
                         System.out.println("[SEM] Function "+idExp.id.name+" expected "+expectedNb+" arguments but "+givenNb+" were given");
+                        return null;
                     }
                 }
-            }
             
             for(Ast ast : idExp.expList) {
                 ast.accept(this);
-                // System.out.println(ast.getClass());
+                int nbParam = ((AstList) ast).getList().size();
+                ArrayList<Type> expectedTypes = currentSymboleTable.getArgTypes(idExp.id.name);
+                boolean error = false;
+                for (int i=0; i<nbParam; i++) {
+                    Type expected = expectedTypes.get(i);
+                    Type given = ((TypeExp) ((AstList) ast).getList().get(i)).getType(currentSymboleTable, typeFactory);
+                    if (!(expected).equals(given)) {
+                        System.out.println("[SEM] Function "+idExp.id.name+" expected type "+expected.toString()+" for argument "+(i+1)+" but type "+given.toString()+" was given");
+                        error = true;
+                    }
+                }
+                if (error == true) {
+                    return null;
+                }
             }
         }
         return null;
