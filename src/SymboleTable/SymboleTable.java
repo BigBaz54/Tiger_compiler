@@ -25,6 +25,33 @@ public class SymboleTable {
         this.idNumber = id;
         id++;
         this.parent = null;
+
+        ArrayList<Type> params;
+
+        params = new ArrayList<>();
+        this.symboleTable.add(new FunctionEntry("flush", params, new VoidType(), 0, 0));
+        this.symboleTable.add(new FunctionEntry("getchar", params, new StringType(), 0, 0));
+        
+        params.add(new StringType());
+        this.symboleTable.add(new FunctionEntry("print", params, new VoidType(), 1, 0));
+        this.symboleTable.add(new FunctionEntry("ord", params, new IntType(), 1, 0));
+        this.symboleTable.add(new FunctionEntry("size", params, new IntType(), 1, 0));
+
+        params.add(new StringType());
+        this.symboleTable.add(new FunctionEntry("concat", params, new StringType(), 2, 0));
+
+        params = new ArrayList<>();
+        params.add(new StringType());
+        params.add(new IntType());
+        params.add(new IntType());
+        this.symboleTable.add(new FunctionEntry("substring", params, new StringType(), 3, 0));
+
+        params = new ArrayList<>();
+        params.add(new IntType());
+        this.symboleTable.add(new FunctionEntry("not", params, new IntType(), 1, 0));
+        this.symboleTable.add(new FunctionEntry("size", params, new VoidType(), 1, 0));
+        this.symboleTable.add(new FunctionEntry("chr", params, new StringType(), 1, 0));
+        
     }
 
     public SymboleTable(SymboleTable parent) {
@@ -116,38 +143,6 @@ public class SymboleTable {
     }
 
     public Type lookupTypeFun(String name) {
-        switch (name) {
-            case "print" -> {
-                return new VoidType();
-            }
-            case "chr" -> {
-                return new StringType();
-            }
-            case "flush" -> {
-                return new VoidType();
-            }
-            case "concat" -> {
-                return new StringType();
-            }
-            case "exit" -> {
-                return new VoidType();
-            }
-            case "getchar" -> {
-                return new StringType();
-            }
-            case "not" -> {
-                return new IntType();
-            }
-            case "ord" -> {
-                return new IntType();
-            }
-            case "size" -> {
-                return new IntType();
-            }
-            case "substring" -> {
-                return new StringType();
-            }
-        }
         SymboleTableEntry entry;
         SymboleTable curr = this;
 
@@ -205,6 +200,26 @@ public class SymboleTable {
         }
         
         return -1;
+    }
+
+    public ArrayList<Type> getArgTypes(String name) {
+        SymboleTableEntry entry;
+        SymboleTable curr = this;
+
+        entry = curr.lookup(name, true);
+        if (entry != null) {
+            return ((FunctionEntry) entry).getParameterTypes();
+        }
+
+        while (curr.parent != null){
+            curr = curr.parent;
+            entry = curr.lookup(name, true);
+            if (entry != null) {
+                return ((FunctionEntry) entry).getParameterTypes();
+            }
+        }
+        
+        return null;
     }
 }
 
