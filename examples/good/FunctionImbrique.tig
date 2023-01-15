@@ -10,6 +10,8 @@ let
             var e := 2+3
             var f := a
             var g := d+c
+            var h := d>c
+            var i := d=c
             function bar(chiffre : int) : int =
                 1
         in
