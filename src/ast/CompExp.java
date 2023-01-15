@@ -19,7 +19,7 @@ public class CompExp implements Ast, TypeExp {
     }
     public CompExp(Ast compExp, Ast compExp1, String op) {
         this.plusExpL = compExp;
-        this.plusExpL = compExp1;
+        this.plusExpR = compExp1;
         this.op = op;
     }
 
@@ -31,11 +31,13 @@ public class CompExp implements Ast, TypeExp {
         }
         if (typeGauche instanceof StringType && typeDroite instanceof StringType){
             return new IntType();
-        } else if ((plusExpL instanceof Id) && (typeGauche==null)) {
-            System.out.println("[SEM] var "+((Id) plusExpL).name+" is not defined");
-            return null;
-        } else if ((plusExpL instanceof Id) && (typeDroite==null)) {
-            System.out.println("[SEM] var "+((Id) plusExpL).name+" is not defined");
+        } else if ((plusExpL instanceof Id) && (typeGauche==null) || (plusExpR instanceof Id) && (typeDroite==null)) {
+            if ((plusExpL instanceof Id) && (typeGauche==null)) {
+                System.out.println("[SEM] var "+((Id) plusExpL).name+" is not defined");
+            }
+            if ((plusExpR instanceof Id) && (typeDroite==null)) {
+                System.out.println("[SEM] var "+((Id) plusExpR).name+" is not defined");
+            }
             return null;
         } else{
             System.out.println("[SEM] Operator "+op+" can't be used with types "+((TypeExp) plusExpL).getType(symboleTable, typeFactory)+" and "+((TypeExp) plusExpR).getType(symboleTable, typeFactory));
