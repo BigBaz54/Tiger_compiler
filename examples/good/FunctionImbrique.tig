@@ -1,8 +1,8 @@
 let
     var a:int := 25
     var c := a
-    type a_rec = {a : int}
-    type a_rec_array = array of a_rec
+    type rec = {a : int}
+    type rec_arr = array of a_rec
     function main(chiffre : int, c2 : int) : void =
         let
             function foo(chiffre : int) : int =
@@ -15,7 +15,9 @@ let
             var h := d>c
             var i := d=c
             var j := b=b
-            var k := a_rec{a = 2}
+            var k := rec{a = 2}
+            var l := rec_arr[2] of nil
+            var m := rec_arr[2] of rec{a = 2}
             function bar(chiffre : int) : int =
                 1
         in

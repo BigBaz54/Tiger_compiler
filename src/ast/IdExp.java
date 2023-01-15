@@ -34,6 +34,8 @@ public class IdExp implements Ast, TypeExp {
             return symboleTable.lookupTypeFun(id.name);
         } if (name == "RecordExp") {
             return typeFactory.getType(id.name);
+        } if (name == "ArrayExp") {
+            return typeFactory.getType(id.name);
         } else {
             return new VoidType();
         }
