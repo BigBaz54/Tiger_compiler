@@ -9,7 +9,7 @@ let
             var d := foo(2)
             var e := 2+3
             var f := a
-            var g := d+c
+            var g := d+c+e
             var h := d>c
             var i := d=c
             var j := b=b
