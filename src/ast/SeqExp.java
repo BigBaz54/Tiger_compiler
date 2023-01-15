@@ -1,6 +1,8 @@
 package ast;
 
 import java.util.ArrayList;
+
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class SeqExp implements Ast, TypeExp {
@@ -20,7 +22,7 @@ public class SeqExp implements Ast, TypeExp {
         this.seqExp1.add(seqExp1);
     }
 
-    public Type getType() {
+    public Type getType(SymboleTable symboleTable) {
         return new VoidType();
     }
 }

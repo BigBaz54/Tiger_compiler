@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class Nill implements Ast,TypeExp {
@@ -12,7 +13,7 @@ public class Nill implements Ast,TypeExp {
 
     public Nill() {
     }
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new NilType();
     }
 

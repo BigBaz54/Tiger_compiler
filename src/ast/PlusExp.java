@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class PlusExp implements Ast,TypeExp {
@@ -17,18 +18,14 @@ public class PlusExp implements Ast,TypeExp {
         this.op = op;
     }
     
-    public Type getType(){
-
-        Type typeGauche = ((TypeExp)gauche).getType();
-        Type typeDroite = ((TypeExp)droite).getType();
+    public Type getType(SymboleTable symboleTable){
+        Type typeGauche = ((TypeExp)gauche).getType(symboleTable);
+        Type typeDroite = ((TypeExp)droite).getType(symboleTable);
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
         }
         else{
-            System.out.println("Type error: "+typeGauche+" and "+typeDroite+" are not compatible");
-            System.exit(1);
             return null;
         }
-
     }
 }

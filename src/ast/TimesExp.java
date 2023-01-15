@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class TimesExp implements Ast, TypeExp {
@@ -18,7 +19,14 @@ public class TimesExp implements Ast, TypeExp {
         this.op = op;
     }
 
-    public Type getType() {
-        return new IntType();
+    public Type getType(SymboleTable symboleTable) {
+        Type typeGauche = ((TypeExp)gauche).getType(symboleTable);
+        Type typeDroite = ((TypeExp)droite).getType(symboleTable);
+        if(typeGauche instanceof IntType && typeDroite instanceof IntType){
+            return new IntType();
+        }
+        else{
+            return null;
+        }
     }
 }

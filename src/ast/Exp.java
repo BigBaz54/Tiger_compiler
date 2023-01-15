@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class Exp implements Ast, TypeExp{
@@ -23,9 +24,11 @@ public class Exp implements Ast, TypeExp{
         this.id = id;
         this.orExp = orExp;
     }
-    public Type getType(){
-        return new VoidType();
+    public Type getType(SymboleTable symboleTable){
+        if (id != null) {
+            return new VoidType();
+        } else {
+            return ((TypeExp)orExp).getType(symboleTable);
+        }
     }
-
-
 }

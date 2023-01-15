@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class IfThenElse implements Ast , TypeExp{
@@ -20,7 +21,7 @@ public class IfThenElse implements Ast , TypeExp{
         this.condition = condition;
         this.thenBlock = thenBlock;
     }
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new VoidType();
     }
     

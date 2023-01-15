@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class IntLit implements Ast,TypeExp {
@@ -13,7 +14,7 @@ public class IntLit implements Ast,TypeExp {
     public IntLit(int value) {
         this.value = value;
     }
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new IntType();
     }
 

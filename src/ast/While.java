@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class While implements Ast, TypeExp {
@@ -15,7 +16,7 @@ public class While implements Ast, TypeExp {
         this.cond = cond;
         this.body = body;
     }
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new VoidType();
     }
        

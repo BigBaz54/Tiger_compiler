@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class CompExp implements Ast {
@@ -22,18 +23,16 @@ public class CompExp implements Ast {
         this.op = op;
     }
 
-    public Type getType(){
-        Type typeGauche = ((TypeExp)plusExpL).getType();
-        Type typeDroite = ((TypeExp)plusExpR).getType();
+    public Type getType(SymboleTable symboleTable){
+        Type typeGauche = ((TypeExp)plusExpL).getType(symboleTable);
+        Type typeDroite = ((TypeExp)plusExpR).getType(symboleTable);
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
         }
         if (typeGauche instanceof StringType && typeDroite instanceof StringType){
-            return new StringType();
+            return new IntType();
         }
         else{
-            System.out.println("Type error: "+typeGauche+" and "+typeDroite+" are not compatible");
-            System.exit(1);
             return null;
         }
     }

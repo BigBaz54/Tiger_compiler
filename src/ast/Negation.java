@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class Negation implements Ast,TypeExp {
@@ -11,7 +12,12 @@ public class Negation implements Ast,TypeExp {
     public Negation(Ast exp) {
         this.exp = exp;
     }
-    public Type getType(){
-        return new BoolType();
+    public Type getType(SymboleTable symboleTable){
+        if (((TypeExp)exp).getType(symboleTable) instanceof IntType){
+            return new IntType();
+        }
+        else{
+            return null;
+        }
     }
 }

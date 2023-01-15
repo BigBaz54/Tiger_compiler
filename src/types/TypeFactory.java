@@ -11,7 +11,6 @@ public class TypeFactory {
         types.put("int",new IntType());
         types.put("string",new StringType());
         types.put("nil",new NilType());
-        types.put("bool",new BoolType());
         types.put("void",new VoidType());
     }
 

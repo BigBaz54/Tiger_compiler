@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class StringLit implements Ast,TypeExp {
@@ -14,7 +15,7 @@ public class StringLit implements Ast,TypeExp {
         String[] temp = value.split("\"");
         this.value = temp.length < 1 ? "" : temp[1];
     }
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new StringType();
     }
 

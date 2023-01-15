@@ -2,7 +2,7 @@ package ast;
 
 import types.*;
 
-public class ArrayExp extends IdExp implements TypeExp{
+public class ArrayExp extends IdExp {
     
     public ArrayExp(Id id, Ast integer, Ast exp) {
         super(id, integer, exp);

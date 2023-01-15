@@ -1,5 +1,6 @@
 package ast;
 
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class Id implements Ast, TypeExp {
@@ -22,13 +23,8 @@ public class Id implements Ast, TypeExp {
         this.isArrayId = isArrayId;
     }
 
-    public Type getType(){
-        return new VoidType();
-    }
-
-    @Override
-    public Type getType(TypeFactory f) {
-        return f.getType(name);
+    public Type getType(SymboleTable symboleTable){
+        return symboleTable.lookupTypeVar(name);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package ast;
 
 import java.util.ArrayList;
+
+import SymboleTable.SymboleTable;
 import types.*;
 
 public class Let implements Ast, TypeExp {
@@ -21,7 +23,7 @@ public class Let implements Ast, TypeExp {
     public void addBody(Ast body) {
         this.body.add(body);
     }
-    public Type getType() {
+    public Type getType(SymboleTable symboleTable) {
         return new VoidType();
     }
     

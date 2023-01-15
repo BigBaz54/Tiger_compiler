@@ -1,11 +1,10 @@
 package ast;
 
-
-import types.TypeFactory;
+import SymboleTable.SymboleTable;
 import types.Type;
 import types.VoidType;
 
-public class RecordExp extends IdExp implements TypeExp {
+public class RecordExp extends IdExp {
 
     public RecordExp(Id id, Ast exp) {
         super(id, exp);
@@ -13,11 +12,7 @@ public class RecordExp extends IdExp implements TypeExp {
     }
 
     @Override
-    public Type getType(){
+    public Type getType(SymboleTable symboleTable){
         return new VoidType();
-    }
-    @Override
-    public Type getType(TypeFactory f){
-        return f.getType(id.name);
     }
 }
