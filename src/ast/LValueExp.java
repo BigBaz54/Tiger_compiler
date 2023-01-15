@@ -1,6 +1,6 @@
 package ast;
 
-public abstract class LValueExp implements Ast{
+public abstract class LValueExp implements Ast, TypeExp{
     public Ast accessed;
     public Ast exp;
 
