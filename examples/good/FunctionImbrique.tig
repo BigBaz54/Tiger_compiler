@@ -9,6 +9,7 @@ let
             var d := foo(2)
             var e := 2+3
             var f := a
+            var g := d+c
             function bar(chiffre : int) : int =
                 1
         in
