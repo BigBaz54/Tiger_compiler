@@ -40,7 +40,7 @@ public class SymboleTable {
 
     public SymboleTableEntry lookup(String name, boolean isFunction) {
         for (SymboleTableEntry entry : symboleTable) {
-            if ((entry.getName() == name) && ((entry instanceof FunctionEntry) == isFunction)) {
+            if ((entry.getName().equals(name)) && ((entry instanceof FunctionEntry) == isFunction)) {
                 return entry;
             }
         }
@@ -110,6 +110,46 @@ public class SymboleTable {
             res.add(varType);
         }
         return res;
+    }
+
+    public Type lookupTypeFun(String name) {
+        SymboleTableEntry entry;
+        SymboleTable curr = this;
+
+        entry = curr.lookup(name, true);
+        if (entry != null) {
+            return entry.getType();
+        }
+
+        while (curr.parent != null){
+            curr = curr.parent;
+            entry = curr.lookup(name, true);
+            if (entry != null) {
+                return entry.getType();
+            }
+        }
+
+        return null;
+    }
+
+    public Type lookupTypeVar(String name) {
+        SymboleTableEntry entry;
+        SymboleTable curr = this;
+
+        entry = curr.lookup(name, false);
+        if (entry != null) {
+            return entry.getType();
+        }
+
+        while (curr.parent != null){
+            curr = curr.parent;
+            entry = curr.lookup(name, false);
+            if (entry != null) {
+                return entry.getType();
+            }
+        }
+        
+        return null;
     }
 }
 
