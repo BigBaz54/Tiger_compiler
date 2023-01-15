@@ -6,6 +6,7 @@ let
             function foo(chiffre : int) : int =
                 1
             var b:string := "bing chilling"
+            var d := foo(2)
             function bar(chiffre : int) : int =
                 1
         in
