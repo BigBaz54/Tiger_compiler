@@ -20,8 +20,9 @@ let
     var h := dict1.kye                              /* type dict1 has no attribute "kye" */
     var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
-    var j:tyNoDec := 2                              /* Type tyNoDec is not defined */
+    var j:tyNoDec := 2                              /* type tyNoDec is not defined */
     function print():int = 2                        /* function print already declared */
+    type int = string                               /* type int already declared */
 in
     nonDec3 := 2;                                   /* var nonDec3 is not defined */
     i := nonDec4;                                   /* var nonDec4 is not defined */

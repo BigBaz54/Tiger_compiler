@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.plaf.ColorUIResource;
-
 import ast.*;
 import controlSem.varUndefined;
 import types.*;
@@ -231,6 +229,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         if (tyDec instanceof TyDecRecord) {
             TyDecRecord tyDecRecord = (TyDecRecord) tyDec;
             String name = tyDecRecord.id.name;
+            if (typeFactory.getType(name)!=null) {
+                System.out.println("[SEM] Type "+name+" already declared");
+                return null;
+            }
             Map<String, Type> fields = new HashMap<String, Type>();
             for (Tuple field:((FieldList) tyDecRecord.right).list) { // On crée sa liste de champs
                 String fieldType = ((Id) field.value2).name;
@@ -244,6 +246,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         if (tyDec instanceof TyDecArray) {
             TyDecArray tyDecArray = (TyDecArray) tyDec;
             String name = tyDecArray.id.name;
+            if (typeFactory.getType(name)!=null) {
+                System.out.println("[SEM] Type "+name+" already declared");
+                return null;
+            }
             String type = ((Id) tyDecArray.right).name;
             types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
             typeFactory.addType(name, arrayType);  // On ajoute le type dans la table des types
@@ -252,6 +258,10 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
         if (tyDec instanceof TyDecId) {
             TyDecId tyDecId = (TyDecId) tyDec;
             String name = tyDecId.id.name;
+            if (typeFactory.getType(name)!=null) {
+                System.out.println("[SEM] Type "+name+" already declared");
+                return null;
+            }
             String type = ((Id) tyDecId.right).name;
             types.Type idType = typeFactory.getType(type);
             typeFactory.addType(name, idType);  // On ajoute le type dans la table des types
