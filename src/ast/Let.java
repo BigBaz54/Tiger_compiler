@@ -23,7 +23,7 @@ public class Let implements Ast, TypeExp {
     public void addBody(Ast body) {
         this.body.add(body);
     }
-    public Type getType(SymboleTable symboleTable) {
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
         return new VoidType();
     }
     

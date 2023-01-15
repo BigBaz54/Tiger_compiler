@@ -16,7 +16,7 @@ public class While implements Ast, TypeExp {
         this.cond = cond;
         this.body = body;
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return new VoidType();
     }
        

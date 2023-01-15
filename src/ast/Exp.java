@@ -24,11 +24,11 @@ public class Exp implements Ast, TypeExp{
         this.id = id;
         this.orExp = orExp;
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         if (id != null) {
             return new VoidType();
         } else {
-            return ((TypeExp)orExp).getType(symboleTable);
+            return ((TypeExp)orExp).getType(symboleTable, typeFactory);
         }
     }
 }

@@ -15,7 +15,7 @@ public class StringLit implements Ast,TypeExp {
         String[] temp = value.split("\"");
         this.value = temp.length < 1 ? "" : temp[1];
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return new StringType();
     }
 

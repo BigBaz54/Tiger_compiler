@@ -23,7 +23,7 @@ public class Id implements Ast, TypeExp {
         this.isArrayId = isArrayId;
     }
 
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return symboleTable.lookupTypeVar(name);
     }
 

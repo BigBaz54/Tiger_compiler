@@ -21,7 +21,7 @@ public class IfThenElse implements Ast , TypeExp{
         this.condition = condition;
         this.thenBlock = thenBlock;
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return new VoidType();
     }
     

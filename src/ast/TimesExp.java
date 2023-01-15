@@ -19,9 +19,9 @@ public class TimesExp implements Ast, TypeExp {
         this.op = op;
     }
 
-    public Type getType(SymboleTable symboleTable) {
-        Type typeGauche = ((TypeExp)gauche).getType(symboleTable);
-        Type typeDroite = ((TypeExp)droite).getType(symboleTable);
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
+        Type typeGauche = ((TypeExp)gauche).getType(symboleTable, typeFactory);
+        Type typeDroite = ((TypeExp)droite).getType(symboleTable, typeFactory);
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
         }

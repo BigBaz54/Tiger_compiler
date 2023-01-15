@@ -12,8 +12,8 @@ public class Negation implements Ast,TypeExp {
     public Negation(Ast exp) {
         this.exp = exp;
     }
-    public Type getType(SymboleTable symboleTable){
-        if (((TypeExp)exp).getType(symboleTable) instanceof IntType){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
+        if (((TypeExp)exp).getType(symboleTable, typeFactory) instanceof IntType){
             return new IntType();
         }
         else{

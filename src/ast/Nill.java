@@ -13,7 +13,7 @@ public class Nill implements Ast,TypeExp {
 
     public Nill() {
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return new NilType();
     }
 

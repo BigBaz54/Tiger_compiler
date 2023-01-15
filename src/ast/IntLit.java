@@ -14,7 +14,7 @@ public class IntLit implements Ast,TypeExp {
     public IntLit(int value) {
         this.value = value;
     }
-    public Type getType(SymboleTable symboleTable){
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
         return new IntType();
     }
 

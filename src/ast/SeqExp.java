@@ -22,7 +22,7 @@ public class SeqExp implements Ast, TypeExp {
         this.seqExp1.add(seqExp1);
     }
 
-    public Type getType(SymboleTable symboleTable) {
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
         return new VoidType();
     }
 }

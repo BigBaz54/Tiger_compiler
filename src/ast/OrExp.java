@@ -3,6 +3,7 @@ package ast;
 import SymboleTable.SymboleTable;
 import types.IntType;
 import types.Type;
+import types.TypeFactory;
 
 public class OrExp implements Ast, TypeExp{
     public <T> T accept(AstVisitor<T> visitor) {
@@ -15,9 +16,9 @@ public class OrExp implements Ast, TypeExp{
         this.droite = droite;
     }
 
-    public Type getType(SymboleTable symboleTable){
-        Type typeGauche = ((TypeExp)gauche).getType(symboleTable);
-        Type typeDroite = ((TypeExp)droite).getType(symboleTable);
+    public Type getType(SymboleTable symboleTable, TypeFactory typeFactory){
+        Type typeGauche = ((TypeExp)gauche).getType(symboleTable, typeFactory);
+        Type typeDroite = ((TypeExp)droite).getType(symboleTable, typeFactory);
         if(typeGauche instanceof IntType && typeDroite instanceof IntType){
             return new IntType();
         }
