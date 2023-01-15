@@ -21,8 +21,14 @@ public class LValueDot extends LValueExp{
     }
 
     public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
-        // Retourne le type du champ accédé
+        // Retourne le type du champ accédé s'il existe
         RecordType recType = ((RecordType) (symboleTable.lookupTypeVar(((Id) accessed).name)));
-        return recType.getFields().get(exp.toString());
+        Type fieldType = recType.getFields().get(exp.toString());
+        if (fieldType != null) {
+            return fieldType;
+        } else {
+            System.out.println("[SEM] type "+((Id) accessed).name+" has no attribute "+exp.toString());
+            return null;
+        }
     }
 }
