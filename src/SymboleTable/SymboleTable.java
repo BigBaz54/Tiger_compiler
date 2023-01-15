@@ -2,7 +2,10 @@ package SymboleTable;
 
 import java.util.ArrayList;
 
+import types.IntType;
+import types.StringType;
 import types.Type;
+import types.VoidType;
 
 public class SymboleTable {
     private ArrayList<SymboleTableEntry> symboleTable;
@@ -113,6 +116,38 @@ public class SymboleTable {
     }
 
     public Type lookupTypeFun(String name) {
+        switch (name) {
+            case "print" -> {
+                return new VoidType();
+            }
+            case "chr" -> {
+                return new StringType();
+            }
+            case "flush" -> {
+                return new VoidType();
+            }
+            case "concat" -> {
+                return new StringType();
+            }
+            case "exit" -> {
+                return new VoidType();
+            }
+            case "getchar" -> {
+                return new StringType();
+            }
+            case "not" -> {
+                return new IntType();
+            }
+            case "ord" -> {
+                return new IntType();
+            }
+            case "size" -> {
+                return new IntType();
+            }
+            case "substring" -> {
+                return new StringType();
+            }
+        }
         SymboleTableEntry entry;
         SymboleTable curr = this;
 
