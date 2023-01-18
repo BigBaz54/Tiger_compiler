@@ -21,14 +21,25 @@ public class LValueBrack extends LValueExp {
     }
 
     public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
-        // Retourne le type des éléments de l'array accédée s'il existe
+        // Retourne le type de l'élément de l'array accédé s'il existe
         int i = Integer.parseInt(exp.toString());
-        ArrayType array = ((ArrayType) (symboleTable.lookupTypeVar(((Id) accessed).name)));
-        if ((i < array.getSize()) && (i >= 0)) {
-            return (array.getElementType());
-        } else {
-            System.out.println("[SEM] Index "+i+" out of bounds while accessing "+((Id) accessed).name);
-            return null;
+        Type resType = null;
+        ArrayType accessedType = null;
+        try {
+            accessedType = (ArrayType) ((TypeExp) accessed).getType(symboleTable, typeFactory);
+            resType = accessedType.getElementType();
+        } catch (Exception e) {
+            System.out.println("[SEM] "+accessed.toString()+" is not an array");
         }
+        if (accessedType != null) {
+            if ((i < accessedType.getSize()) && (i >= 0)) {
+                    return (accessedType.getElementType());
+                } else {
+                    System.out.println("[SEM] Index "+i+" out of bounds while accessing "+accessed.toString());
+                    return null;
+                }
+        }
+        
+        return resType;
     }
 }

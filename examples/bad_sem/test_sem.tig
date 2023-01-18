@@ -5,6 +5,8 @@ let
     var arr1:arr := arr[2] of 0
     type dict = {key:string, value:int}
     var dict1:dict := dict{key="foo", value=42}
+    type test = {key:string, value: arr}
+    var test1:test := test{key="test", value=arr1}
     function foo(arg1:int, arg2:int):int = arg1
     var a:int := "je suis une string"               /* int expected, string provided */
     var a2:string := i                              /* string expected, int provided */
@@ -17,6 +19,7 @@ let
     var e := s > i                                  /* operator > can't be used with string and int */
     var f := s & s                                  /* operator & can't be used with string and string */
     var g := arr1[12]                               /* index out of bounds */
+    var g2 := test1.value[9]                        /* index out of bounds */
     var h := dict1.kye                              /* type dict1 has no attribute "kye" */
     var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
@@ -27,7 +30,6 @@ in
     nonDec3 := 2;                                   /* var nonDec3 is not defined */
     i := nonDec4;                                   /* var nonDec4 is not defined */
     i := nonDec5 + nonDec6;                         /* var nonDec5 is not defined + var nonDec6 is not defined */
-    nonDec7;
     i := "";                                        /* int expected, string provided */
     s := foo(2, 2);                                 /* string expected, int provided */
     bar(2);                                         /* function bar not defined */

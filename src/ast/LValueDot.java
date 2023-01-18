@@ -22,13 +22,24 @@ public class LValueDot extends LValueExp{
 
     public Type getType(SymboleTable symboleTable, TypeFactory typeFactory) {
         // Retourne le type du champ accédé s'il existe
-        RecordType recType = ((RecordType) (symboleTable.lookupTypeVar(((Id) accessed).name)));
-        Type fieldType = recType.getFields().get(exp.toString());
-        if (fieldType != null) {
-            return fieldType;
-        } else {
-            System.out.println("[SEM] Type "+((Id) accessed).name+" has no attribute "+exp.toString());
-            return null;
+        RecordType accessedType = null;
+        Type resType = null;
+        try {
+            accessedType = (RecordType) ((TypeExp) accessed).getType(symboleTable, typeFactory);
+            resType = accessedType.getFields().get(exp.toString());
+        } catch (Exception e) {
+            System.out.println("[SEM] "+accessed.toString()+" is not a record");
         }
+        if (accessedType != null) {
+            Type fieldType = accessedType.getFields().get(exp.toString());
+            if (fieldType != null) {
+                return fieldType;
+            } else {
+                System.out.println("[SEM] Type "+accessed.toString()+" has no attribute "+exp.toString());
+                return null;
+            }
+        }
+        
+        return resType;
     }
 }

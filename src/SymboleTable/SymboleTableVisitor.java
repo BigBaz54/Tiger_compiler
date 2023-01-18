@@ -251,7 +251,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
                 return null;
             }
             String type = ((Id) tyDecArray.right).name;
-            types.ArrayType arrayType = new types.ArrayType(name, typeFactory.getType(type),0);
+            ArrayType arrayType = new ArrayType(name, typeFactory.getType(type),0);
             typeFactory.addType(name, arrayType);  // On ajoute le type dans la table des types
         }
 
@@ -346,10 +346,21 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
             if (rightType==null) {
                 error = true;
             }
-            if (error==true) {
+            if (varDec.right instanceof ArrayExp) {
+                if (Integer.parseInt(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
+                    System.out.println("[SEM] Array size must be positive");
+                    error = true;
+                }
+            }
+            if (error == true) {
                 return null;
             }
-            currentSymboleTable.insert(new VariableEntry(name, rightType, 0, 0));
+
+            if (varDec.right instanceof ArrayExp) {
+                currentSymboleTable.insert(new VariableEntry(name, rightType, 0, Integer.parseInt(((ArrayExp) varDec.right).expList.get(1).toString())));
+            } else {
+                currentSymboleTable.insert(new VariableEntry(name, rightType, 0, 0));
+            }
         } else {
             // Cas où le type est précisé
             name = ((VarType) varDec.left).id.name;
@@ -358,6 +369,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
                 error = true;
             }
             leftType = typeFactory.getType(((VarType) varDec.left).type.name);
+            
             if (leftType != null) {
                 if (!(leftType.equals(rightType))) {
                     System.out.println("[SEM] Type mismatch : "+leftType+" was expected but "+rightType+" was provided");
@@ -366,10 +378,21 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
                 System.out.println("[SEM] Type "+((VarType) varDec.left).type.name+" is not defined");
                 error = true;
             }
+            if (varDec.right instanceof ArrayExp) {
+                if (Integer.parseInt(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
+                    System.out.println("[SEM] Array size must be positive");
+                    error = true;
+                }
+            }
             if (error == true) {
                 return null;
             }
-            currentSymboleTable.insert(new VariableEntry(name, leftType, 0, 0));
+
+            if (varDec.right instanceof ArrayExp) {
+                currentSymboleTable.insert(new VariableEntry(name, rightType, 0, Integer.parseInt(((ArrayExp) varDec.right).expList.get(1).toString())));
+            } else {
+                currentSymboleTable.insert(new VariableEntry(name, rightType, 0, 0));
+            }
         }
         return null;
     }
