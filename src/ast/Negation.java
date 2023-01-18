@@ -20,4 +20,8 @@ public class Negation implements Ast,TypeExp {
             return null;
         }
     }
+
+    public String toString() {
+        return "-" + exp.toString();
+    }
 }

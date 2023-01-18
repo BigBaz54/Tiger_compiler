@@ -347,7 +347,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
                 error = true;
             }
             if (varDec.right instanceof ArrayExp) {
-                if (Integer.parseInt(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
+                if (Integer.valueOf(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
                     System.out.println("[SEM] Array size must be positive");
                     error = true;
                 }
@@ -379,7 +379,7 @@ public class SymboleTableVisitor implements AstVisitor<Void> {
                 error = true;
             }
             if (varDec.right instanceof ArrayExp) {
-                if (Integer.parseInt(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
+                if (Integer.valueOf(((ArrayExp) varDec.right).expList.get(0).toString())<=0) {
                     System.out.println("[SEM] Array size must be positive");
                     error = true;
                 }

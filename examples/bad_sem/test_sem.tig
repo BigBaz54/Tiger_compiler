@@ -8,6 +8,7 @@ let
     type test = {key:string, value: arr}
     var test1:test := test{key="test", value=arr1}
     function foo(arg1:int, arg2:int):int = arg1
+    var err:arr := arr[-1] of 0                     /* array size must be positive */
     var a:int := "je suis une string"               /* int expected, string provided */
     var a2:string := i                              /* string expected, int provided */
     var a3:string := foo(2, 3)                      /* string expected, int provided */
