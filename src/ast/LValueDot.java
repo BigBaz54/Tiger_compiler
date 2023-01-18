@@ -35,7 +35,7 @@ public class LValueDot extends LValueExp{
             if (fieldType != null) {
                 return fieldType;
             } else {
-                System.out.println("[SEM] Type "+accessed.toString()+" has no attribute "+exp.toString());
+                System.out.println("[SEM] "+accessed.toString()+" has no attribute "+exp.toString());
                 return null;
             }
         }
