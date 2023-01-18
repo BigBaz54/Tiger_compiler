@@ -8,7 +8,6 @@ let
     type test = {key:string, value: arr}
     var test1:test := test{key="test", value=arr1}
     function foo(arg1:int, arg2:int):int = arg1
-    var err:arr := arr[-1] of 0                     /* array size must be positive */
     var a:int := "je suis une string"               /* int expected, string provided */
     var a2:string := i                              /* string expected, int provided */
     var a3:string := foo(2, 3)                      /* string expected, int provided */
@@ -21,6 +20,9 @@ let
     var f := s & s                                  /* operator & can't be used with string and string */
     var g := arr1[12]                               /* index out of bounds */
     var g2 := test1.value[9]                        /* index out of bounds */
+    var err := test1[1]                             /* test1 is not an array */
+    var err2 := test1.value.undef                   /* test1.value is not a record */
+    var err3:arr := arr[-1] of 0                    /* array size must be positive */
     var h := dict1.kye                              /* type dict1 has no attribute "kye" */
     var s:string := "S"                             /* var s already declared */
     function foo(arg1:int, arg2:int):int = arg2     /* function foo already declared */
