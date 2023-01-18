@@ -125,6 +125,8 @@ stdout :
 
 Le rapport d'activité précédent est disponible dans le dossier "gestion_projet" du git, avec des liens vers les différents éléments présentés.
 
+Tout au long du projet, nous nous sommes organisés en planifiant des séances de travail communes en présentiel ou distanciel via Discord. Ces séances, nous ont permis une bonne répartition des tâches entre les membres du groupes et ont facilité la communication et la résolution de problèmes. 
+
 Initialement, nous avions prévu pour cette partie de faire chacun la correction de l'AST, la TDS ou les contrôles sémantiques, cependant toutes ses parties étant intrinsèquement liées, nous avons opté pour des séances de travail communes avec des objectifs à plus court termes qui ont aussi permis à chacun de travailler globalement sur tous les aspects et d'avancer de manière moins saccadée.
 
 Ainsi, voici retrospectivement les éléments sur lesquels chacun a principalement travaillé :
