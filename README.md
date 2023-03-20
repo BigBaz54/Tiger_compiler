@@ -12,5 +12,5 @@ make parser
 make compile
 
 # pour exécuter sur un programme en Tiger
-target=myProg.tig make run
+make run target=myProg.tig
 </code></pre>
